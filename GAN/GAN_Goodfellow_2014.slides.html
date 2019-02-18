@@ -13531,6 +13531,13 @@ $$ C(G) = \mathbb{E}_{{\bf x} \sim p_{data}({\bf x})}[\log{\frac{p_{data}({\bf x
 <li><strong>Theorem 1.</strong> The global minimum of the virtual training criterion $C(G)$ is achieved if and only if $p_{g} = p_{data}$. At the point, $C(G)$ achieves the value $-\log{4}$.</li>
 </ul>
 <p>&nbsp;&nbsp;&nbsp;<strong>Proof:</strong></p>
+<ul>
+<li>If we assume $p_{g} = p_{data}$, $D_{G}^{*}({\bf x}) = \frac{1}{2}$, and we get that $C(G) = -\log 4$</li>
+<li><p>(With some effort) we can see that this is the best minimum by rearranging $C(G)$:</p>
+<p>$$ C(G) = -\log{4} + KL\left(p_{data} \Big{\|} \frac{p_{data}+p_{g}}{2} \right) + KL\left(p_{g} \Big{\|} \frac{p_{data}+p_{g}}{2} \right)$$
+where $KL$ is the Kullback-Leibler divergence.</p>
+</li>
+</ul>
 
 </div>
 </div>
