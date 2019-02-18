@@ -13531,13 +13531,6 @@ $$ C(G) = \mathbb{E}_{{\bf x} \sim p_{data}({\bf x})}[\log{\frac{p_{data}({\bf x
 <li><strong>Theorem 1.</strong> The global minimum of the virtual training criterion $C(G)$ is achieved if and only if $p_{g} = p_{data}$. At the point, $C(G)$ achieves the value $-\log{4}$.</li>
 </ul>
 <p>&nbsp;&nbsp;&nbsp;<strong>Proof:</strong></p>
-<ul>
-<li>If we assume $p_{g} = p_{data}$, $D_{G}^{*}({\bf x}) = \frac{1}{2}$, and we get that $C(G) = -\log 4$ </li>
-<li><p>(With some effort) we can see that this is the best minimum by rearranging $C(G)$:</p>
-<p>$$ C(G) = -\log{4} + KL\left(p_{data} \Big{\|} \frac{p_{data}+p_{g}}{2} \right) + KL\left(p_{g} \Big{\|} \frac{p_{data}+p_{g}}{2} \right)$$
-where $KL$ is the Kullback-Leibler divergence.</p>
-</li>
-</ul>
 
 </div>
 </div>
@@ -13565,8 +13558,14 @@ where $KL$ is the Kullback-Leibler divergence.</p>
 <p>$$ \mathbb{E}_{{\bf x} \sim p_{data}({\bf x})}[\log{D_{G}^{*}({\bf x})}] + \mathbb{E}_{{\bf x} \sim p_{g}({\bf x})}[\log{1 - D_{G}^{*}({\bf x})}] $$
 then $p_{g}$ converges to $p_{data}$</p>
 </li>
-<li><p>With sufficiently small updates of $p_{g}$, $p_{g}$ converges to $p_{x}$</p>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;<strong>Proof</strong>:</p>
+<ul>
+<li>Consider $V(G,D)$ = $U(p_{g},D)$. $U(p_{g},D)$ is convex in $p_{g}$.<ul>
+<li>“The subderivatives of a supremum of convex functions include the derivative of the function at the point where the maximum is attained.” This <a href="https://medium.com/@samramasinghe/generative-adversarial-networks-a-theoretical-walk-through-5889d5a8f2bb">post</a> may help understand this statement.</li>
+</ul>
 </li>
+<li>With sufficiently small updates of $p_{g}$, $p_{g}$ converges to $p_{x}$</li>
 <li>In practice, we optimize the $\theta_{g}$, the parameters of the network $G$, rather than $p_{g}$ itself<ul>
 <li>Performance of neural networks still hold up well even without theoretical guarantees.</li>
 </ul>
