@@ -13257,21 +13257,90 @@ a.anchor-link {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><h1><center>Generative Adversarial Nets</center></h1>
 <br></p>
-<p><center>Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron Courville, Yoshua Bengio</center></p>
-<h6><center>Université de Montréal</center></h6>
+<p><p><center>Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron Courville, Yoshua Bengio</center></p></p>
+<p><h6><center>Université de Montréal</center></h6>
 <br>
 <br>
 <br>
 <br>
-<br>
-<p style="font-size: 10px;">CMI Lab Journal Club, 02/18/2019, Andrew Van</p>
+<br></p>
+<p><p style="font-size: 10px;">CMI Lab Journal Club, 02/18/2019, Andrew Van</p></p>
+<script type="text/javascript">
+$(window).load(function(){
+    Reveal.configure({
+        transition: 'fade' // none/fade/slide/convex/concave/zoom
+    })
+});    
+</script>
 </div>
 </div>
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3><center>The motivation for GANs</center></h3>
+<h3><center>The motivation for GANs</center></h3><ul>
+<li>They can make really convincing fake images!</li>
+</ul>
+<p><div style="width:fit-content;display:block;margin-right:auto;margin-left:auto;">
+<img src="images/stylegan-teaser.png" width=100% height=auto>
+</div></p>
+<p><center>These are not real people! <a href="https://arxiv.org/abs/1812.04948" target="_blank">StyleGAN</a></center></p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3><center>The motivation for GANs</center></h3><p><div style="width:fit-content;display:block;margin-right:auto;margin-left:auto;">
+<img src="images/superresolution.png" width=100% height=auto>
+</div></p>
+<p><center><a href="https://arxiv.org/abs/1609.04802" target="_blank">Super-Resolution</a></center></p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3><center>The motivation for GANs</center></h3><p><div style="width:fit-content;display:block;margin-right:auto;margin-left:auto;">
+<img src="images/highresimgsynth.gif" width=100% height=auto>
+</div></p>
+<p><center><a href="https://arxiv.org/abs/1711.11585" target="_blank">High-resolution image synthesis</a></center></p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3><center>The motivation for GANs</center></h3><p><div style="width:fit-content;display:block;margin-right:auto;margin-left:auto;">
+<img src="images/imageinpainting.png" width=100% height=auto>
+</div></p>
+<p><center><a href="https://arxiv.org/abs/1604.07379" target="_blank">Image Inpainting</a></center></p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3><center>The motivation for GANs</center></h3><p><div style="width:fit-content;display:block;margin-right:auto;margin-left:auto;">
+<img style="display:block;margin:auto;" src="images/tumor.png" width=75% height=auto>
+</div></p>
+<p><div style="width:fit-content;display:block;margin-right:auto;margin-left:auto;">
+<img style="display:block;margin:auto;" src="images/tumor2.png" width=75% height=auto>
+</div></p>
+<p><center><a href="https://arxiv.org/abs/1703.05921" target="_blank">Anomaly Detection (Tumor Detection)</a></center></p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3><center>Overview</center></h3><ul>
+<li>Generative Modeling</li>
+<li>Adversarial Training</li>
+<li>Theoretical guarantees of optimality/convergence</li>
+<li>Results/Discussion</li>
+</ul>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -13316,7 +13385,7 @@ $$\theta^{*} = \underset{\theta}{arg\,max} \sum_{i=1}^{m} \log{p_{model}({\bf x}
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3><center>Taxonomy of generative modeling</center></h3><p><div style="width:fit-content;display:block;margin-right:auto;margin-left:auto;">
-    <img src="images/taxonomy.png" width=80% height=auto>
+    <img style="display:block;margin:auto;" src="images/taxonomy.png" width=80% height=auto>
 </div></p>
 <p><center>Types of generative models (maximum likelihood)</center></p>
 </div>
@@ -13578,7 +13647,7 @@ then $p_{g}$ converges to $p_{data}$</p>
 <h3><center>Proposed Future Directions</center></h3><ul>
 <li>Conditional Generative Models (<a href="https://arxiv.org/abs/1411.1784">Conditional GANs</a>)</li>
 <li>Learned approximate inference (<a href="https://arxiv.org/abs/1702.04782">Recovery of latent variables from GANs</a>)</li>
-<li>Semi-supervised Learning</li>
+<li>Semi-supervised Learning (<a href="https://arxiv.org/abs/1606.03498">Improved Techniques for Training GANs</a>)</li>
 <li>Efficiency improvements (Too many to list here...)</li>
 </ul>
 
