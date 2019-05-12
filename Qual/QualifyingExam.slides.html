@@ -13361,7 +13361,14 @@ $(document).ready(code_toggle);
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">What are Generative Adversarial Networks (GANs)?</h3><ul>
+<h3 class="text-center">What are Generative Adversarial Networks (GANs)?</h3>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">What are GANs?</h3><ul>
 <li>Take two networks and train them in an adversarial manner...</li>
 </ul>
 <p><div>
@@ -13485,10 +13492,9 @@ $(document).ready(code_toggle);
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">GAN Theory</h3><ul>
-<li>This is a two-player minimax game:
-$$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log D(\mathbf{x})] + \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[\log (1 - D(G(\mathbf{z})))] $$</li>
+<li>This is a two-player minimax game:</li>
 </ul>
-<ul>
+$$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log D(\mathbf{x})] + \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[\log (1 - D(G(\mathbf{z})))] $$<ul>
 <li>From game theory, we find the Nash Equilibirum for this system<ul>
 <li>We reach Nash Equilibrium when $\mathbb{P}_{r} = \mathbb{P}_{g}$, and $D(x) = 0.5$ for all inputs.</li>
 </ul>
@@ -13501,17 +13507,12 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Limitations</h3>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Model Training</h3><ul>
-<li>HCP Data</li>
-<li>Progressive GAN</li>
-<li>Wasserstein Distance</li>
+<h3 class="text-center">Limitations</h3><ul>
+<li>Difficult to acheive Nash Equilibirum</li>
+<li>Low Support</li>
+<li>Vanishing Gradients</li>
+<li>Mode Collapse</li>
+<li>Lack of Evaluation Metric</li>
 </ul>
 
 </div>
@@ -13520,7 +13521,81 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Dataset Characterization</h3>
+<h3 class="text-center">Difficult to acheive Nash Equilibirum</h3><p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/nash_equilibrium.png" width=80% height=auto>
+</div></p>
+<p style="text-align: center">Instability of objective functions</p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Low Support</h3><p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/low_dim_manifold.png" width=80% height=auto>
+</div></p>
+<p style="text-align: center">Distributions of both networks lie in a lower dimensional space</p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Vanishing Gradients</h3><p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/GAN_vanishing_gradient.png" width=60% height=auto>
+</div></p>
+<p style="text-align: center">Vanishing Gradients</p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Mode Collapse</h3><p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/mode_collapse.png" width=100% height=auto>
+</div></p>
+<p style="text-align: center">Helvetica Scenario</p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Lack of Evaluation Metric</h3><ul>
+<li>GANs lack a standardized evaluation metric!</li>
+<li>How do we evaluate the performance of a GAN?<ul>
+<li>Will touch on this again.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Model Training</h3>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Dataset Characterization</h3><ul>
+<li>Human Connectome Project (HCP) 1200 Young Adult Dataset</li>
+<li>1113 T1s, 1783 Unique Volumes<ul>
+<li>1707 Unique Volumes after QC applied (issue code A)</li>
+</ul>
+</li>
+<li>256 x 256 x 320, 0.7 mm voxel</li>
+<li>Volumes unstacked in axial direction<ul>
+<li>256 slices of 256 x 320, zero-padded to 512 x 512</li>
+</ul>
+</li>
+<li>Total dataset size: 546,240 TI slices of 512 x 512 resolution.</li>
+</ul>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -13534,14 +13609,14 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Wasserstein Distance</h3>
+<h3 class="text-center">Wasserstein Distance with Gradient Penalty</h3>$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$
 </div>
 </div>
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Wasserstein Distance with Gradient Penalty</h3>$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$
+<h3 class="text-center">Results</h3>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13576,6 +13651,20 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">How to evaluate GANs?</h3>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Task-Based Assessments of Image Quality</h3>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Underdetermined Reconstruction</h3>
 </div>
 </div>
@@ -13591,6 +13680,25 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Future Directions</h3>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Acknowledgements</h3><ul>
+<li>UIUC<ul>
+<li>Mark Anastasio, PhD</li>
+<li>Sayantan Bhadra</li>
+</ul>
+</li>
+<li>WashU<ul>
+<li>Nico Dosenbach, MD/PhD</li>
+<li>Abhinav Jha, PhD</li>
+</ul>
+</li>
+</ul>
+
 </div>
 </div>
 </div></section></section>
