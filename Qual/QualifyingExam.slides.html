@@ -13881,6 +13881,22 @@ $$ Find\ \hat{\mathbf{x}} = G(\hat{\mathbf{z}}) \\ s.t.\ \hat{\mathbf{z}} = \arg
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Open Questions for GAN based reconstruction</h3><ul>
+<li>Reconstruction when solution is not in the range of the generator<ul>
+<li>Early Stopping</li>
+<li>Sparse-Gen Framework</li>
+</ul>
+</li>
+<li>How does noise effect reconstruction performance?</li>
+<li>Global convergence?</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Anomaly Detection</h3><ul>
 <li>Anomaly: a sample that is different from the rest of the dataset<ul>
 <li>We are interested in anomaly detection for Quality Control</li>
@@ -13904,6 +13920,19 @@ $$ Find\ \hat{\mathbf{x}} = G(\hat{\mathbf{z}}) \\ s.t.\ \hat{\mathbf{z}} = \arg
 $$ L(\mathbf{x}) = \min_{\mathbf{z}} \lVert \mathbf{x} - G(\mathbf{z}) \rVert_{2}^{2} + \lVert \mathbf{f}(\mathbf{x}) - \mathbf{f}(G(\mathbf{z})) \rVert_{2}^{2}$$<ul>
 <li>Residual loss: How similar a new example from the most similar (L2) sample from the generator</li>
 <li>Discrimination loss: How similar the new example is to the most similar sample from the generator in terms of discriminator features (feature matching)</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Open Questions for GAN-based Anomaly Detection</h3><ul>
+<li>Are GANs an effective solution for our problem?<ul>
+<li>Recent study showed k-nearest neighbor model outperformed GAN-based models for anomaloy detection (not enough anomalous samples for hyper-parameter selection).</li>
+</ul>
+</li>
 </ul>
 
 </div>
