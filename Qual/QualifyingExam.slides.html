@@ -13521,7 +13521,14 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Difficult to acheive Nash Equilibirum</h3><p><div>
+<h3 class="text-center">Difficult to acheive Nash Equilibirum</h3><ul>
+<li>Minimax optimization may not converge stably</li>
+<li>Example: Minimaxing f(x,y) = xy<ul>
+<li>Signs of x,y are opposite --&gt; oscillations</li>
+</ul>
+</li>
+</ul>
+<p><div>
 <img style="display:block;margin-right:auto;margin-left:auto;" src="images/nash_equilibrium.png" width=80% height=auto>
 </div></p>
 <p style="text-align: center">Instability of objective functions</p>
@@ -13531,7 +13538,13 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Low Support</h3><p><div>
+<h3 class="text-center">Low Support</h3><ul>
+<li>When two distributions lie in a low dimensional manifold, they are (with very high probability) disjoint<ul>
+<li>A perfect discriminator exists that can separate both exactly</li>
+</ul>
+</li>
+</ul>
+<p><div>
 <img style="display:block;margin-right:auto;margin-left:auto;" src="images/low_dim_manifold.png" width=80% height=auto>
 </div></p>
 <p style="text-align: center">Distributions of both networks lie in a lower dimensional space</p>
@@ -13541,7 +13554,17 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Vanishing Gradients</h3><p><div>
+<h3 class="text-center">Vanishing Gradients</h3><ul>
+<li>Low support can lead to the discriminator improving too fast<ul>
+<li>If the discriminator is perfect too early, generator doesn't have any gradients to backprop on</li>
+</ul>
+</li>
+<li>So slow discriminator learning?<ul>
+<li>If the discriminator is bad, generator doesn't learn accurately</li>
+</ul>
+</li>
+</ul>
+<p><div>
 <img style="display:block;margin-right:auto;margin-left:auto;" src="images/GAN_vanishing_gradient.png" width=60% height=auto>
 </div></p>
 <p style="text-align: center">Vanishing Gradients</p>
@@ -13551,7 +13574,14 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Mode Collapse</h3><p><div>
+<h3 class="text-center">Mode Collapse</h3><ul>
+<li>GAN collapse the value of several inputs to the same output</li>
+<li>Why does it happen?<ul>
+<li>Max-Min instead of Min-Max?</li>
+</ul>
+</li>
+</ul>
+<p><div>
 <img style="display:block;margin-right:auto;margin-left:auto;" src="images/mode_collapse.png" width=100% height=auto>
 </div></p>
 <p style="text-align: center">Helvetica Scenario</p>
@@ -13562,11 +13592,12 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Lack of Evaluation Metric</h3><ul>
-<li>GANs lack a standardized evaluation metric!</li>
-<li>How do we evaluate the performance of a GAN?<ul>
-<li>Will touch on this again.</li>
+<li>Unclear how to universally evaluate GANs quantitatively at present</li>
+<li>Popular measure in many GAN papers is Frechet Inception Distance or Inception Score<ul>
+<li>Only works for natural image scenes, unsuitable for medical imaging applications</li>
 </ul>
 </li>
+<li><a href="https://arxiv.org/abs/1802.03446">Boraj 2018</a> gives comprehensive review of proposed evaluation method (will touch on this again)</li>
 </ul>
 
 </div>
@@ -13602,6 +13633,35 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Progressive GAN</h3><ul>
+<li>Grows the architecture of the network during training</li>
+</ul>
+<p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/progarch.png" width=70% height=auto>
+</div></p>
+<p style="text-align: center">Progressive GAN Architecture</p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Progressive GAN</h3><ul>
+<li>Transition to next resolution no occurs smoothly<ul>
+<li>During transition, acts a residual block passing in lower resolution image to the output</li>
+</ul>
+</li>
+</ul>
+<p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/proggrow.png" width=70% height=auto>
+</div></p>
+<p style="text-align: center">Growth Block</p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Progressive GAN</h3>
 </div>
 </div>
@@ -13609,7 +13669,31 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Wasserstein Distance with Gradient Penalty</h3>$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$
+<h3 class="text-center">Wasserstein Distance</h3><ul>
+<li>Instead of the original GAN loss function, we use Wasserstein Distance<ul>
+<li>Wasserstein distance attempts to solve the problem of low support and vanishing gradients</li>
+<li>Replaces the Discriminator with a Critic; Gives a measure of how different the fake samples are from the real (contrast with original discriminator which does a binary choice)</li>
+</ul>
+</li>
+</ul>
+<p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/WD.png" width=50% height=auto>
+</div></p>
+<p style="text-align: center">Wasserstein Distance</p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Wasserstein Distance with Gradient Penalty</h3><ul>
+<li>Wasserstein Distance has constraint to be satisfied<ul>
+<li>Gradient of critic must be equal to 1 everywhere</li>
+<li>We add gradient penalty term to satisfy this constraint</li>
+</ul>
+</li>
+</ul>
+$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$
 </div>
 </div>
 </div></section></section><section><section>
@@ -13679,7 +13763,14 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Future Directions</h3>
+<h3 class="text-center">Future Directions</h3><ul>
+<li>Examine the efficacy of each evaluation method proposed in <a href="https://arxiv.org/abs/1802.03446">Borji 2018</a></li>
+<li>Try newer, better GAN architectures such as <a href="https://arxiv.org/abs/1812.04948">StyleGAN</a></li>
+<li>Explore generalization of GANs with training/test splits</li>
+<li>Investigate and define a reconstruction problem to apply GAN-based reconstruction techniques</li>
+<li>Explore effectiveness of GAN anomaly detection frameworks</li>
+</ul>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -13687,16 +13778,10 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Acknowledgements</h3><ul>
-<li>UIUC<ul>
 <li>Mark Anastasio, PhD</li>
 <li>Sayantan Bhadra</li>
-</ul>
-</li>
-<li>WashU<ul>
-<li>Nico Dosenbach, MD/PhD</li>
-<li>Abhinav Jha, PhD</li>
-</ul>
-</li>
+<li>Abhinav Jha, PhD    </li>
+<li>Nico Dosenbach, MD/PhD    </li>
 </ul>
 
 </div>
