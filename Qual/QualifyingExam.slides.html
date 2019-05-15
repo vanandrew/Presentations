@@ -13337,21 +13337,9 @@ $(document).ready(code_toggle);
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Overview</h3><ul>
-<li>What are GANs?<ul>
-<li>Theory</li>
-<li>Limitations</li>
-</ul>
-</li>
-<li>Model Training<ul>
-<li>Progressive GAN and Wasserstein Distance (How do these address limitations?)</li>
-<li>Results</li>
-</ul>
-</li>
-<li>Applications and Future Directions<ul>
-<li>Reconstruction in Underdetermined Systems</li>
-<li>Anomaly Detection</li>
-</ul>
-</li>
+<li>What are GANs?</li>
+<li>Model Training</li>
+<li>Applications and Future Directions</li>
 </ul>
 
 </div>
@@ -13403,7 +13391,7 @@ $(document).ready(code_toggle);
 <p><div>
 <img style="display:block;margin-right:auto;margin-left:auto;" src="images/imageinpainting.png" width=70% height=auto>
 </div></p>
-<p style="text-align: center"><a href="https://arxiv.org/abs/1604.07379" target="_blank">Image Inpainting: A GAN is used as prior to fill in missing information</a></p>
+<p style="text-align: center"><a href="https://arxiv.org/abs/1604.07379" target="_blank">Image Inpainting: A GAN is used as a prior to fill in missing information</a></p>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13496,6 +13484,10 @@ $(document).ready(code_toggle);
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Non-Convergence</h3><ul>
+<li>Optimization algorithms tend to at least converge to saddle/local optima</li>
+<li>Game based algorithms may not approach an equilibrium</li>
+</ul>
 <h3 class="text-center">Low Support</h3><ul>
 <li>When two distributions lie in a low dimensional manifold, they are (with very high probability) disjoint<ul>
 <li>A perfect discriminator exists that can separate both exactly</li>
@@ -13503,7 +13495,7 @@ $(document).ready(code_toggle);
 </li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/low_dim_manifold.png" width=80% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/low_dim_manifold.png" width=50% height=auto>
 </div></p>
 <p style="text-align: center">Distributions of both networks lie in a lower dimensional space</p>
 </div>
@@ -13737,16 +13729,54 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <p style="text-align: center">Fake Images</p>
 </div>
 </div>
-</div></div></section></section><section><section>
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Fake vs. Real</h3>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Fake vs. Real</h3>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Fake vs. Real</h3>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Fake vs. Real</h3>
+</div>
+</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><h3 class="text-center">Latent Vector Walk</h3>
 <br></p>
-<p><video style="display:block;margin-right:auto;margin-left:auto;" width=60% height=auto controls loop>
+<video style="display:block;margin-right:auto;margin-left:auto;" width=60% height=auto controls loop>
     <source src="videos/interp.webm" type="video/webm">
-</video></p>
-<p style="text-align: center">Snapshots throughout training</p>
+</video>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 class="text-center">Latent Vector Walk</h3>
+<br></p>
+<div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/latentwalk.svg" width=100% height=auto>
+</div>
 </div>
 </div>
 </div></section></section><section><section>
