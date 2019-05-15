@@ -13108,19 +13108,6 @@ ul.typeahead-list  > li > a.pull-right {
 .ansi-bold { font-weight: bold; }
 
     </style>
-<style type="text/css">
-    /*This file contains any manual css for this page that needs to override the global styles.
-This is only required when different pages style the same element differently. This is just
-a hack to deal with our current css styles and no new styling should be added in this file.*/
-
-#ipython-main-app {
-    position: relative;
-}
-#jupyter-main-app {
-    position: relative;
-}
-
-    </style>
 
 
 <style type="text/css">
@@ -13338,7 +13325,7 @@ $(document).ready(code_toggle);
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Overview</h3><ul>
 <li>What are GANs?</li>
-<li>Model Training</li>
+<li>Model Training and Results</li>
 <li>Applications and Future Directions</li>
 </ul>
 
@@ -13389,9 +13376,9 @@ $(document).ready(code_toggle);
 <li>A data-driven prior!</li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/imageinpainting.png" width=70% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/density_estimation.png" width=70% height=auto>
 </div></p>
-<p style="text-align: center"><a href="https://arxiv.org/abs/1604.07379" target="_blank">Image Inpainting: A GAN is used as a prior to fill in missing information</a></p>
+<p style="text-align: center">Modelling a distribution given a sample</p>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13657,7 +13644,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Training Parameters</h3><ul>
 <li>Trained with TensorFlow on NVIDIA Tesla V100 GPU on AWS/NVIDIA Geforce RTX 2080 Ti locally</li>
-<li>Adam Optimizer with initial learning rate set to 1e-3 for each resolution layer</li>
+<li>Adam Optimizer with initial learning rate (step size) set to 1e-3 for each resolution layer</li>
 <li>Resolution doubling occured every 1.2 million images (600k transition, 600k iterations @ resolution)</li>
 <li>Mini-batch sizes: 4 × 4: 128, 8 × 8: 128, 16 × 16: 128, 32 × 32: 64, 64 × 64: 32, 128 × 128: 16, 256 × 256: 8, and 512 × 512: 4</li>
 </ul>
@@ -13683,14 +13670,14 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <p style="text-align: center">Snapshots throughout training (~4 days, 20 Hours)</p>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Loss Functions</h3><p><div>
 <img style="display:block;margin-right:auto;margin-left:auto;" src="images/loss.png" width=50% height=auto>
 </div></p>
-<p style="text-align: center">Wasserstein Distance</p>
+<p style="text-align: center">Loss Functions</p>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13711,7 +13698,43 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <p style="text-align: center">Real Images</p>
 </div>
 </div>
-</div></div></section></section><section><section>
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real0.png" width=50% height=auto>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real1.png" width=50% height=auto>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real2.png" width=50% height=auto>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real3.png" width=50% height=auto>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13733,28 +13756,36 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Fake vs. Real</h3>
+<div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake0.png" width=50% height=auto>
 </div>
-</div>
-</div></section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Fake vs. Real</h3>
 </div>
 </div>
 </div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Fake vs. Real</h3>
+<div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake1.png" width=50% height=auto>
+</div>
 </div>
 </div>
 </div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Fake vs. Real</h3>
+<div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake2.png" width=50% height=auto>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake3.png" width=50% height=auto>
+</div>
 </div>
 </div>
 </div></section></section><section><section>
