@@ -13347,12 +13347,11 @@ $(document).ready(code_toggle);
 <li>Results</li>
 </ul>
 </li>
-<li>Applications<ul>
+<li>Applications and Future Directions<ul>
 <li>Reconstruction in Underdetermined Systems</li>
 <li>Anomaly Detection</li>
 </ul>
 </li>
-<li>Future Directions</li>
 </ul>
 
 </div>
@@ -13402,9 +13401,9 @@ $(document).ready(code_toggle);
 <li>A data-driven prior!</li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/imageinpainting.png" width=75% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/imageinpainting.png" width=70% height=auto>
 </div></p>
-<p style="text-align: center"><a href="https://arxiv.org/abs/1604.07379" target="_blank">Image Inpainting</a></p>
+<p style="text-align: center"><a href="https://arxiv.org/abs/1604.07379" target="_blank">Image Inpainting: A GAN is used as prior to fill in missing information</a></p>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13424,9 +13423,9 @@ $(document).ready(code_toggle);
 </li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/density_estimation.png" width=75% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/highresimgsynth.gif" width=60% height=auto>
 </div></p>
-<p><center>Generative Modeling: Estimating a distribution from sample</center></p>
+<p><center>Generative Modeling: Estimating a distribution</center></p>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13448,7 +13447,7 @@ $(document).ready(code_toggle);
 <li>A black box: we don't have access to the actual distribution, we can only draw samples from it.</li>
 </ul>
 </li>
-<li>Explicit models define the distribution explicitly. We have a known parameterization of our model.<ul>
+<li>Explicit models define a parameterization of the model.<ul>
 <li>The difficulty comes in having an explicit model complex enough to capture the data complexity of dataset, while still being computationally tractable.<ul>
 <li>Bound on complexity of model to ensure tractability</li>
 </ul>
@@ -13457,13 +13456,9 @@ $(document).ready(code_toggle);
 </ul>
 </li>
 <li>Advantages<ul>
-<li>More computationally tractable than explicit models<ul>
-<li>Does not use any Markov Chains</li>
-<li>Can be trained using back-propagation</li>
-</ul>
-</li>
+<li>More computationally tractable than explicit models</li>
 <li>No approximations needed. Can learn any dataset distribution (given enough examples and layers).</li>
-<li>Subjectively, the research community has found that GANs provide better samples than any other method.</li>
+<li>Subjectively, the research community has found that GANs provide better samples than any other method (at present).</li>
 </ul>
 </li>
 </ul>
@@ -13475,30 +13470,17 @@ $(document).ready(code_toggle);
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">GAN Theory</h3><ul>
-<li>Two networks: generator and discriminator setup in a zero-sum game<ul>
+<li>Two networks: generator and discriminator setup in a two player zero-sum game<ul>
 <li>Discriminator Objective: Pick out fake from real</li>
 <li>Generator Objective: Create a fake indistinguishable from real</li>
 </ul>
 </li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/GANdiag.png" width=60% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/GANdiag.png" width=40% height=auto>
 </div></p>
-<p style="text-align: center">GAN Training Process</p>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">GAN Theory</h3><ul>
-<li>This is a two-player minimax game:</li>
-</ul>
-$$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log D(\mathbf{x})] + \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[\log (1 - D(G(\mathbf{z})))] $$<ul>
-<li>From game theory, we find the Nash Equilibirum for this system<ul>
-<li>We reach Nash Equilibrium when $\mathbb{P}_{r} = \mathbb{P}_{g}$, and $D(x) = 0.5$ for all inputs.</li>
-</ul>
-</li>
+<p style="text-align: center">GAN Training Process</p>$$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log D(\mathbf{x})] + \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[\log (1 - D(G(\mathbf{z})))] $$<ul>
+<li>From game theory, we find this system reaches Nash Equilibrium when $\mathbb{P}_{r} = \mathbb{P}_{g}$, and $D(x) = 0.5$ for all inputs.</li>
 </ul>
 
 </div>
@@ -13508,23 +13490,6 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Limitations</h3>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Difficult to acheive Nash Equilibirum</h3><ul>
-<li>Minimax optimization may not converge stably</li>
-<li>Example: Minimaxing f(x,y) = xy<ul>
-<li>Signs of x,y are opposite --&gt; oscillations</li>
-</ul>
-</li>
-</ul>
-<p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/nash_equilibrium.png" width=80% height=auto>
-</div></p>
-<p style="text-align: center">Instability of objective functions</p>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13569,15 +13534,18 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Mode Collapse</h3><ul>
 <li>GAN collapse the value of several inputs to the same output</li>
-<li>Why does it happen?<ul>
-<li>Max-Min instead of Min-Max?</li>
-</ul>
-</li>
 </ul>
 <p><div>
 <img style="display:block;margin-right:auto;margin-left:auto;" src="images/mode_collapse.png" width=100% height=auto>
 </div></p>
 <p style="text-align: center">Helvetica Scenario</p>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Why does Mode Collapse happen?</h3>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13643,7 +13611,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Progressive GAN</h3><ul>
-<li>Transition to next resolution no occurs smoothly<ul>
+<li>Transition to next resolution occurs smoothly<ul>
 <li>During transition, acts a residual block passing in lower resolution image to the output</li>
 </ul>
 </li>
@@ -13658,7 +13626,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Wasserstein Distance</h3><ul>
+<h3 class="text-center">Wasserstein Distance Loss</h3><ul>
 <li>Instead of the original GAN loss function, we use Wasserstein Distance<ul>
 <li>Wasserstein distance attempts to solve the problem of low support and vanishing gradients<ul>
 <li>Also solves mode collapse? </li>
@@ -13667,25 +13635,28 @@ $$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log 
 <li>Replaces the Discriminator with a Critic; Gives a measure of how different the fake samples are from the real (contrast with original discriminator which does a binary choice)</li>
 </ul>
 </li>
+<li>Wasserstein Distance Loss with Gradient Penalty:
+$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$<div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/WD.png" width=45% height=auto>
+</div><p style="text-align: center">Wasserstein Distance</p></li>
 </ul>
-<p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/WD.png" width=50% height=auto>
-</div></p>
-<p style="text-align: center">Wasserstein Distance</p>
+
 </div>
 </div>
-</div></section></section><section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Wasserstein Distance with Gradient Penalty</h3><ul>
 <li>Wasserstein Distance has 1-Lipshitz constraint (which was actually shown to be gradient norm = 1)<ul>
 <li>Gradient of critic must be equal to 1 everywhere</li>
-<li>We add gradient penalty term to satisfy this constraint</li>
+<li>We add gradient penalty term to satisfy this constraint
+<br>
+$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$</li>
 </ul>
 </li>
 </ul>
-$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -13717,7 +13688,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <p><video style="display:block;margin-right:auto;margin-left:auto;" width=90% height=auto controls loop>
     <source src="videos/train.webm" type="video/webm">
 </video></p>
-<p style="text-align: center">Snapshots throughout training</p>
+<p style="text-align: center">Snapshots throughout training (~4 days, 20 Hours)</p>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13802,9 +13773,8 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">How to evaluate GANs?</h3><ul>
-<li>What to use?</li>
-</ul>
+<p><h3 class="text-center">How to evaluate GANs?</h3>
+<br></p>
 <div>
 <img style="display:block;margin-right:auto;margin-left:auto;" src="images/evaltable.png" width=75% height=auto>
 </div>
@@ -13833,7 +13803,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Applications</h3>
+<h3 class="text-center">Applications and Future Directions</h3>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13844,21 +13814,14 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <li>In image reconstruction, we are interested in the following problem:</li>
 </ul>
 $$y = Ax + \eta$$<p>where $x \in \mathbb{R}^{n}$ is the object to reconstruct, $y \in \mathbb{R}^{m}$ describes the measurements, $A \in \mathbb{R}^{m \times n}$ is the system operator/measurement matrix, and $\eta$ is additive noise. The goal is to recover the object, $x$, using measurements from our system, $y$.</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Underdetermined Reconstruction with Sparsity</h3><ul>
+<ul>
 <li>In reconstruction applications like Super-Resolution or Compressed Sensing, the system is underdetermined.<ul>
-<li>The $rank(A) &lt; n$.</li>
+<li>The $m &lt; n$.</li>
 </ul>
 </li>
 <li>In order to guarantee unique recovery, further assumptions about the data must be used.<ul>
 <li>One possible solution: sparsity (commonly used in compressed sensing)</li>
-<li>Unique recovery of an underdetermined system using sparsity assumptions through $\ell_{1}$-regularization.</li>
+<li>Unique recovery of an underdetermined system using sparsity assumptions through $\ell_{1}$-regularization:</li>
 </ul>
 </li>
 </ul>
@@ -13917,7 +13880,7 @@ $$ Find\ \hat{\mathbf{x}} = G(\hat{\mathbf{z}}) \\ s.t.\ \hat{\mathbf{z}} = \arg
 <h3 class="text-center">AnoGAN</h3><ul>
 <li>Finding anomalies through residual and discrimination loss</li>
 </ul>
-$$ L(\mathbf{x}) = \min_{\mathbf{z}} \lVert \mathbf{x} - G(\mathbf{z}) \rVert_{2}^{2} + \lVert \mathbf{f}(\mathbf{x}) - \mathbf{f}(G(\mathbf{z})) \rVert_{2}^{2}$$<ul>
+$$ L(\mathbf{x}) = \min_{\mathbf{z}} \alpha \lVert \mathbf{x} - G(\mathbf{z}) \rVert_{2}^{2} + \beta \lVert \mathbf{f}(\mathbf{x}) - \mathbf{f}(G(\mathbf{z})) \rVert_{2}^{2}$$<ul>
 <li>Residual loss: How similar a new example from the most similar (L2) sample from the generator</li>
 <li>Discrimination loss: How similar the new example is to the most similar sample from the generator in terms of discriminator features (feature matching)</li>
 </ul>
@@ -13933,6 +13896,7 @@ $$ L(\mathbf{x}) = \min_{\mathbf{z}} \lVert \mathbf{x} - G(\mathbf{z}) \rVert_{2
 <li>Recent study showed k-nearest neighbor model outperformed GAN-based models for anomaloy detection (not enough anomalous samples for hyper-parameter selection).</li>
 </ul>
 </li>
+<li>What is the best way to incorporate GANs into an anomaly detection framework.</li>
 </ul>
 
 </div>
@@ -13942,7 +13906,7 @@ $$ L(\mathbf{x}) = \min_{\mathbf{z}} \lVert \mathbf{x} - G(\mathbf{z}) \rVert_{2
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Future Directions</h3><ul>
-<li>Examine the efficacy of each evaluation method proposed in <a href="https://arxiv.org/abs/1802.03446">Borji 2018</a> on our own data</li>
+<li>Examine the efficacy of each evaluation method proposed in <a href="https://arxiv.org/abs/1802.03446">Borji 2018</a> on MR data</li>
 <li>Try newer, better GAN architectures such as <a href="https://arxiv.org/abs/1812.04948">StyleGAN</a></li>
 <li>Explore generalization of GANs with training/test splits</li>
 <li>Investigate and define a reconstruction problem to apply GAN-based reconstruction techniques</li>
@@ -13956,10 +13920,10 @@ $$ L(\mathbf{x}) = \min_{\mathbf{z}} \lVert \mathbf{x} - G(\mathbf{z}) \rVert_{2
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Acknowledgements</h3><ul>
+<li>Nico Dosenbach, MD/PhD</li>
 <li>Mark Anastasio, PhD</li>
 <li>Sayantan Bhadra</li>
-<li>Abhinav Jha, PhD    </li>
-<li>Nico Dosenbach, MD/PhD    </li>
+<li>Abhinav Jha, PhD</li>
 </ul>
 
 </div>
