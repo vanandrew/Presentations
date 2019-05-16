@@ -13108,6 +13108,19 @@ ul.typeahead-list  > li > a.pull-right {
 .ansi-bold { font-weight: bold; }
 
     </style>
+<style type="text/css">
+    /*This file contains any manual css for this page that needs to override the global styles.
+This is only required when different pages style the same element differently. This is just
+a hack to deal with our current css styles and no new styling should be added in this file.*/
+
+#ipython-main-app {
+    position: relative;
+}
+#jupyter-main-app {
+    position: relative;
+}
+
+    </style>
 
 
 <style type="text/css">
@@ -13250,7 +13263,8 @@ Adversarial Networks</h1>
 <script type="text/javascript">
 $(window).load(function(){
     Reveal.configure({
-        transition: 'fade' // none/fade/slide/convex/concave/zoom
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        width: 1280,
     })
 });    
 </script>
@@ -13346,7 +13360,7 @@ $(document).ready(code_toggle);
 <li>Take two networks and train them in an adversarial manner...</li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/GANdiag.png" width=60% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;filter:invert(1);" src="images/GANdiag.png" width=50% height=auto>
 </div></p>
 <p style="text-align: center">GAN Training Process</p>
 </div>
@@ -13359,7 +13373,7 @@ $(document).ready(code_toggle);
 <li>...and they can make really convincing fake images.</li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/stylegan-teaser.png" width=90% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/stylegan-teaser.png" width=60% height=auto>
 </div></p>
 <p style="text-align: center">These are not real people! <a href="https://arxiv.org/abs/1812.04948" target="_blank">StyleGAN</a></p>
 </div>
@@ -13376,7 +13390,7 @@ $(document).ready(code_toggle);
 <li>A data-driven prior!</li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/density_estimation.png" width=70% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;filter:invert(1);" src="images/density_estimation.png" width=70% height=auto>
 </div></p>
 <p style="text-align: center">Modelling a distribution given a sample</p>
 </div>
@@ -13398,9 +13412,9 @@ $(document).ready(code_toggle);
 </li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/highresimgsynth.gif" width=60% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/highresimgsynth.gif" width=40% height=auto>
 </div></p>
-<p><center>Generative Modeling: Estimating a distribution</center></p>
+<p style="text-align: center">Generative Modeling: Estimating a distribution</p>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13408,9 +13422,9 @@ $(document).ready(code_toggle);
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3><center>Taxonomy of generative modeling</center></h3><p><div>
-    <img style="display:block;margin:auto;" src="images/taxonomy.png" width=80% height=auto>
+    <img style="display:block;margin:auto;filter:invert(1);" src="images/taxonomy.png" width=60% height=auto>
 </div></p>
-<p><center>Types of generative models (maximum likelihood)</center></p>
+<p style="text-align: center">Types of generative models (maximum likelihood)</p>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13452,7 +13466,7 @@ $(document).ready(code_toggle);
 </li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/GANdiag.png" width=40% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;filter:invert(1);" src="images/GANdiag.png" width=30% height=auto>
 </div></p>
 <p style="text-align: center">GAN Training Process</p>$$ \min_{G} \max_{D} \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[\log D(\mathbf{x})] + \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[\log (1 - D(G(\mathbf{z})))] $$<ul>
 <li>From game theory, we find this system reaches Nash Equilibrium when $\mathbb{P}_{r} = \mathbb{P}_{g}$, and $D(x) = 0.5$ for all inputs.</li>
@@ -13501,21 +13515,11 @@ $(document).ready(code_toggle);
 </ul>
 </li>
 </ul>
-<p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/GAN_vanishing_gradient.png" width=60% height=auto>
-</div></p>
-<p style="text-align: center">Vanishing Gradients</p>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Mode Collapse</h3><ul>
 <li>GAN collapse the value of several inputs to the same output</li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/mode_collapse.png" width=100% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/mode_collapse.png" width=60% height=auto>
 </div></p>
 <p style="text-align: center">Helvetica Scenario</p>
 </div>
@@ -13580,7 +13584,7 @@ $(document).ready(code_toggle);
 </li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/progarch.png" width=70% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/progarch.png" width=50% height=auto>
 </div></p>
 <p style="text-align: center">Progressive GAN Architecture</p>
 </div>
@@ -13596,12 +13600,12 @@ $(document).ready(code_toggle);
 </li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/proggrow.png" width=70% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/proggrow.png" width=50% height=auto>
 </div></p>
 <p style="text-align: center">Growth Block</p>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13616,7 +13620,7 @@ $(document).ready(code_toggle);
 </li>
 <li>Wasserstein Distance Loss with Gradient Penalty:
 $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/WD.png" width=45% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/WD.png" width=30% height=auto>
 </div><p style="text-align: center">Wasserstein Distance</p></li>
 </ul>
 
@@ -13664,7 +13668,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><h3 class="text-center">Training Process</h3>
 <br></p>
-<p><video style="display:block;margin-right:auto;margin-left:auto;" width=90% height=auto controls loop>
+<p><video style="display:block;margin-right:auto;margin-left:auto;" width=60% height=auto controls loop>
     <source src="videos/train.webm" type="video/webm">
 </video></p>
 <p style="text-align: center">Snapshots throughout training (~4 days, 20 Hours)</p>
@@ -13675,7 +13679,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Loss Functions</h3><p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/loss.png" width=50% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/loss.png" width=35% height=auto>
 </div></p>
 <p style="text-align: center">Loss Functions</p>
 </div>
@@ -13687,7 +13691,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <p><h3 class="text-center">Fake vs. Real</h3>
 <br></p>
 <div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real.png" width=90% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real.png" width=60% height=auto>
 </div>
 </div>
 </div>
@@ -13741,7 +13745,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <p><h3 class="text-center">Fake vs. Real</h3>
 <br></p>
 <div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake.png" width=90% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake.png" width=60% height=auto>
 </div>
 </div>
 </div>
@@ -13794,7 +13798,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><h3 class="text-center">Latent Vector Walk</h3>
 <br></p>
-<video style="display:block;margin-right:auto;margin-left:auto;" width=60% height=auto controls loop>
+<video style="display:block;margin-right:auto;margin-left:auto;" width=40% height=auto controls loop>
     <source src="videos/interp.webm" type="video/webm">
 </video>
 </div>
@@ -13806,7 +13810,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <p><h3 class="text-center">Latent Vector Walk</h3>
 <br></p>
 <div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/latentwalk.svg" width=100% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;background-color:#DDD" src="images/latentwalk.svg" width=100% height=auto>
 </div>
 </div>
 </div>
@@ -13815,12 +13819,13 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Nearest Neighbor</h3><ul>
-<li>Output closest matching image in training set</li>
+<li>Output closest matching image in training set
+<br><div>
+<img style="margin-right:0;margin-left:10%;margin-top:0;float:left" src="images/fakeimg.png" width=30% height=auto>
+<img style="margin-right:10%;margin-left:0;margin-top:0;float:right" src="images/realimg.png" width=30% height=auto>
+</div></li>
 </ul>
-<div>
-<img style="margin-right:0;margin-left:0;margin-top:0;float:left" src="images/fakeimg.png" width=45% height=auto>
-<img style="margin-right:0;margin-left:0;margin-top:0;float:right" src="images/realimg.png" width=45% height=auto>
-</div>
+
 </div>
 </div>
 </div><div class="fragment">
@@ -13834,11 +13839,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><h3 class="text-center">How to evaluate GANs?</h3>
-<br></p>
-<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/evaltable.png" width=75% height=auto>
-</div>
+<h3 class="text-center">Applications and Future Directions</h3>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13858,13 +13859,6 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 </li>
 </ul>
 
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Applications and Future Directions</h3>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13897,7 +13891,7 @@ $$ \min_{x} \lVert x \rVert_{1}\\ s.t.\ Ax = y \nonumber $$
 <li>A stronger prior: reconstructions that lie in the range of a well-trained generator.</li>
 </ul>
 $$ Find\ \hat{\mathbf{x}} = G(\hat{\mathbf{z}}) \\ s.t.\ \hat{\mathbf{z}} = \arg \min_{\mathbf{z}} \lVert AG(\mathbf{z}) - y \rVert_{2}^{2}$$<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/lassogen.png" width=60% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;filter:invert(1);" src="images/lassogen.png" width=60% height=auto>
 </div>
 </div>
 </div>
