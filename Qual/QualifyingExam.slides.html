@@ -13483,7 +13483,7 @@ $(document).ready(code_toggle);
 </li>
 </ul>
 <p><div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/low_dim_manifold.png" width=50% height=auto>
+<img style="display:block;margin-right:auto;margin-left:auto;background-color: #FFF;" src="images/low_dim_manifold.png" width=50% height=auto>
 </div></p>
 <p style="text-align: center">Distributions of both networks lie in a lower dimensional space</p>
 </div>
@@ -13523,12 +13523,16 @@ $(document).ready(code_toggle);
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Lack of Evaluation Metric</h3><ul>
-<li>Unclear how to universally evaluate GANs quantitatively at present</li>
-<li>Popular measure in many GAN papers is Frechet Inception Distance or Inception Score<ul>
-<li>Only works for natural image scenes, unsuitable for medical imaging applications</li>
+<li>Unclear how to universally evaluate GANs quantitatively at present<ul>
+<li>When to stop? When the images "look" good.</li>
 </ul>
 </li>
-<li><a href="https://arxiv.org/abs/1802.03446">Boraj 2018</a> gives comprehensive review of proposed evaluation method (will touch on this again)</li>
+<li>Popular measure in many GAN papers is Frechet Inception Distance or Inception Score<ul>
+<li>Measures how "natural" looking an image is, using inception classifier</li>
+<li>Only works for natural image scenes, unsuitable for medical imaging applications</li>
+<li>Maybe substitute the inception network with a classifier trained on medical images?</li>
+</ul>
+</li>
 </ul>
 
 </div>
@@ -13675,80 +13679,31 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><h3 class="text-center">Fake vs. Real</h3>
-<br></p>
-<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real.png" width=60% height=auto>
-</div>
-</div>
-</div>
-</div><div class="fragment">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 class="text-center">Fake vs. Real</h3></p>
+<p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real.png" width=90% height=auto>
+</div></p>
 <p style="text-align: center">Real Images</p>
-</div>
-</div>
-</div></div></section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real0.png" width=50% height=auto>
-</div>
-</div>
-</div>
-</div></section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real1.png" width=50% height=auto>
-</div>
-</div>
-</div>
-</div></section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real2.png" width=50% height=auto>
-</div>
-</div>
-</div>
-</div></section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/real3.png" width=50% height=auto>
-</div>
 </div>
 </div>
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><h3 class="text-center">Fake vs. Real</h3>
-<br></p>
-<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake.png" width=60% height=auto>
-</div>
-</div>
-</div>
-</div><div class="fragment">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 class="text-center">Fake vs. Real</h3></p>
+<p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake.png" width=90% height=auto>
+</div></p>
 <p style="text-align: center">Fake Images</p>
 </div>
 </div>
-</div></div></section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake0.png" width=50% height=auto>
+<img style="margin-right:0;margin-left:0;margin-top:15px;float:left;" src="images/real0.png" width=45% height=auto>
+<img style="margin-right:0;margin-left:0;margin-top:15px;float:right;" src="images/fake0.png" width=45% height=auto>
 </div>
 </div>
 </div>
@@ -13757,7 +13712,8 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake1.png" width=50% height=auto>
+<img style="margin-right:0;margin-left:0;margin-top:15px;float:left;" src="images/real1.png" width=45% height=auto>
+<img style="margin-right:0;margin-left:0;margin-top:15px;float:right;" src="images/fake1.png" width=45% height=auto>
 </div>
 </div>
 </div>
@@ -13766,7 +13722,8 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake2.png" width=50% height=auto>
+<img style="margin-right:0;margin-left:0;margin-top:15px;float:left;" src="images/real2.png" width=45% height=auto>
+<img style="margin-right:0;margin-left:0;margin-top:15px;float:right;" src="images/fake2.png" width=45% height=auto>
 </div>
 </div>
 </div>
@@ -13775,7 +13732,8 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/fake3.png" width=50% height=auto>
+<img style="margin-right:0;margin-left:0;margin-top:15px;float:left" src="images/real3.png" width=45% height=auto>
+<img style="margin-right:0;margin-left:0;margin-top:15px;float:right" src="images/fake3.png" width=45% height=auto>
 </div>
 </div>
 </div>
@@ -13806,13 +13764,12 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Nearest Neighbor</h3><ul>
-<li>Output closest matching image in training set
-<br><div>
-<img style="margin-right:0;margin-left:10%;margin-top:0;float:left" src="images/fakeimg.png" width=30% height=auto>
-<img style="margin-right:10%;margin-left:0;margin-top:0;float:right" src="images/realimg.png" width=30% height=auto>
-</div></li>
+<li>Output closest matching image in training set</li>
 </ul>
-
+<div>
+<img style="margin-right:0;margin-left:10%;margin-top:15px;float:left" src="images/fakeimg.png" width=30% height=auto>
+<img style="margin-right:10%;margin-left:0;margin-top:15px;float:right" src="images/realimg.png" width=30% height=auto>
+</div>
 </div>
 </div>
 </div><div class="fragment">
@@ -13842,6 +13799,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 </li>
 <li>TAIQ gives relevant metrics on the model with tasks that we care about<ul>
 <li>Downside: Does not tell you how a GAN model fails, may still need other independent metrics for mode collapse, sample fidelity, etc.</li>
+<li><a href="https://arxiv.org/abs/1802.03446">Boraj 2018</a> gives comprehensive review of proposed evaluation methods in the literature.</li>
 </ul>
 </li>
 </ul>
@@ -13849,6 +13807,19 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 </div>
 </div>
 </div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Future Directions</h3><ul>
+<li>Explore better evaluation techniques for GAN training and model selection</li>
+<li>Try newer, better GAN architectures such as <a href="https://arxiv.org/abs/1812.04948">StyleGAN</a></li>
+<li>Investigate and define a reconstruction problem to apply GAN-based reconstruction techniques</li>
+<li>Explore effectiveness of GAN anomaly detection frameworks</li>
+</ul>
+
+</div>
+</div>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13870,7 +13841,7 @@ $$y = Ax + \eta$$<p>where $x \in \mathbb{R}^{n}$ is the object to reconstruct, $
 $$ \min_{x} \lVert x \rVert_{1}\\ s.t.\ Ax = y \nonumber $$
 </div>
 </div>
-</div></section></section><section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13882,7 +13853,7 @@ $$ Find\ \hat{\mathbf{x}} = G(\hat{\mathbf{z}}) \\ s.t.\ \hat{\mathbf{z}} = \arg
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13898,7 +13869,7 @@ $$ Find\ \hat{\mathbf{x}} = G(\hat{\mathbf{z}}) \\ s.t.\ \hat{\mathbf{z}} = \arg
 
 </div>
 </div>
-</div></section></section><section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13915,7 +13886,7 @@ $$ Find\ \hat{\mathbf{x}} = G(\hat{\mathbf{z}}) \\ s.t.\ \hat{\mathbf{z}} = \arg
 
 </div>
 </div>
-</div></section></section><section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13929,7 +13900,7 @@ $$ L(\mathbf{x}) = \min_{\mathbf{z}} \alpha \lVert \mathbf{x} - G(\mathbf{z}) \r
 
 </div>
 </div>
-</div></section></section><section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13939,20 +13910,6 @@ $$ L(\mathbf{x}) = \min_{\mathbf{z}} \alpha \lVert \mathbf{x} - G(\mathbf{z}) \r
 </ul>
 </li>
 <li>What is the best way to incorporate GANs into an anomaly detection framework.</li>
-</ul>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Future Directions</h3><ul>
-<li>Examine the efficacy of each evaluation method proposed in <a href="https://arxiv.org/abs/1802.03446">Borji 2018</a> on MR data</li>
-<li>Try newer, better GAN architectures such as <a href="https://arxiv.org/abs/1812.04948">StyleGAN</a></li>
-<li>Explore generalization of GANs with training/test splits</li>
-<li>Investigate and define a reconstruction problem to apply GAN-based reconstruction techniques</li>
-<li>Explore effectiveness of GAN anomaly detection frameworks</li>
 </ul>
 
 </div>
