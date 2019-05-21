@@ -13326,6 +13326,7 @@ $(document).ready(code_toggle);
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Overview</h3><ul>
 <li>What are GANs?</li>
+<li>Theory and Limitations</li>
 <li>Model Training and Results</li>
 <li>Applications and Future Directions</li>
 </ul>
@@ -13386,15 +13387,35 @@ $(document).ready(code_toggle);
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Motivation</h3><ul>
+<li>Undersampled Image Reconstruction</li>
+<li>Anomaly Detection</li>
+</ul>
+<div>
+<figure style="float:left;width:45%">
+<img style="margin-right:0;margin-left:0;margin-top:15px;" src="images/face_recon.png" width=100% height=auto>
+<figcaption style="text-align:center;"><a href="https://arxiv.org/abs/1703.03208" target="_blank">Bora 2017</a></figcaption>
+</figure>
+<figure style="float:right;width:50%">
+<img style="margin-right:0;margin-left:0;margin-top:15px;" src="images/anomaly_detection.png" width=100% height=auto>
+<figcaption style="text-align:center;"><a href="https://arxiv.org/abs/1703.05921" target="_blank">Schlegl 2017</a></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">What is Generative Modeling?</h3><ul>
-<li>GANs are a generative model</li>
+<li>GANs are a type of generative model</li>
 <li>Discriminative models<ul>
 <li>Map high-dimensional data to a class label</li>
 <li>e.g. Given an image, is it a cat/dog?</li>
 </ul>
 </li>
 <li>Generative models answer a somewhat opposite question<ul>
-<li>Given a sample drawn from a distribution, we want to learn an estimate of that distribution</li>
+<li>Given samples drawn from a distribution, we want to learn an estimate of that distribution</li>
 <li>e.g. Given a set of cats/dogs, learn the images that generate each class.</li>
 </ul>
 </li>
@@ -13446,6 +13467,13 @@ $(document).ready(code_toggle);
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Theory and Limitations</h3>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">GAN Theory</h3><ul>
 <li>Two networks: generator and discriminator setup in a two player zero-sum game<ul>
 <li>Discriminator Objective: Distinguish real images from fakes</li>
@@ -13466,18 +13494,11 @@ $(document).ready(code_toggle);
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Limitations</h3>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Non-Convergence</h3><ul>
+<h3 class="text-center">Limitations</h3><h5 class="text-center">Non-Convergence</h5><ul>
 <li>Optimization algorithms tend to at least converge to saddle/local optima</li>
 <li>Game based algorithms may not approach an equilibrium</li>
 </ul>
-<h3 class="text-center">Low Support</h3><ul>
+<h5 class="text-center">Low Support</h5><ul>
 <li>When two distributions lie in a low dimensional manifold, they are (with very high probability) disjoint<ul>
 <li>A perfect discriminator exists that can separate both exactly</li>
 </ul>
@@ -13493,7 +13514,7 @@ $(document).ready(code_toggle);
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Vanishing Gradients</h3><ul>
+<h3 class="text-center">Limitations</h3><h5 class="text-center">Vanishing Gradients</h5><ul>
 <li>Low support can lead to the discriminator improving too fast<ul>
 <li>If the discriminator is perfect too early, generator doesn't have any gradients to backprop on</li>
 </ul>
@@ -13503,20 +13524,13 @@ $(document).ready(code_toggle);
 </ul>
 </li>
 </ul>
-<h3 class="text-center">Mode Collapse</h3><ul>
+<h5 class="text-center">Mode Collapse</h5><ul>
 <li>GAN collapse the value of several inputs to the same output</li>
 </ul>
 <p><div>
 <img style="display:block;margin-right:auto;margin-left:auto;" src="images/mode_collapse.png" width=60% height=auto>
 </div></p>
 <p style="text-align: center">Helvetica Scenario</p>
-</div>
-</div>
-</div></section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Why does Mode Collapse happen?</h3>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13574,11 +13588,35 @@ $(document).ready(code_toggle);
 <li>Stablilizes training, since network has to learn less features first</li>
 </ul>
 </li>
-</ul>
-<p><div>
+<li>Use of Wasserstein Distance loss function to prevent Vanishing Gradients (and Mode Collapse)<ul>
+<li>A continuous measure of how different an image is from fake, rather than a binary choice
+<div>
 <img style="display:block;margin-right:auto;margin-left:auto;" src="images/progarch.png" width=50% height=auto>
-</div></p>
-<p style="text-align: center">Progressive GAN Architecture</p>
+</div><p style="text-align: center">Progressive GAN Architecture</p></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Wasserstein Distance Loss</h3><ul>
+<li>Instead of the original GAN loss function, we use Wasserstein Distance<ul>
+<li>Wasserstein distance attempts to solve the problem of low support and vanishing gradients<ul>
+<li>Also solves mode collapse? </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Wasserstein Distance Loss with Gradient Penalty:
+$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$<div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/WD.png" width=30% height=auto>
+</div><p style="text-align: center">Wasserstein Distance</p></li>
+</ul>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -13595,43 +13633,6 @@ $(document).ready(code_toggle);
 <img style="display:block;margin-right:auto;margin-left:auto;" src="images/proggrow.png" width=50% height=auto>
 </div></p>
 <p style="text-align: center">Growth Block</p>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Wasserstein Distance Loss</h3><ul>
-<li>Instead of the original GAN loss function, we use Wasserstein Distance<ul>
-<li>Wasserstein distance attempts to solve the problem of low support and vanishing gradients<ul>
-<li>Also solves mode collapse? </li>
-</ul>
-</li>
-<li>Replaces the Discriminator with a Critic; Gives a measure of how different the fake samples are from the real (contrast with original discriminator which does a binary choice)</li>
-</ul>
-</li>
-<li>Wasserstein Distance Loss with Gradient Penalty:
-$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/WD.png" width=30% height=auto>
-</div><p style="text-align: center">Wasserstein Distance</p></li>
-</ul>
-
-</div>
-</div>
-</div></section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 class="text-center">Wasserstein Distance with Gradient Penalty</h3><ul>
-<li>Wasserstein Distance has 1-Lipshitz constraint (which was actually shown to be gradient norm = 1)<ul>
-<li>Gradient of critic must be equal to 1 everywhere</li>
-<li>We add gradient penalty term to satisfy this constraint
-<br>
-$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$</li>
-</ul>
-</li>
-</ul>
-
 </div>
 </div>
 </div></section></section><section><section>
@@ -13768,8 +13769,8 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <li>Output closest matching image in training set</li>
 </ul>
 <div>
-<img style="margin-right:0;margin-left:10%;margin-top:15px;float:left" src="images/fakeimg.png" width=30% height=auto>
-<img style="margin-right:10%;margin-left:0;margin-top:15px;float:right" src="images/realimg.png" width=30% height=auto>
+<img style="margin-right:0;margin-left:10%;margin-top:15px;float:left" src="images/realimg.png" width=30% height=auto>
+<img style="margin-right:10%;margin-left:0;margin-top:15px;float:right" src="images/fakeimg.png" width=30% height=auto>
 </div>
 </div>
 </div>
@@ -13777,7 +13778,7 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p style="text-align: center">(left) random output from generator (right) nearest neighbor to fake image in training set</p>
+<p style="text-align: center">(left) nearest neighbor to fake image in training set (right) random output from generator</p>
 </div>
 </div>
 </div></div></section></section><section><section>
@@ -13805,6 +13806,13 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 </li>
 </ul>
 
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">GAN-specific Evaluation Measures</h3>
 </div>
 </div>
 </div></section></section><section><section>

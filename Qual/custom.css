@@ -9,6 +9,9 @@ li,
 .MathJax_Display {
     color: #DDD !important;
 }
+a {
+    color: #46BCDE !important;
+}
 .reveal.center {
     background-color: #222;
 }
