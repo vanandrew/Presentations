@@ -13539,13 +13539,12 @@ $(document).ready(code_toggle);
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Lack of Evaluation Metric</h3><ul>
 <li>Unclear how to universally evaluate GANs quantitatively at present<ul>
-<li>When to stop? When the images "look" good, but how can we </li>
+<li>When to stop? When the images "look" good, but how can we quantify this?</li>
 </ul>
 </li>
 <li>Popular measure in many GAN papers is Frechet Inception Distance or Inception Score<ul>
 <li>Measures how "natural" looking an image is, using inception classifier</li>
 <li>Only works for natural image scenes, unsuitable for medical imaging applications</li>
-<li>Maybe substitute the inception network with a classifier trained on medical images?</li>
 </ul>
 </li>
 </ul>
@@ -13589,14 +13588,14 @@ $(document).ready(code_toggle);
 </ul>
 </li>
 <li>Use of Wasserstein Distance loss function to prevent Vanishing Gradients (and Mode Collapse)<ul>
-<li>A continuous measure of how different an image is from fake, rather than a binary choice
-<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/progarch.png" width=50% height=auto>
-</div><p style="text-align: center">Progressive GAN Architecture</p></li>
+<li>A continuous measure of how different an image is from fake, rather than a binary choice</li>
 </ul>
 </li>
 </ul>
-
+<p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/progarch.png" width=50% height=auto>
+</div></p>
+<p style="text-align: center">Progressive GAN Architecture</p>
 </div>
 </div>
 </div></section><section>
@@ -13612,11 +13611,12 @@ $(document).ready(code_toggle);
 </ul>
 </li>
 <li>Wasserstein Distance Loss with Gradient Penalty:
-$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$<div>
-<img style="display:block;margin-right:auto;margin-left:auto;" src="images/WD.png" width=30% height=auto>
-</div><p style="text-align: center">Wasserstein Distance</p></li>
+$$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{E}}[D(G(\mathbf{z}))] - \underset{\mathbf{x} \sim \mathbb{P}_{r}}{\mathbb{E}}[D(\mathbf{x})] + \lambda \underset{\hat{\mathbf{x}} \sim \mathbb{P}_{\hat{\mathbf{x}}}}{\mathbb{E}}[(\lVert \nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}}) \rVert_{2} - 1)^{2}] $$</li>
 </ul>
-
+<p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/WD.png" width=30% height=auto>
+</div></p>
+<p style="text-align: center">Wasserstein Distance</p>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13813,6 +13813,54 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">GAN-specific Evaluation Measures</h3>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Wasserstein Critic</h3><ul>
+<li>Use the Wasserstein Critic to measure distance between real and fake data</li>
+</ul>
+$$ \hat{W}(\mathbf{x}_{test},\mathbf{x}_{g}) = \frac{1}{N} \sum_{i=1}^{N} \hat{f}(\mathbf{x}_{test}[i]) - \frac{1}{N} \sum_{i=1}^{N} \hat{f}(\mathbf{x}_{g}[i]) $$<ul>
+<li>Disadvantages<ul>
+<li>High sample and time complexity (Must train critic on separate test set)</li>
+</ul>
+</li>
+<li>Sliced Wasserstein Distance<ul>
+<li>An approximation that is less computationally intensive</li>
+<li>Multi scale statistical similarities between distributions of local image patches</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Birthday Paradox Test</h3><ul>
+<li>Estimates size of support of generator distribution</li>
+<li>Procedure<ul>
+<li>Get sample from generator of size $S$</li>
+<li>Evaluate image similarity of $k$ most similar pairs in sample</li>
+<li>Check for duplicates, if it exists, estimated support size is $S^{2}$</li>
+</ul>
+</li>
+<li>Disadvantages<ul>
+<li>Only detects distribution coverage/mode collapse</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
 </div>
 </div>
 </div></section></section><section><section>
