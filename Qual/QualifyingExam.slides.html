@@ -13108,6 +13108,19 @@ ul.typeahead-list  > li > a.pull-right {
 .ansi-bold { font-weight: bold; }
 
     </style>
+<style type="text/css">
+    /*This file contains any manual css for this page that needs to override the global styles.
+This is only required when different pages style the same element differently. This is just
+a hack to deal with our current css styles and no new styling should be added in this file.*/
+
+#ipython-main-app {
+    position: relative;
+}
+#jupyter-main-app {
+    position: relative;
+}
+
+    </style>
 
 
 <style type="text/css">
@@ -13380,7 +13393,7 @@ $(document).ready(code_toggle);
 <p><div>
 <img style="display:block;margin-right:auto;margin-left:auto;filter:invert(1);" src="images/density_estimation.png" width=70% height=auto>
 </div></p>
-<p style="text-align: center">Modelling a distribution given a sample</p>
+<p style="text-align: center">Modeling a distribution given a sample</p>
 </div>
 </div>
 </div></section></section><section><section>
@@ -13388,8 +13401,8 @@ $(document).ready(code_toggle);
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 class="text-center">Motivation</h3><ul>
-<li>Undersampled Image Reconstruction</li>
-<li>Anomaly Detection</li>
+<li>Undersampled Image Reconstruction: GAN prior to regularize solution</li>
+<li>Anomaly Detection: Detect anomalies through distance from GAN prior</li>
 </ul>
 <div>
 <figure style="float:left;width:45%">
@@ -13648,6 +13661,16 @@ $$ \min_{G} \max_{D} \underset{\mathbf{z} \sim \mathbb{P}_{\mathbf{z}}}{\mathbb{
 
 </div>
 </div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Adam Performance</h3><p><div>
+<img style="display:block;margin-right:auto;margin-left:auto;" src="images/adamperf.png" width=50% height=auto>
+</div></p>
+<p style="text-align: center">Comparison of Stochastic Optimizers</p>
+</div>
+</div>
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -13860,6 +13883,50 @@ $$ \hat{W}(\mathbf{x}_{test},\mathbf{x}_{g}) = \frac{1}{N} \sum_{i=1}^{N} \hat{f
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Tournament Win Rate</h3><ul>
+<li>Interchange Discriminator of each GAN with each other and evaluate performance<ul>
+<li>The generator that rates the highest among all discriminators is the best</li>
+</ul>
+</li>
+<li>Very computationally complex</li>
+</ul>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Number of Statistically-Different Bins</h3><ul>
+<li>"Given two sets of samples from the same distribution, the number of samples that fall into a given bin should be the same up to sampling noise."<ul>
+<li>Evaluate difference in the proportion of samples falling outside a bin</li>
+<li>Done on many bins, and "Number of statistically different bins" reported</li>
+</ul>
+</li>
+<li>Requires many samples for high dimensional distributions</li>
+</ul>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 class="text-center">Image Quality Measures</h3><ul>
+<li>SSIM<ul>
+<li>Perceptual similarity measure</li>
+</ul>
+</li>
+<li>PSNR<ul>
+<li>Peak signal-to-noise ratio</li>
+</ul>
+</li>
+<li>SD<ul>
+<li>Sharpness Difference</li>
+</ul>
+</li>
+<li>Methods shown to large-scale mode collapse reliably, but fail to measure image fidelity</li>
+</ul>
 
 </div>
 </div>
