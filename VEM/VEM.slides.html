@@ -13210,7 +13210,7 @@ a.anchor-link {
 </p>
 <br>
 <p>
-    Dimitris G. Tzikas, Aristidis C. Likas, and Nikolaos P. Galatsanos`
+    Dimitris G. Tzikas, Aristidis C. Likas, and Nikolaos P. Galatsanos
 </p>
 <br>
 <br>
@@ -13256,25 +13256,110 @@ a.anchor-link {
 <h1>Introduction</h1><ul>
 <li><p>Expectation Maximization (EM) is awesome!</p>
 <ul>
+<li>Applications: Joint problems in image reconstruction, segmentation, registration, etc.</li>
 <li>We use it to find estimates of model parameters that rely on unobserved latent variables</li>
-<li>Limited applicability when encountering complex models</li>
+<li>However, limited applicability when encountering complex models</li>
 </ul>
 </li>
 <li><p>Variational approximation relaxes requirements of EM</p>
 <ul>
-<li>EM can be viewed as a special case of the Variational EM (VEM)</li>
+<li>Can be applied to a wider range of models</li>
+<li>EM can be viewed as a special case of Variational Bayesian Inference<ul>
+<li>a.k.a Varitational EM (VEM)</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1>Evidence Lower Bound (ELBO)</h1>$$
+<h1>Expectation-Maximization</h1><p>We want to find:</p>
+$$
+\hat{\theta} = \underset{\theta}{\arg\!\max} \; p(x; \theta)
+$$<p>where $x$ are observations, and $\theta$ are parameters.</p>
+<p>In EM, we introduce unobserved latent variables (by marginalizing the latent variables):</p>
+$$
+p(x;\theta) = \int p(x, z; \theta) dz
+$$<p>This expression is known as the <strong>marginal likelihood</strong>.</p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Why it's called Bayesian Inference</h1><p>Using the Marginal Likelihood and Bayes Rule, we can do inference on posterior of latent variables, $p(z | x; \theta)$</p>
+<p>Marginal Likelihood:</p>
+$$
+p(x; \theta) = \int p(x, z; \theta) dz = \int p(x | z; \theta) p(z; \theta) dz
+$$<p>Bayes Rule:</p>
+$$
+p(z | x; \theta) = \frac{p(x | z; \theta) p(z; \theta)}{p(x; \theta)}
+$$<ul>
+<li>However, it's difficult to solve the integral in the Marginal Likelihood term<ul>
+<li>Effort in developing technique to get around or approximate integral<ul>
+<li>Numerical Sampling (e.g Monte Carlo) or Deterministic Approximation(Variational Methods)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Bayesian Inference vs. MAP Estimation</h1><ul>
+<li>What is the difference between MAP estimation and Bayesian Inference?</li>
+<li>Both are Bayesian because they place priors on parameters, $\theta$ right?</li>
+</ul>
+<p>MAP Estimation:</p>
+$$
+    \hat{\theta}_{MAP} = \underset{\theta}{\arg\!\max} \; p(x | \theta) p(\theta)
+$$<p>Bayesian Inference:</p>
+$$
+    p(\theta | x) = \frac{p(x | \theta) p(\theta)}{\int p(x | \theta) p(\theta) d\theta)}
+$$<ul>
+<li>They are distinctly different in objective!<ul>
+<li>MAP generates a point estimate on $\theta$ (the mode of the posterior) while Bayesian Inference calculates the full posterior distribution.</li>
+<li>MAP is also known as "Poor Man's Bayesian Inference"</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Evidence Lower Bound (ELBO)</h1><p>The marginal likelihood can be rewritten as:</p>
+$$
+\ln p(x; \theta) = F(q, \theta) + KL(q || p)
+$$<p>with:</p>
+$$
+F(q, \theta) = \int q(z) \ln \Big( \frac{p(x, z; \theta)}{q(z)} \Big) dz
+$$<ul>
+<li>Since the KL divergence must be $\geq$ 0, it follows that $\ln p(x; \theta) \geq  F(q, \theta)$</li>
+<li>$F(q, \theta)$ is a lower bound of the log-likelihood (known as the Evidence Lower Bound (ELBO))</li>
+</ul>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>ELBO Derivation</h1>$$
 \ln p(x; \theta) = \int q(z) \ln p(x; \theta) dz \\
+= \int q(z) \ln p(x; \theta) dz \\
 = \int q(z) \ln \Big( \frac{p(x; \theta) p(z | x; \theta)}{p(z | x; \theta)} \Big) dz \\
 = \int q(z) \ln \Big( \frac{p(x, z; \theta)}{p(z | x; \theta)} \Big) dz \\
 = \int q(z) \ln \Big( \frac{p(x, z; \theta) q(z)}{p(z | x; \theta) q(z)} \Big) dz \\
@@ -13283,19 +13368,215 @@ a.anchor-link {
 $$
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Maximizing the ELBO</h1><p>We want to maximize the ELBO:</p>
+$$
+F(q, \theta) = \int q(z) \ln \Big( \frac{p(x, z; \theta)}{q(z)} \Big) dz
+$$<ul>
+<li><p>We use a two-step process to maximize the lower bound (given starting parameters $\theta^{OLD}$)</p>
+<ul>
+<li>Step 1: Maximize $F(q, \theta^{OLD})$ w/ respect to $q(z)$</li>
+<li>Step 2: Maximize $F(q, \theta)$ w/ respect to $\theta$ to generate $\theta^{NEW}$</li>
+</ul>
+</li>
+<li><p>The lower bound is the same as maximizing the log likelihood when $KL(q || p) = 0$</p>
+<ul>
+<li>This implies that $q(z) = p(z | x; \theta^{OLD})$</li>
+</ul>
+</li>
+</ul>
 
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Maximizing the ELBO (continued)</h1><p>Setting the latent posterior ($p(z | x; \theta^{OLD})$) to be $q(z)$, we derive the familiar form for the EM algorithm:</p>
+$$
+F(q, \theta) = \int p(z | x; \theta^{OLD}) \ln p(x, z; \theta) dz - \int p(z | x; \theta^{OLD}) \ln p(z | x; \theta^{OLD}) dz \\
+= \langle \ln p(x, z; \theta)\rangle_{p(z | x; \theta^{OLD})} + constant \\
+= Q(\theta, \theta^{OLD}) + constant
+$$<ul>
+<li><p>The EM algorithm</p>
+<ul>
+<li>E-step: Compute $Q(\theta, \theta^{OLD})$</li>
+<li>M-step: Find $\theta$ that maximizes $Q(\theta, \theta^{OLD})$</li>
+</ul>
+</li>
+<li><p>The trick is that we must explicilty know $p(z | x; \theta)$ to compute $Q(\theta, \theta^{OLD})$ (or $F(q, \theta)$)</p>
+<ul>
+<li>Not always applicable in all problems, and we can't use EM :(</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Variational Approximation</h1><ul>
+<li><p>We can bypass knowing $p(z | x; \theta)$ exactly by assuming $q(z)$ has a specific form and optimize over $F(q, \theta)$ using calculus of variations</p>
+<ul>
+<li>Thus the name "Variational Approximation"</li>
+</ul>
+</li>
+<li><p>Common form used: Mean Field approximation:</p>
+</li>
+</ul>
+$$
+q(z) = \prod_{i=1}^{M} q_{i}(z_{i})
+$$
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Variational Approximation (Continued)</h1><p>Applying the form $q(z) = \prod_{i=1}^{M} q_{i}(z_{i})$ specified by the mean field approximation, we get the optimal $q(z)$ that maximizes the lower bound:</p>
+$$
+q_{j}^{*}(z_j) = \frac{\exp(\langle \ln p(x, z; \theta)\rangle_{i \neq j})}{\int \exp(\langle \ln p(x, z; \theta)\rangle_{i \neq j}) dz_{j}} 
+$$<p>for each latent variable $j = 1, ..., M$</p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Mean Field Solution Derivation</h1>$$
+F(q, \theta) = \int q(z) \ln \Big( \frac{p(x, z; \theta)}{q(z)} \Big) dz \\
+= \int \prod_i q(z_i) \ln p(x, z; \theta) dz - \sum_i \int q(z_i) \ln q(z_i) dz_i \\
+= \int q(z_j) \int \Big( \prod_{i \neq j} q(z_i) \ln p(x, z; \theta) \Big) \prod_{i \neq j} dz_i dz_j - \int q(z_j) \ln q(z_j) dz_j - \sum_{i \neq j} \int q(z_i) \ln q(z_i) dz_i \\
+= \int q(z_j) \ln \Big( \frac{\exp(\langle \ln p(x, z; \theta)\rangle_{i \neq j})}{q(z_j)} \Big) dz_j - \sum_{i \neq j} \int q(z_i) \ln q(z_i) dz_i
+$$
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Mean Field Solution Derivation (Continued)</h1>$$
+= \int q(z_j) \ln \Big( \frac{\tilde{p}(x,z_{j}; \theta)}{q(z_j)} \Big) dz_j - \sum_{i \neq j} \int q(z_i) \ln q(z_i) dz_i \\
+= - KL(q_j || \tilde{p}) - \sum_{i \neq j} \int q(z_i) \ln q(z_i) dz_i
+$$<p>where:</p>
+$$
+\ln \tilde{p}(x,z_{j}; \theta) = \langle \ln p(x, z; \theta)\rangle_{i \neq j} = \int \ln p(x, z; \theta) \prod_{i \neq j} (q_{i}dz_{i}
+$$
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Mean Field Solution Derivation (Continued 2)</h1><p>Like before, $F(q, \theta)$ is maximized when the KL divergence is 0, which occurs when $q_{j}(z_{j}) = \tilde{p}(x,z_{j}; \theta)$, so:</p>
+$$
+\ln q_{j}^{*}(z_{j}) = \langle \ln p(x, z; \theta)\rangle_{i \neq j} + constant
+$$<p>The additive constant can be obtained through normalization, so the final solution form is:</p>
+$$
+q_{j}^{*}(z_j) = \frac{\exp(\langle \ln p(x, z; \theta)\rangle_{i \neq j})}{\int \exp(\langle \ln p(x, z; \theta)\rangle_{i \neq j}) dz_{j}} 
+$$
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Variational EM</h1><ul>
+<li><p>With the mean field form of $q(z)$, the Variation EM (VEM) algorithm can be summarized as:</p>
+<ul>
+<li>E-step: Evaluate $q^{NEW}(z)$ to maximize $F(q,\theta^{OLD})$</li>
+<li>M-step: Find $\theta^{NEW}$ that maximizes $F(q^{NEW},\theta)$</li>
+</ul>
+</li>
+<li><p>A common case is where the model only contains latent variables and no parameters</p>
+<ul>
+<li>In this case, the VEM algorithm only has a Expectation step and no Maximization step</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>A quick background on graphical models</h1><div style="display:flex;flex-direction:row;margin-top:10px;">
+    <div>
+        <img style="width:auto;" src="images/graph_models.png">
+    </div>
+    <div style="margin-left:10px;">
+        <ul>
+            <li>Graphical models represent dependencies among random variables and parameters</li>
+            <ul>
+                <li>Double Circle: Observations</li>
+                <li>Circle: Latent Variables</li>
+                <li>Squares: Parameters</li>
+            </ul>
+            <li>Example (left):</li>
+            <ul>
+                <li>Each graph node $(s)$ has a set of parents $\pi(s)$ they are conditioned on: $p(x_{s} | x_{\pi(s)})$</li>
+                <li>Joint distribution can be defined by: $p(x; \theta) = \prod_{s} p(x_{s} | x_{\pi(s)})$</li>
+                <li>So the joint distribution of the left graph can be defined as:</li>
+                $$p(a,b,c,d; \theta) = p(a; \theta_{1}) p(b | a; \theta_{2}) p(c | a; \theta_{3}) p(d | b,c; \theta_{4})$$
+            </ul>
+            <li>In VEM, do the E-step on circles (Latent Variables) and M-step on squares (parameters)</li>
+        </ul>
     </div>
 </div>
 </div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Example 1 (Linear Regression)</h1><ul>
+<li>GitHub Link</li>
+</ul>
+<div style="text-align:center;display:flex;justify-content:center;">
+    <img style="height:35vh;width:auto;" src="images/linear_regression.png">
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Example 2 (Gaussian Mixture Model)</h1><ul>
+<li>GitHub Link</li>
+</ul>
+<div style="display:flex;flex-direction:row;justify-content:center;">
+    <div style="padding:10px;text-align:center">
+        <div style="display:flex;justify-content:center;">
+            <img style="height:15vh;width:auto;" src="images/GMM.png">
+        </div>
+        <p>GMM Model using EM</p>
+    </div>
+    <div style="padding:10px;text-align:center;">
+        <div style="display:flex;justify-content:center;">
+            <img style="height:15vh;width:auto;" src="images/VGMM.png">
+        </div>
+        <p>Full Bayesian GMM Model using VEM</p>
+    </div>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>Useful Links and References</h1><p>This paper: <a href="https://ieeexplore.ieee.org/document/4644060">https://ieeexplore.ieee.org/document/4644060</a></p>
+<p>Derivations for linear regression solutions: <a href="https://arxiv.org/abs/1301.3838">https://arxiv.org/abs/1301.3838</a></p>
+<p>Latex derivations: <a href="https://chrischoy.github.io/research/Expectation-Maximization-and-Variational-Inference/">https://chrischoy.github.io/research/Expectation-Maximization-and-Variational-Inference/</a></p>
 
+</div>
+</div>
 </div></section></section>
 </div>
 </div>
