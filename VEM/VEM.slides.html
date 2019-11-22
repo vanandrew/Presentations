@@ -13068,19 +13068,6 @@ ul.typeahead-list  > li > a.pull-right {
 .highlight .vm { color: #19177C } /* Name.Variable.Magic */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
     </style>
-<style type="text/css">
-    /*This file contains any manual css for this page that needs to override the global styles.
-This is only required when different pages style the same element differently. This is just
-a hack to deal with our current css styles and no new styling should be added in this file.*/
-
-#ipython-main-app {
-    position: relative;
-}
-#jupyter-main-app {
-    position: relative;
-}
-
-    </style>
 
 
 <style type="text/css">
@@ -13238,32 +13225,77 @@ a.anchor-link {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><p>This subslide runs a bunch of scripts for this presentation.</p></p>
-<script>
-    window.addEventListener('load', () => { Reveal.configure({ transition: 'fade' }); });
-</script>
+<script>window.addEventListener('load', () => { Reveal.configure({ transition: 'fade' }); });</script>
 </div>
 </div>
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1><center>Motivation</center></h1>
+<h1>Motivation</h1><ul>
+<li><p>Variational Methods?</p>
+<ul>
+<li><strong>How does Variational Expectation-Maximization work?</strong></li>
+<li>This applies to anything with the word "Variational" (e.g. Variational Autoencoder)</li>
+</ul>
+</li>
+<li><p>Succinctly...</p>
+<ul>
+<li>Variational methods allow for the approximation of the posterior of latent variables</li>
+<li>Derives a lower bound for the marginal likelihood of the observed data</li>
+</ul>
+</li>
+</ul>
+
 </div>
 </div>
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1><center>Overview</center></h1>
+<h1>Introduction</h1><ul>
+<li><p>Expectation Maximization (EM) is awesome!</p>
+<ul>
+<li>We use it to find estimates of model parameters that rely on unobserved latent variables</li>
+<li>Limited applicability when encountering complex models</li>
+</ul>
+</li>
+<li><p>Variational approximation relaxes requirements of EM</p>
+<ul>
+<li>EM can be viewed as a special case of the Variational EM (VEM)</li>
+</ul>
+</li>
+</ul>
+
 </div>
 </div>
-</div></section></section><section><section>
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1><center>Introduction</center></h1>
+<h1>Evidence Lower Bound (ELBO)</h1>$$
+\ln p(x; \theta) = \int q(z) \ln p(x; \theta) dz \\
+= \int q(z) \ln \Big( \frac{p(x; \theta) p(z | x; \theta)}{p(z | x; \theta)} \Big) dz \\
+= \int q(z) \ln \Big( \frac{p(x, z; \theta)}{p(z | x; \theta)} \Big) dz \\
+= \int q(z) \ln \Big( \frac{p(x, z; \theta) q(z)}{p(z | x; \theta) q(z)} \Big) dz \\
+= \int q(z) \ln \Big( \frac{p(x, z; \theta)}{q(z)} \Big) dz - \int q(z) \ln \Big( \frac{p(z | x; \theta)}{q(z)} \Big) dz \\
+= F(q, \theta) + KL(q || p)
+$$
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div></section></section>
 </div>
 </div>

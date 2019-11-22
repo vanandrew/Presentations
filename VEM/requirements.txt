@@ -1,0 +1,4 @@
+seaborn
+numpy
+cython
+scikit-learn
