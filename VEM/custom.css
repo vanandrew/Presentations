@@ -18,3 +18,9 @@ a {
 div.input_prompt {
     display: none;
 }
+@media print {
+    .slide-background {
+        background-color: #222 !important;
+        -webkit-print-color-adjust: exact; 
+    }
+}
