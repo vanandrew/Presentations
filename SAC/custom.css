@@ -1,0 +1,26 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li,
+.MathJax_Display {
+    color: #DDD !important;
+}
+a {
+    color: #46BCDE !important;
+}
+.reveal.center {
+    background-color: #222;
+}
+div.input_prompt {
+    display: none;
+}
+@media print {
+    .slide-background {
+        background-color: #222 !important;
+        -webkit-print-color-adjust: exact; 
+    }
+}
