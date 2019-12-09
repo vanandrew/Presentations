@@ -13221,8 +13221,8 @@ a.anchor-link {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>Susceptability Artifact Correction</li>
-<li>Some Results</li>
+<li>Why?</li>
+<li>Results</li>
 <li>How this works</li>
 <li>Some future directions</li>
 </ul>
@@ -13234,7 +13234,7 @@ a.anchor-link {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1>
-    Susceptability Artifact Correction
+    Susceptibility Artifact Correction
 </h1><ul>
 <li>Caused by the interplay between the long readout time for BOLD imaging and the inhomogenities in the main magnetic field<ul>
 <li>Causes geometric distortions</li>
@@ -13244,7 +13244,10 @@ a.anchor-link {
 <li>Some problems: Extant datasets without fieldmaps/corrupted fieldmaps</li>
 </ul>
 </li>
-<li>Correction without fieldmaps?</li>
+<li>Correction without fieldmaps?<ul>
+<li>T1/T2 not affected by SA... Can we use this information for unwarping?</li>
+</ul>
+</li>
 </ul>
 <p><img src="images/SAC.png" style="width:300px;height:auto;margin-left:auto;margin-right:auto;display:block;"></p>
 
@@ -13255,8 +13258,53 @@ a.anchor-link {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1>
-    Results (WARNING: very preliminary...)
-</h1>
+    Fake functionals
+</h1><ul>
+<li>Use T1/T2 to create a "fake" high-resolution functional using a transformation model<ul>
+<li>Align this to a reference functional</li>
+<li>Requires estimating alignment and transformation model parameters at same time<ul>
+<li>Joint optimization required!</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/fake_func.png" style="width:75%;height:auto;margin-left:auto;margin-right:auto;display:block;"></p>
+<p style="text-align:center;">"Fake" functional derived from T1/T2</p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h1>
+    Results (Shift maps, alignments, etc.)
+</h1></p>
+<p>Open External Viewer</p>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>
+    Algorithm summary
+</h1><p>With non-linear warp parameters $\gamma$:
+$$
+    y = f(M_{\theta}F\phi; \gamma) + n
+$$</p>
+<ul>
+<li>Anatomical mask with skull</li>
+<li>Create reference volume of low movement frames</li>
+<li>Create mask of voxels with relatively low motion</li>
+<li>Do initial functional/anatomical alignement with MI metric</li>
+<li>Iterative Registration (3x):<ul>
+<li>Run joint optimization to get registration between anatomicals and reference functional***</li>
+<li>Run 3dQwarp with low motion voxel mask</li>
+</ul>
+</li>
+</ul>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -13278,7 +13326,7 @@ $$</p>
 </li>
 <li>$\phi \in \mathbb{R}^{w}$: weights of transform model</li>
 <li>$M_{\theta} \in \mathbb{R}^{m \times n}$: interpolation matrix parameterized by 12 parameter affine transform ($\theta$)</li>
-<li>$n$: assumption of additive gaussian noise</li>
+<li>$n$: additive gaussian noise</li>
 </ul>
 
 </div>
@@ -13326,28 +13374,8 @@ $$</p>
     <div>6.) return $\{\theta_{k},\phi_{k}\}$</div>
 </div><ul>
 <li>Caveats:<ul>
-<li>Guaranteed convergence only if $\theta_{0}$ is close!</li>
+<li>Convergence to optimum only if $\theta_{0}$ is close!</li>
 <li>Only affine transform (non-linear warps done by 3dQwarp)</li>
-</ul>
-</li>
-</ul>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1>
-    Algorithm summary
-</h1><ul>
-<li>Anatomical mask with skull</li>
-<li>Create reference volume of low movement frames</li>
-<li>Create mask of voxels with relatively low motion</li>
-<li>Do initial functional/anatomical alignement with MI metric</li>
-<li>Iterative Registration (3x):<ul>
-<li>Run joint optimization to get registration between anatomicals and reference functional</li>
-<li>Run 3dQwarp with low motion voxel mask</li>
 </ul>
 </li>
 </ul>
@@ -13361,8 +13389,14 @@ $$</p>
 <h1>
     Future directions
 </h1><ul>
-<li>Incorporate own nonlinear registation into joint optimization algorithm</li>
+<li>Comparison with other correction methods<ul>
+<li>Comparing to AFNI/FSL fieldmap correction methods</li>
+<li>Compare to ANTs fieldmapless correction</li>
+<li>Quantitative comparison? (Maybe look at intra/inter-subject variability on correlations)</li>
+</ul>
+</li>
 <li>More efficient optimization using expectation-maximization instead of alternating minimization</li>
+<li>Incorporate own nonlinear registation into joint optimization algorithm</li>
 </ul>
 
 </div>
