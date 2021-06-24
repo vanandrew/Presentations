@@ -74,8 +74,8 @@
 						<div class="container-fluid">
 							<p class="display-1">Using Synthetic Images for correcting geometric distortion in Brain MRI</p>
 							<p class="display-6">Andrew Van</p>
-							<p class="display-6">06/24/21</p>
-							<p class="display-6">PhD Thesis Proposal, Biomedical Engineering</p>
+							<p class="display-6">06/24/21, PhD Thesis Proposal</p>
+							<p class="display-6">Dosenbach Lab, Biomedical Engineering</p>
 						</div>
 					</section>
 					<section>
@@ -122,7 +122,7 @@
 							<div class="r-stack">
 								<div class="fragment fade-out" data-fragment-index=0>
 									<img class="r-stretch" src="./images/signallossanddistortion/signal_loss_comparison.png">
-									<p class="h1">Signal Dropout</p>
+									<p class="h1">Signal Loss</p>
 								</div>
 								<div class="fragment" data-fragment-index=0>
 									<img class="r-stretch" src="./images/signallossanddistortion/distortion_comparison.png">
@@ -154,11 +154,11 @@
 							<div class="row">
 								<div class="col-5 offset-1">
 									<img class="cropped_img" style="height: 625px;" src="./images/uncorrected_epi.png">
-									<p class="h2">Uncorrected</p>
+									<p class="h2">Uncorrected BOLD</p>
 								</div>
 								<div class="col-5">
 									<img class="cropped_img" style="height: 625px;" src="./images/corrected_epi.png">
-									<p class="h2">Corrected</p>
+									<p class="h2">Corrected BOLD</p>
 								</div>
 							</div>
 						</div>
@@ -252,9 +252,11 @@
 							<div class="r-stack">
 							<div class="fragment fade-in-then-out">
 								<img class="r-stretch" src="./images/Basis_Decomposition.png">
+								<p class="h1">Radial Basis Decomposition of T1w/T2w images.</p>
 							</div>
 							<div class="fragment fade-in-then-out">
 								<img class="r-stretch" src="./images/Intensity_Mapping.png">
+								<p class="h1">Intensity Mapping between RBF Decompositions and target EPI image</p>
 							</div>
 							</div>
 						</div>
@@ -334,15 +336,15 @@
 							</div>
 							<div class="fragment">
 								<img class="r-stretch" src="./images/synthunwarp/step0.png">
-								<p class="h1" style="background-color: white;">1st Iteration</p>
+								<p class="h1" style="background-color: white;">BOLD (1st Iteration - Undistorted)</p>
 							</div>
 							<div class="fragment">
 								<img class="r-stretch" src="./images/synthunwarp/step1.png">
-								<p class="h1" style="background-color: white;">2nd Iteration</p>
+								<p class="h1" style="background-color: white;">BOLD (2nd Iteration - Undistorted)</p>
 							</div>
 							<div class="fragment">
 								<img class="r-stretch" src="./images/synthunwarp/step2.png">
-								<p class="h1" style="background-color: white;">3rd Iteration</p>
+								<p class="h1" style="background-color: white;">BOLD (3rd Iteration - Undistorted)</p>
 							</div>
 							<div class="fragment">
 								<img class="r-stretch" src="./images/synthunwarp/T2.png">
@@ -404,7 +406,7 @@
 				<section data-auto-animate>
 					<div class="container-fluid">
 						<p class="display-1">Three Key Areas</p>
-						<p class="display-6 fragment">Datasets with limited access to both T1/T2</p>
+						<p class="display-6 fragment">Datasets with no T2w image</p>
 						<div class="r-stack">
 							<div style="margin: unset;">
 								<div class="fragment" style="margin: 0;">
@@ -468,7 +470,7 @@
 					<div class="container-fluid">
 						<p class="display-1">Specific Aims</p>
 						<p class="display-6 fragment fade-left">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
-						<p class="display-6 fragment fade-left">Aim 2: Extend Synth field map-less EPI distortion correction to in limited data settings.</p>
+						<p class="display-6 fragment fade-left">Aim 2: Apply Synth field map-less EPI distortion correction in limited data settings.</p>
 						<p class="display-6 fragment fade-left">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
 					</div>
 				</section>
@@ -535,7 +537,7 @@
 				</section>
 				<section data-background-color="#000000">
 					<section>
-						<p class="display-6">Synth correction on Primate DTI Data</p>
+						<p class="display-1">Synth correction on Primate DTI Data</p>
 					</section>
 					<section>
 						<p class="display-1">Primate #1: Abita</p>
@@ -556,7 +558,7 @@
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/abita/Undistorted_B0.png" class="r-stretch" alt="T2">
-						<p class="h2">Abita (Undistorted B0)</p>
+						<p class="h2">Abita (Undistorted B0 - Synth Corrected)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
@@ -608,7 +610,7 @@
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/bassador/Undistorted_B0.png" class="r-stretch" alt="T2">
-						<p class="h2">Bassador (Undistorted B0)</p>
+						<p class="h2">Bassador (Undistorted B0 - Synth Corrected)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
@@ -660,7 +662,7 @@
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/cidre/Undistorted_B0.png" class="r-stretch" alt="T2">
-						<p class="h2">Cidre (Undistorted B0)</p>
+						<p class="h2">Cidre (Undistorted B0 - Synth Corrected)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
@@ -684,14 +686,14 @@
 					<div class="container-fluid">
 						<p class="display-1">Specific Aims</p>
 						<p class="display-6 lightgray">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
-						<p class="display-6">Aim 2: Extend Synth field map-less EPI distortion correction to in limited data settings.</p>
+						<p class="display-6">Aim 2: Apply Synth field map-less EPI distortion correction in limited data settings.</p>
 						<p class="display-6">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
 					</div>
 				</section>
 				<section data-auto-animate>
 					<section data-auto-animate>
 						<div class="container-fluid">
-							<p class="display-5">Aim 2: Extend Synth field map-less EPI distortion correction to in limited data settings.</p>
+							<p class="display-5">Aim 2: Apply Synth field map-less EPI distortion correction in limited data settings.</p>
 							<div class="row">
 								<div class="col-8 offset-2">
 									<p class="h2 fragment fade-left">Hypothesis 2a: A Synth model accounting for spatial information will allow for accurate synthetic EPI images generated from only a T1, with high contrast similarity to a target EPI image.</p> 
@@ -768,10 +770,10 @@
 					</section>
 					<section data-auto-animate>
 						<div class="container-fluid">
-							<p class="display-5">Aim 2: Extend Synth field map-less EPI distortion correction to in limited data settings.</p>
+							<p class="display-5">Aim 2: Apply Synth field map-less EPI distortion correction in limited data settings.</p>
 							<div class="row">
 								<div class="col-8 offset-2">
-									<p class="h2 lightgray">Hypothesis 2a: A Synth model accounting for spatial information will allow for accurate synthetic EPI images generated from only a T1 or T2, with high contrast similarity to a target EPI image.</p> 
+									<p class="h2 lightgray">Hypothesis 2a: A Synth model accounting for spatial information will allow for accurate synthetic EPI images generated from only a T1, with high contrast similarity to a target EPI image.</p> 
 									<p class="h2">Hypothesis 2b: This modified Synth model will provide comparable EPI distortion correction to the original model Synth where both structural image types are available. </p> 
 								</div>
 							</div>
@@ -782,7 +784,7 @@
 					<div class="container-fluid">
 						<p class="display-1">Specific Aims</p>
 						<p class="display-6 lightgray">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
-						<p class="display-6 lightgray">Aim 2: Extend Synth field map-less EPI distortion correction to in limited data settings.</p>
+						<p class="display-6 lightgray">Aim 2: Apply Synth field map-less EPI distortion correction in limited data settings.</p>
 						<p class="display-6">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
 					</div>
 				</section>
@@ -804,7 +806,7 @@
 							<div class="r-stack">
 								<div class="fragment fade-in-then-out">
 									<img class="r-stretch" src="./images/multiecho/optimal_combination.png">
-									<p class="h2">Optimal Combination BOLD image</p>
+									<p class="h2">Optimal Combination BOLD image (Distorted)</p>
 									<p class="h2">
 										\[\begin{aligned}
 										\text{Weighted combination of echos, such that each weight is: } w_{TE} = TE * e^{-TE/T_{2}^{*}}
@@ -817,13 +819,13 @@
 									<p class="h2">\[\begin{aligned}\end{aligned} \]</p>
 								</div>
 								<div class="row fragment fade-in-then-out">
-									<div class="col-6">
-										<img class="r-stretch cropped_img2" src="./images/multiecho/optimal_combination_2.png">
+									<div class="col-5 offset-1" style="margin-top: 0px; margin-bottom: 0px;">
+										<img class="r-stretch cropped_img2" src="./images/multiecho/optimal_combination_2.png" style="margin-top: 0px; margin-bottom: 0px;">
 									</div>
-									<div class="col-6">
-										<img class="r-stretch cropped_img2" src="./images/multiecho/synth_2.png">
+									<div class="col-5" style="margin-top: 0px; margin-bottom: 0px;">
+										<img class="r-stretch cropped_img2" src="./images/multiecho/synth_2.png" style="margin-top: 0px; margin-bottom: 0px;">
 									</div>
-									<p class="h2">Optimal Combination (Left), Synthetic (Right)</p>
+									<p class="h2" style="margin-top: 0px; margin-bottom: 0px;">Optimal Combination (Left), Synthetic (Right)</p>
 								</div>
 							</div>
 						</div>
@@ -870,20 +872,27 @@
 					<div class="container-fluid">
 						<p class="display-1">Specific Aims</p>
 						<p class="display-6">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
-						<p class="display-6">Aim 2: Extend Synth field map-less EPI distortion correction in limited data settings.</p>
+						<p class="display-6">Aim 2: Apply Synth field map-less EPI distortion correction in limited data settings.</p>
 						<p class="display-6">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
 					</div>
 				</section>
 				<section data-auto-animate>
 					<div class="container-fluid">
 						<p class="display-1">Specific Aims</p>
-						<p class="h2">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
-						<p class="h2">Aim 2: Extend Synth field map-less EPI distortion correction in limited data settings.</p>
-						<p class="h2">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
+						<p class="h1">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
+						<p class="h1">Aim 2: Apply Synth field map-less EPI distortion correction in limited data settings.</p>
+						<p class="h1">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
 						<div class="r-stack">
-							<p class="display-1 fragment fade-in-then-out">Reliable alternative for distortion correction.</p>
-							<p class="display-1 fragment">Reduced reliance on field maps.</p>
+							<p class="display-1 fragment fade-in-then-out">Reliable alternative for field map-less distortion correction.</p>
+							<p class="display-1 fragment">Reduced reliance on field maps for distortion correction.</p>
 						</div>
+					</div>
+				</section>
+				<section data-auto-animate>
+					<div class="container-fluid">
+						<p class="display-1">Future Work</p>
+						<p class="h1">Hybrid approach to distortion correction: Combining field map-based distortion correction and Synth.</p>
+						<p class="h1">Deep Learning to accelerate Synth distortion Correction.</p>
 					</div>
 				</section>
 			</div>
