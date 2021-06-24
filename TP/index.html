@@ -154,11 +154,11 @@
 							<div class="row">
 								<div class="col-5 offset-1">
 									<img class="cropped_img" style="height: 625px;" src="./images/uncorrected_epi.png">
-									<p class="h3">Uncorrected</p>
+									<p class="h2">Uncorrected</p>
 								</div>
 								<div class="col-5">
 									<img class="cropped_img" style="height: 625px;" src="./images/corrected_epi.png">
-									<p class="h3">Corrected</p>
+									<p class="h2">Corrected</p>
 								</div>
 							</div>
 						</div>
@@ -433,7 +433,6 @@
 										<p class="h2"><strong>(d)</strong> Synthetic Functional (T2w-only)</p>
 									</div>
 								</div>
-								
 							</div>
 						</div>
 					</div>
@@ -569,6 +568,27 @@
 							<p>Data collected by Shashank Anand</p>
 						</div>
 					</section>
+					<section data-transition="none">
+						<img src="./images/primates/abita/eddy_fa.png" class="r-stretch" alt="T2">
+						<p class="h2">Abita (FA map eddy Corrected)</p>
+						<div class="footer">
+							<p>Data collected by Shashank Anand</p>
+						</div>
+					</section>
+					<section data-transition="none">
+						<img src="./images/primates/abita/synth_fa.png" class="r-stretch" alt="T2">
+						<p class="h2">Abita (FA map Synth Corrected)</p>
+						<div class="footer">
+							<p>Data collected by Shashank Anand</p>
+						</div>
+					</section>
+					<section data-transition="none">
+						<img src="./images/primates/abita/T2.png" class="r-stretch" alt="T2">
+						<p class="h2">Abita (T2)</p>
+						<div class="footer">
+							<p>Data collected by Shashank Anand</p>
+						</div>
+					</section>
 					<section>
 						<p class="display-1">Primate #2: Bassador</p>
 					</section>
@@ -589,6 +609,27 @@
 					<section data-transition="none">
 						<img src="./images/primates/bassador/Undistorted_B0.png" class="r-stretch" alt="T2">
 						<p class="h2">Bassador (Undistorted B0)</p>
+						<div class="footer">
+							<p>Data collected by Shashank Anand</p>
+						</div>
+					</section>
+					<section data-transition="none">
+						<img src="./images/primates/bassador/T2.png" class="r-stretch" alt="T2">
+						<p class="h2">Bassador (T2)</p>
+						<div class="footer">
+							<p>Data collected by Shashank Anand</p>
+						</div>
+					</section>
+					<section data-transition="none">
+						<img src="./images/primates/bassador/eddy_fa.png" class="r-stretch" alt="T2">
+						<p class="h2">Bassador (FA map eddy Corrected)</p>
+						<div class="footer">
+							<p>Data collected by Shashank Anand</p>
+						</div>
+					</section>
+					<section data-transition="none">
+						<img src="./images/primates/bassador/synth_fa.png" class="r-stretch" alt="T2">
+						<p class="h2">Bassador (FA map Synth Corrected)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
@@ -631,6 +672,13 @@
 							<p>Data collected by Shashank Anand</p>
 						</div>
 					</section>
+					<section data-transition="none">
+						<img src="./images/primates/cidre/synth_fa.png" class="r-stretch" alt="T2">
+						<p class="h2">Cidre (FA map Synth Corrected)</p>
+						<div class="footer">
+							<p>Data collected by Shashank Anand</p>
+						</div>
+					</section>
 				</section>
 				<section data-auto-animate>
 					<div class="container-fluid">
@@ -646,41 +694,74 @@
 							<p class="display-5">Aim 2: Extend Synth field map-less EPI distortion correction to in limited data settings.</p>
 							<div class="row">
 								<div class="col-8 offset-2">
-									<p class="h4 fragment fade-left">Hypothesis 2a: A Synth model accounting for spatial information will allow for accurate synthetic EPI images generated from only a T1 or T2, with high contrast similarity to a target EPI image.</p> 
-									<p class="h4 fragment fade-left">Hypothesis 2b: This modified Synth model will provide comparable EPI distortion correction to the original model Synth where both structural image types are available. </p> 
+									<p class="h2 fragment fade-left">Hypothesis 2a: A Synth model accounting for spatial information will allow for accurate synthetic EPI images generated from only a T1, with high contrast similarity to a target EPI image.</p> 
+									<p class="h2 fragment fade-left">Hypothesis 2b: This modified Synth model will provide comparable EPI distortion correction to the original model Synth where both structural image types are available. </p> 
 								</div>
 							</div>
 						</div>
 					</section>
 					<section data-auto-animate>
 						<div class="container-fluid">
-							<p class="h4">Hypothesis 2a: A Synth model accounting for spatial information will allow for accurate synthetic EPI images generated from only a T1 or T2, with high contrast similarity to a target EPI image.</p>
+							<p class="h2">Hypothesis 2a: A Synth model accounting for spatial information will allow for accurate synthetic EPI images generated from only a T1, with high contrast similarity to a target EPI image.</p>
 							<div class="r-stack">
-								<div class="fragment fade-in-then-out">
-									<img src="./images/limited/mismatch.png" class="r-stretch">
-									<p class="h4">Areas of mismatch modeled independently (T1).</p>
-								</div>
-								<div class="fragment fade-in-then-out">
+								<div class="fragment fade-in-then-out" style="margin: unset;">
+									<img src="./images/limited/segmentation.png" class="r-stretch">
+									<p class="h2">Modeling tissue types separately.</p>
 									<div class="row">
-										<div class="col-5 offset-1">
-											<img src="./images/limited/syntht1_2.png" class="cropped_img2">
+										<div class="col-4 offset-2">
+											<p class="h2"><strong>(white)</strong> White Matter</p>
+											<p class="h2"><strong>(light gray)</strong> Everything else</p>
 										</div>
-										<div class="col-5">
-											<img src="./images/limited/unwarped_func.png" class="cropped_img2">
+										<div class="col-4">
+											<p class="h2"><strong>(dark gray)</strong> Grey Matter</p>
 										</div>
 									</div>
-									<p class="h4">Comparison of Original Intensity Mapping Model (left) to real EPI (right).</p>
 								</div>
-								<div class="fragment fade-in-then-out">
+								<div class="fragment fade-in-then-out" style="margin: unset;">
 									<div class="row">
-										<div class="col-5 offset-1">
-											<img src="./images/limited/syntht1_sd.png" class="cropped_img2">
+										<div class="col-4">
+											<img src="./images/limited/syntht1.png" class="cropped_img3">
 										</div>
-										<div class="col-5">
-											<img src="./images/limited/unwarped_func.png" class="cropped_img2">
+										<div class="col-4">
+											<img src="./images/limited/synth.png" class="cropped_img3">
+										</div>
+										<div class="col-4">
+											<img src="./images/limited/func.png" class="cropped_img3">
 										</div>
 									</div>
-									<p class="h4">Comparison of Spatially Dependent Model (left) to real EPI (right).</p>
+									<p class="h2">Comparison of Original Intensity Mapping Model</p>
+									<div class="row">
+										<div class="col-6">
+											<p class="h2">(left) Synthetic BOLD (T1-only, original model)</p>
+											<p class="h2">(right) Real BOLD</p>
+										</div>
+										<div class="col-6">
+											<p class="h2">(middle) Synthetic BOLD (T1w/T2w model)</p>
+										</div>
+									</div>
+								</div>
+								<div class="fragment fade-in-then-out" style="margin: unset;">
+									<div class="row">
+										<div class="col-4">
+											<img src="./images/limited/syntht1_sd.png" class="cropped_img3">
+										</div>
+										<div class="col-4">
+											<img src="./images/limited/synth.png" class="cropped_img3">
+										</div>
+										<div class="col-4">
+											<img src="./images/limited/func.png" class="cropped_img3">
+										</div>
+									</div>
+									<p class="h2">Comparison of Spatially Dependent (SD) Intensity Mapping Model</p>
+									<div class="row">
+										<div class="col-6">
+											<p class="h2">(left) Synthetic BOLD (T1-only, SD model)</p>
+											<p class="h2">(right) Real BOLD</p>
+										</div>
+										<div class="col-6">
+											<p class="h2">(middle) Synthetic BOLD (T1w/T2w model)</p>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -690,8 +771,8 @@
 							<p class="display-5">Aim 2: Extend Synth field map-less EPI distortion correction to in limited data settings.</p>
 							<div class="row">
 								<div class="col-8 offset-2">
-									<p class="h4 lightgray">Hypothesis 2a: A Synth model accounting for spatial information will allow for accurate synthetic EPI images generated from only a T1 or T2, with high contrast similarity to a target EPI image.</p> 
-									<p class="h4">Hypothesis 2b: This modified Synth model will provide comparable EPI distortion correction to the original model Synth where both structural image types are available. </p> 
+									<p class="h2 lightgray">Hypothesis 2a: A Synth model accounting for spatial information will allow for accurate synthetic EPI images generated from only a T1 or T2, with high contrast similarity to a target EPI image.</p> 
+									<p class="h2">Hypothesis 2b: This modified Synth model will provide comparable EPI distortion correction to the original model Synth where both structural image types are available. </p> 
 								</div>
 							</div>
 						</div>
@@ -711,23 +792,29 @@
 							<p class="display-5">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
 							<div class="row">
 								<div class="col-8 offset-2">
-									<p class="h4 fragment fade-left">Hypothesis 3a: By combining information from multiple echos, Synth-based synthetic image generation will provide higher contrast similarity to it’s EPI target.</p>
-									<p class="h4 fragment fade-left">Hypothesis 3b: Recovery of signal lost from B0 inhomogeneities will improve local correspondence to structural images near foci of signal drop out.</p>
+									<p class="h2 fragment fade-left">Hypothesis 3a: By combining information from multiple echos, Synth-based synthetic image generation will provide higher contrast similarity to it’s EPI target.</p>
+									<p class="h2 fragment fade-left">Hypothesis 3b: Recovery of signal lost from B0 inhomogeneities will improve local correspondence to structural images near foci of signal drop out.</p>
 								</div>
 							</div>
 						</div>
 					</section>
 					<section data-auto-animate>
 						<div class="container-fluid">
-							<p class="h4">Hypothesis 3a: By combining information from multiple echos, Synth-based synthetic image generation will provide higher contrast similarity to it’s EPI target.</p>
+							<p class="h2">Hypothesis 3a: By combining information from multiple echos, Synth-based synthetic image generation will provide higher contrast similarity to it’s EPI target.</p>
 							<div class="r-stack">
 								<div class="fragment fade-in-then-out">
 									<img class="r-stretch" src="./images/multiecho/optimal_combination.png">
-									<p class="h4">Optimal Combination EPI</p>
+									<p class="h2">Optimal Combination BOLD image</p>
+									<p class="h2">
+										\[\begin{aligned}
+										\text{Weighted combination of echos, such that each weight is: } w_{TE} = TE * e^{-TE/T_{2}^{*}}
+										\end{aligned} \]
+									</p>
 								</div>
 								<div class="fragment fade-in-then-out">
 									<img class="r-stretch" src="./images/multiecho/synth.png">
-									<p class="h4">Synthetic</p>
+									<p class="h2">Synthetic BOLD image using Optimal Combination image as target</p>
+									<p class="h2">\[\begin{aligned}\end{aligned} \]</p>
 								</div>
 								<div class="row fragment fade-in-then-out">
 									<div class="col-6">
@@ -736,7 +823,7 @@
 									<div class="col-6">
 										<img class="r-stretch cropped_img2" src="./images/multiecho/synth_2.png">
 									</div>
-									<p class="h4">Optimal Combination (Left), Synthetic (Right)</p>
+									<p class="h2">Optimal Combination (Left), Synthetic (Right)</p>
 								</div>
 							</div>
 						</div>
@@ -746,23 +833,23 @@
 							<p class="display-5">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
 							<div class="row">
 								<div class="col-8 offset-2">
-									<p class="h4 lightgray">Hypothesis 3a: By combining information from multiple echos, Synth-based synthetic image generation will provide higher contrast similarity to it’s EPI target.</p>
-									<p class="h4">Hypothesis 3b: Recovery of signal lost from B0 inhomogeneities will improve local correspondence to structural images near foci of signal drop out.</p>
+									<p class="h2 lightgray">Hypothesis 3a: By combining information from multiple echos, Synth-based synthetic image generation will provide higher contrast similarity to it’s EPI target.</p>
+									<p class="h2">Hypothesis 3b: Recovery of signal lost from B0 inhomogeneities will improve local correspondence to structural images near foci of signal drop out.</p>
 								</div>
 							</div>
 						</div>
 					</section>
 					<section data-auto-animate>
 						<div class="container-fluid">
-							<p class="h4">Hypothesis 3b: Recovery of signal lost from B0 inhomogeneities will improve local correspondence to structural images near foci of signal drop out.</p>
+							<p class="h2">Hypothesis 3b: Recovery of signal lost from B0 inhomogeneities will improve local correspondence to structural images near foci of signal drop out.</p>
 							<div class="r-stack">
 								<div class="fragment fade-in-then-out">
 									<img class="r-stretch" src="./images/multiecho/dropout_t2.png">
-									<p class="h4">T2</p>
+									<p class="h2">Anatomical T2-weighted image</p>
 								</div>
 								<div class="fragment fade-in-then-out">
 									<img class="r-stretch" src="./images/multiecho/dropout_oc.png">
-									<p class="h4">Optimal Combination</p>
+									<p class="h2">Synth Distortion Corrected Optimal Combination Image.</p>
 								</div>
 							</div>
 						</div>
@@ -772,8 +859,8 @@
 							<p class="display-5">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
 							<div class="row">
 								<div class="col-8 offset-2">
-									<p class="h4">Hypothesis 3a: By combining information from multiple echos, Synth-based synthetic image generation will provide higher contrast similarity to it’s EPI target.</p>
-									<p class="h4">Hypothesis 3b: Recovery of signal lost from B0 inhomogeneities will improve local correspondence to structural images near foci of signal drop out.</p>
+									<p class="h2">Hypothesis 3a: By combining information from multiple echos, Synth-based synthetic image generation will provide higher contrast similarity to it’s EPI target.</p>
+									<p class="h2">Hypothesis 3b: Recovery of signal lost from B0 inhomogeneities will improve local correspondence to structural images near foci of signal drop out.</p>
 								</div>
 							</div>
 						</div>
@@ -783,16 +870,16 @@
 					<div class="container-fluid">
 						<p class="display-1">Specific Aims</p>
 						<p class="display-6">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
-						<p class="display-6">Aim 2: Extend Synth field map-less EPI distortion correction to in limited data settings.</p>
+						<p class="display-6">Aim 2: Extend Synth field map-less EPI distortion correction in limited data settings.</p>
 						<p class="display-6">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
 					</div>
 				</section>
 				<section data-auto-animate>
 					<div class="container-fluid">
 						<p class="display-1">Specific Aims</p>
-						<p class="h4">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
-						<p class="h4">Aim 2: Extend Synth field map-less EPI distortion correction to in limited data settings.</p>
-						<p class="h4">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
+						<p class="h2">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
+						<p class="h2">Aim 2: Extend Synth field map-less EPI distortion correction in limited data settings.</p>
+						<p class="h2">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
 						<div class="r-stack">
 							<p class="display-1 fragment fade-in-then-out">Reliable alternative for distortion correction.</p>
 							<p class="display-1 fragment">Reduced reliance on field maps.</p>
