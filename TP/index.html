@@ -37,7 +37,7 @@
 				box-shadow: none !important;
 			}
 			.blockquote-footer {
-				font-size: 1.5em;
+				font-size: 3em;
 			}
 			.cropped_img {
 				width: 600px;
@@ -49,6 +49,18 @@
 				height: 800px;
 				object-fit: none;
 			}
+			.cropped_img3 {
+				width: 600px;
+				height: 650px;
+				object-fit: none;
+			}
+			.reveal .slide-number {
+				right: unset;
+				left: 8px;
+			}
+			.instant-transition {
+				transition: unset !important;
+			}
 		</style>
 
 		<!-- Theme used for syntax highlighted code -->
@@ -58,19 +70,24 @@
 		<div class="reveal">
 			<div class="slides">
 				<section>
-					<div class="container-fluid">
-						<p class="display-1">Using Synthetic Images for correcting geometric distortion in Brain MRI</p>
-					</div>
-				</section>
-				<section>
-					<div class="container-fluid">
-						<figure>
-							<blockquote class="blockquote">
-							  	<p class="display-3">I can honestly see this becoming the gold standard of distortion correction in the future...</p>
-							</blockquote>
-							<figcaption class="blockquote-footer">A <cite title="Source Title">Synth</cite> User</figcaption>
-						</figure>
-					</div>
+					<section>
+						<div class="container-fluid">
+							<p class="display-1">Using Synthetic Images for correcting geometric distortion in Brain MRI</p>
+							<p class="display-6">Andrew Van</p>
+							<p class="display-6">06/24/21</p>
+							<p class="display-6">PhD Thesis Proposal, Biomedical Engineering</p>
+						</div>
+					</section>
+					<section>
+						<div class="container-fluid">
+							<figure>
+								<blockquote class="blockquote">
+									  <p class="display-3">I can honestly see this becoming the gold standard of distortion correction in the future...</p>
+								</blockquote>
+								<figcaption class="blockquote-footer">A <cite title="Source Title">Synth</cite> User</figcaption>
+							</figure>
+						</div>
+					</section>
 				</section>
 				<section>
 					<section>
@@ -80,20 +97,20 @@
 					</section>
 					<section>
 						<div class="container-fluid">
-							<p class="display-1">Echo Planar Imaging (EPI)</p>
+							<p class="display-1">MRI: Echo Planar Imaging (EPI)</p>
 							<p class="display-6 fade-left">Single RF excitation pulse + Multiple Gradient Echos → High Temporal Resolution</p>
 							<div class="r-stack">
 								<div class="fragment fade-out" data-fragment-index=1>
 									<img class="r-stretch" data-fragment-index=1 src="./images/EPI.png">
-									<p class="h4">EPI Sequence Diagram</p>
+									<p class="h1">EPI Sequence Diagram</p>
 								</div>
 								<div class="fragment current-visible" data-fragment-index=1>
 									<img class="r-stretch" src="./images/BOLD.png">
-									<p class="h4">Blood Oxygenation Level Dependent (BOLD) fMRI</p>
+									<p class="h1">Blood Oxygenation Level Dependent (BOLD) fMRI</p>
 								</div>
 								<div class="fragment">
 									<img class="r-stretch" src="./images/DTI.png">
-									<p class="h4">Diffusion Tensor Imaging (DTI) MRI</p>
+									<p class="h1">Diffusion Tensor Imaging (DTI) MRI</p>
 								</div>
 							</div>
 						</div>
@@ -101,15 +118,15 @@
 					<section >
 						<div class="container-fluid">
 							<p class="display-1">EPI Signal Loss and Geometric Distortion</p>
-							<p class="display-6 fade-left">Long TE + Field Inhomogeneities → Phase Dispersion → Signal Loss and distortion due to Echo shift</p>
+							<p class="display-6 fade-left">Long Readout Times + Field Inhomogeneities → Signal Loss and Distortion</p>
 							<div class="r-stack">
 								<div class="fragment fade-out" data-fragment-index=0>
-									<img class="r-stretch" src="./images/dropout.png">
-									<p class="h4">Signal Dropout</p>
+									<img class="r-stretch" src="./images/signallossanddistortion/signal_loss_comparison.png">
+									<p class="h1">Signal Dropout</p>
 								</div>
 								<div class="fragment" data-fragment-index=0>
-									<img class="r-stretch" src="./images/distortion.png">
-									<p class="h4">Geometric Distortion</p>
+									<img class="r-stretch" src="./images/signallossanddistortion/distortion_comparison.png">
+									<p class="h1">Geometric Distortion</p>
 								</div>
 							</div>
 						</div>
@@ -119,8 +136,14 @@
 							<p class="display-1">Correcting Geometric Distortion in EPIs</p>
 							<p class="display-6 fade-left">Field Maps: Map local inhomogeneities in the magnetic field</p>
 							<div class="r-stack">
-								<img class="r-stretch fragment" src="./images/fieldmap1.png">
-								<img class="r-stretch fragment" src="./images/fieldmap2.png">
+								<div class="fragment fade-out" data-fragment-index=0>
+									<img class="r-stretch" src="./images/fieldmap_AP.png">
+									<p class="h1">Phase Encoding Direction: A >> P</p>
+								</div>
+								<div class="fragment" data-fragment-index=0>
+									<img class="r-stretch" src="./images/fieldmap_PA.png">
+									<p class="h1">Phase Encoding Direction: P >> A</p>
+								</div>
 							</div>
 						</div>
 					</section>
@@ -128,17 +151,24 @@
 						<div class="container-fluid">
 							<p class="display-1">Field maps to correct distortion</p>
 							<p class="display-6 fade-left">Correct for distortion using measured field information.</p>
-							<div class="r-stack">
-								<img class="r-stretch fragment fade-in" src="./images/SAC.png">
+							<div class="row">
+								<div class="col-5 offset-1">
+									<img class="cropped_img" style="height: 625px;" src="./images/uncorrected_epi.png">
+									<p class="h3">Uncorrected</p>
+								</div>
+								<div class="col-5">
+									<img class="cropped_img" style="height: 625px;" src="./images/corrected_epi.png">
+									<p class="h3">Corrected</p>
+								</div>
 							</div>
 						</div>
 					</section>
 					<section>
 						<div class="container-fluid">
-							<p class="display-1">If field map isn't present, distortion correction not possible (and is data unusable).</p>
+							<p class="display-1">If field map isn't present, distortion correction not possible.</p>
 							<p class="fragment display-6">Extant datasets where field map was never collected.</p>
-							<p class="fragment display-6">Study designs where extra scan collection needs to be minimized.</p>
-							<p class="fragment display-6">Can we correct for distortion without field maps?</p>
+							<p class="fragment display-6">Datasets where field map data is of poor quality.</p>
+							<p class="fragment display-4"><strong>Can we correct for distortion without field maps?</strong></p>
 						</div>
 					</section>
 				</section>
@@ -150,14 +180,23 @@
 					</section>
 					<section>
 						<div class="container-fluid">
+							<p class="display-5">Using synthetic MR images for field map-less distortion correction</p>
+							<img class="r-stretch" src="./images/preprint.png">
+							<p class="h1">Preprint on BioRxiv</p>
+						</div>
+					</section>
+					<section>
+						<div class="container-fluid">
 							<p class="display-5">Key idea: Align directly to undistorted spin echo scans (structural T1/T2) to undistort the EPI.</p>
 							<div class="r-stack">
 								<div class="row fragment">
 									<div class="col-6">
-										<img class="r-stretch cropped_img" src="./images/Synth/T2.png">
+										<img class="r-stretch cropped_img3" src="./images/Synth/T2.png">
+										<p class="h1">Anatomical (T2w)</p>
 									</div>
 									<div class="col-6">
-										<img class="r-stretch cropped_img" src="./images/Synth/func.png">
+										<img class="r-stretch cropped_img3" src="./images/Synth/func.png">
+										<p class="h1">Functional (BOLD)</p>
 									</div>
 								</div>
 							</div>
@@ -168,28 +207,34 @@
 						<div class="container-fluid">
 							<p class="display-4">Generate Synthetic Image with geometry of spin echo data, but contrast of EPI</p>
 							<div class="r-stack">
-								<div class="row fragment" data-fragment-index=0>
+								<div class="row fragment" style="margin-top: 0px; margin-bottom: 0px; margin-left: 10%; margin-right: 10%;" data-fragment-index=0>
 									<div class="col-6">
-										<img class="r-stretch cropped_img" src="./images/Synth/T2.png">
+										<img class="r-stretch cropped_img3" src="./images/Synth/T2.png">
+										<p class="h1" style="background-color: white;">Anatomical (T2w)</p>
 									</div>
 									<div class="col-6">
-										<img class="r-stretch cropped_img" src="./images/Synth/func.png">
-									</div>
-								</div>
-								<div class="row fragment" data-fragment-index=1>
-									<div class="col-6">
-										<img class="r-stretch cropped_img" src="./images/Synth/synth.png">
-									</div>
-									<div class="col-6">
-										<img class="r-stretch cropped_img" src="./images/Synth/func.png">
+										<img class="r-stretch cropped_img3" src="./images/Synth/func.png">
+										<p class="h1" style="background-color: white;">Functional (BOLD) - Distorted</p>
 									</div>
 								</div>
-								<div class="row fragment" data-fragment-index=3>
+								<div class="row fragment" style="margin-top: 0px; margin-bottom: 0px; margin-left: 10%; margin-right: 10%;" data-fragment-index=1>
 									<div class="col-6">
-										<img class="r-stretch cropped_img" src="./images/Synth/synth.png">
+										<img class="r-stretch cropped_img3" src="./images/Synth/synth.png">
+										<p class="h1" style="background-color: white;">Synthetic Functional (BOLD)</p>
 									</div>
 									<div class="col-6">
-										<img class="r-stretch cropped_img" src="./images/Synth/unwarped_func.png">
+										<img class="r-stretch cropped_img3" src="./images/Synth/func.png">
+										<p class="h1" style="background-color: white;">Functional (BOLD) - Distorted</p>
+									</div>
+								</div>
+								<div class="row fragment" style="margin-top: 0px; margin-bottom: 0px; margin-left: 10%; margin-right: 10%;" data-fragment-index=3>
+									<div class="col-6">
+										<img class="r-stretch cropped_img3" src="./images/Synth/synth.png">
+										<p class="h1" style="background-color: white;">Synthetic Functional (BOLD)</p>
+									</div>
+									<div class="col-6">
+										<img class="r-stretch cropped_img3" src="./images/Synth/unwarped_func.png">
+										<p class="h1" style="background-color: white;">Functional (BOLD) - Undistorted</p>
 									</div>
 								</div>
 							</div>
@@ -199,12 +244,115 @@
 					<section>
 						<div class="container-fluid">
 							<p class="display-1">How does it work?</p>
-							<p class="h4 fragment">Math and Paper Stuff goes here...</p>
 						</div>
 					</section>
 					<section>
 						<div class="container-fluid">
-							<p class="display-1">Some Technical Details</p>
+							<p class="display-1">Non-linear Regression</p>
+							<div class="r-stack">
+							<div class="fragment fade-in-then-out">
+								<img class="r-stretch" src="./images/Basis_Decomposition.png">
+							</div>
+							<div class="fragment fade-in-then-out">
+								<img class="r-stretch" src="./images/Intensity_Mapping.png">
+							</div>
+							</div>
+						</div>
+					</section>
+					<section>
+						<div class="container-fluid">
+							<p class="display-1">The Synth Model</p>
+							<p class="h1">
+							\[\begin{aligned}
+							\mathbf{y} = f(\mathbf{M}_{\boldsymbol{\gamma}}\mathbf{B}\mathbf{F}\boldsymbol{\theta}; \boldsymbol{\phi}) + \boldsymbol{\epsilon} \\
+							\end{aligned} \]
+							</p>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-6">
+									<p class="h2">
+										\[\begin{aligned}
+										\mathbf{y}: \text{Target EPI Image}
+										\end{aligned} \]
+									</p>
+									<p class="h2">
+										\[\begin{aligned}
+										f/\boldsymbol{\phi}: \text{Displacement Field/Parameterization}
+										\end{aligned} \]
+									</p>
+									<p class="h2">
+										\[\begin{aligned}
+										\mathbf{M}/\boldsymbol{\gamma}: \text{Affine Transform/Parameterization}
+										\end{aligned} \]
+									</p>
+								</div>
+								<div class="col-6">
+									<p class="h2">
+										\[\begin{aligned}
+										\mathbf{B}: \text{Blur Kernel}
+										\end{aligned} \]
+									</p>
+									<p class="h2">
+										\[\begin{aligned}
+										\mathbf{F}: \text{Matrix RBF Decompositions T1/T2}
+										\end{aligned} \]
+									</p>
+									<p class="h2">
+										\[\begin{aligned}
+										\boldsymbol{\theta}: \text{Regression Weights}
+										\end{aligned} \]
+									</p>
+									<p class="h2">
+										\[\begin{aligned}
+										\boldsymbol{\epsilon}: \text{Gaussian Noise}
+										\end{aligned} \]
+									</p>
+								</div>
+							</div>
+							<p class="h1 fragment">Solve for \[\begin{aligned}\boldsymbol{\phi},\boldsymbol{\gamma},\text{ and }\boldsymbol{\theta}\end{aligned} \] simultaneously.</p>
+						</div>
+					</section>
+					<section>
+						<p class="display-1">Algorithms</p>
+						<div class="r-stack">
+							<div class="fragment fade-in-then-out">
+								<img class="r-stretch" width=1000 src="./images/algo1.png">
+								<p class="h1">Algorithm 1: SynthTarget</p>
+							</div>
+							<div class="fragment fade-in-then-out">
+								<img class="r-stretch" width=1000 src="./images/algo2.png">
+								<p class="h1">Algorithm 2: SynthUnwarp</p>
+							</div>
+						</div>
+					</section>
+					<section>
+						<p class="display-1">Synth Distortion Correction</p>
+						<div class="r-stack">
+							<div class="fragment">
+								<img class="r-stretch" src="./images/synthunwarp/orig.png">
+								<p class="h1" style="background-color: white;">BOLD (Distorted)</p>
+							</div>
+							<div class="fragment">
+								<img class="r-stretch" src="./images/synthunwarp/step0.png">
+								<p class="h1" style="background-color: white;">1st Iteration</p>
+							</div>
+							<div class="fragment">
+								<img class="r-stretch" src="./images/synthunwarp/step1.png">
+								<p class="h1" style="background-color: white;">2nd Iteration</p>
+							</div>
+							<div class="fragment">
+								<img class="r-stretch" src="./images/synthunwarp/step2.png">
+								<p class="h1" style="background-color: white;">3rd Iteration</p>
+							</div>
+							<div class="fragment">
+								<img class="r-stretch" src="./images/synthunwarp/T2.png">
+								<p class="h1" style="background-color: white;">Anatomical (T2)</p>
+							</div>
+						</div>
+					</section>
+					<section>
+						<div class="container-fluid">
+							<p class="display-1">Some Technical Details...</p>
 						</div>
 					</section>
 					<section>
@@ -214,15 +362,15 @@
 							<div class="row fragment">
 								<div class="col-4 offset-2">
 									<div class="row">
-										<p class="h3 text-start">WIP Features:</p>
-										<ul class="h3">
+										<p class="h2 text-start">WIP Features:</p>
+										<ul class="h2">
 											<li>Auto-differentiation</li>
 											<li>GPU optimization</li>
 										</ul>
 									</div>
 									<div class="row">
-										<p class="h3 text-start">Library follows modern software engineering practices:</p>
-										<ul class="h3">
+										<p class="h2 text-start">Library follows modern software engineering practices:</p>
+										<ul class="h2">
 											<li>Automated Code Quality Reports</li>
 											<li>Unit Testing</li>
 											<li>Continuous Integration</li>
@@ -248,9 +396,9 @@
 						<p class="display-6 fragment" data-fragment-index=0>Diffusion Tensor Imaging</p>
 						<div class="r-stack">
 							<img class="fragment" data-fragment-index=1 width=600 src="./images/wmt.jpg">
-							<img class="fragment" data-fragment-index=3 height=600 src="./images/susceptibility_artefact.png">
+							<img class="fragment" style="background-color: white;" data-fragment-index=3 height=600 src="./images/susceptibility_artefact.png">
 						</div>
-						<p class="h4 fragment" data-fragment-index=2>Tool for studying white matter tractography</p>
+						<p class="h2 fragment" data-fragment-index=2>Tool for studying white matter tractography</p>
 					</div>
 				</section>
 				<section data-auto-animate>
@@ -258,39 +406,55 @@
 						<p class="display-1">Three Key Areas</p>
 						<p class="display-6 fragment">Datasets with limited access to both T1/T2</p>
 						<div class="r-stack">
-							<div class="fragment fade-in-then-out" style="margin: 0;">
-								<p class="display-6">Collection of both a T1 and T2 image in a study design may be time or cost prohibitive.</p>
-								<p class="display-6">Image quality of one of the structurals may be poor.</p>
-								<p class="display-6">Can we use Synth with just one structural?</p>
+							<div style="margin: unset;">
+								<div class="fragment" style="margin: 0;">
+									<p class="h2" style="background-color: white;">Collection of both a T1w and T2w images in a study design may be time or cost prohibitive.</p>
+								</div>
+								<div class="fragment" style="margin: 0;">
+									<p class="h2" style="background-color: white;">Even if both images are collected, image quality of one or more structurals may be poor.</p>
+								</div>
+								<div class="fragment" style="margin: 0;">
+									<p class="h2" style="background-color: white;">T1-weighted image often collected over T2-weighted image (For Anatomical Segmentation)</p>
+								</div>
+								<div class="fragment" style="margin: 0;">
+									<p class="h2" style="background-color: white;">Can we distortion correct with Synth using a T1-weighted image?</p>
+								</div>
 							</div>
 							<div class="fragment fade-in-then-out">
-								<img src="./images/limited/func.png" class="r-stretch">
-								<p class="h4">EPI (BOLD)</p>
-							</div>
-							<div class="fragment fade-in-then-out">
-								<img src="./images/limited/synth.png" class="r-stretch">
-								<p class="h4">Synthetic (T1/T2)</p>
-							</div>
-							<div class="fragment fade-in-then-out">
-								<img src="./images/limited/syntht2.png" class="r-stretch">
-								<p class="h4">Synthetic (T2)</p>
-							</div>
-							<div class="fragment fade-in-then-out">
-								<img src="./images/limited/syntht1.png" class="r-stretch">
-								<p class="h4">Synthetic (T1)</p>
+								<img src="./images/synthetic_image_comparison.png" style="max-width: 80%;" class="r-stretch">
+								<p class="h2">Synthetic Image Comparison</p>
+								<div class="row">
+									<div class="col-4 offset-2">
+										<p class="h2"><strong>(a)</strong> Real Functional</p>
+										<p class="h2"><strong>(c)</strong> Synthetic Functional (T1w-only)</p>
+									</div>
+									<div class="col-4">
+										<p class="h2"><strong>(b)</strong> Synthetic Functional (T1w/T2w)</p>
+										<p class="h2"><strong>(d)</strong> Synthetic Functional (T2w-only)</p>
+									</div>
+								</div>
+								
 							</div>
 						</div>
 					</div>
 				</section>
 				<section data-auto-animate>
-					<div class="container-flzuid">
+					<div class="container-fluid">
 						<p class="display-1">Three Key Areas</p>
 						<p class="display-5">Multi-echo fMRI</p>
-						<div class="fragment">
-							<img width=800 src="./images/multiecho/physics_kundu_2017_multiple_echoes.jpg" class="r-stretch">
-							<p class="h4">Example of multi-echo data.</p>
+						<p class="h2 fragment">Researchers have begun to explore multi-echo fMRI sequences in order to improve reliability and facilitate the removal of artifacts from fMRI data.</p>
+						<p class="h2 fragment">Can we take advantage of multi-echo information to improve Synth?</p>
+						<div class="r-stack">
+							<div class="fragment fade-in-then-out">
+								<img width=800 src="./images/exponential_decay.png" class="r-stretch">
+								<p class="h2">Using multiple echoes to fit an exponential decay model to find T<sub>2</sub><sup>*</sup> and S<sub>0</sub>.</p>
+							</div>
+							<div class="fragment">
+								<img width=800 src="./images/multiecho/physics_kundu_2017_multiple_echoes.jpg" class="r-stretch">
+								<p class="h2">Example of multi-echo data.</p>
+							</div>
 						</div>
-						<p class="h4 fragment">Avoid signal dropout by combining information from earlier echos.</p>
+						<p class="h2 fragment">Avoiding signal loss by combining information from multiple echos.</p>
 					</div>
 				</section>
 				<section data-auto-animate>
@@ -315,56 +479,59 @@
 							<p class="display-5">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
 							<div class="row">
 								<div class="col-12">
-									<p class="h4 fragment fade-left">Hypothesis 1a: A Synth model parameter tuned to DTI image contrast will generate a synthetic image of high contrast similarity to a DTI image.</p> 
-									<p class="h4 fragment fade-left">Hypothesis 1b: By employing a synthetic DTI image as a non-linear registration target, there will be an improvement in global/local geometric correspondence between DTI and structural images.</p>
-									<p class="h4 fragment fade-left">Hypothesis 1c: A DTI-based Synth correction method will produce reduced variance in parameters of interest in DTI data with comparable outcomes to traditional field map methods.</p>
+									<p class="h2 fragment fade-left">Hypothesis 1a: A Synth model parameter tuned to DTI image contrast will generate a synthetic image of high contrast similarity to a DTI image.</p> 
+									<p class="h2 fragment fade-left">Hypothesis 1b: By employing a synthetic DTI image as a non-linear registration target, there will be an improvement in global/local geometric correspondence between DTI and structural images.</p>
+									<p class="h2 fragment fade-left">Hypothesis 1c: A DTI-based Synth correction method will produce reduced variance in parameters of interest in DTI data with comparable outcomes to traditional field map methods.</p>
 								</div>
 							</div>
 						</div>
 					</section>
 					<section data-auto-animate="">
-						<p class="h4">Hypothesis 1a: A Synth model parameter tuned to DTI image contrast will generate a synthetic image of high contrast similarity to a DTI image.</p> 
+						<p class="h2">Hypothesis 1a: A Synth model parameter tuned to DTI image contrast will generate a synthetic image of high contrast similarity to a DTI image.</p> 
 						<img class="fragment" src="./images/contrast_similarity.png">
-						<p class="h4 fragment">Contrast similarity between synthetic and real EPI</p>
+						<p class="h2 fragment">Contrast similarity between synthetic and real EPI</p>
 					</section>
 					<section data-auto-animate>
 						<div class="container-fluid">
 							<p class="display-5">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
 							<div class="row">
 								<div class="col-12">
-									<p class="h4 lightgray">Hypothesis 1a: A Synth model parameter tuned to DTI image contrast will generate a synthetic image of high contrast similarity to a DTI image.</p> 
-									<p class="h4">Hypothesis 1b: By employing a synthetic DTI image as a non-linear registration target, there will be an improvement in global/local geometric correspondence between DTI and structural images.</p>
-									<p class="h4">Hypothesis 1c: A DTI-based Synth correction method will produce reduced variance in parameters of interest in DTI data with comparable outcomes to traditional field map methods.</p>
+									<p class="h2 lightgray">Hypothesis 1a: A Synth model parameter tuned to DTI image contrast will generate a synthetic image of high contrast similarity to a DTI image.</p> 
+									<p class="h2">Hypothesis 1b: By employing a synthetic DTI image as a non-linear registration target, there will be an improvement in global/local geometric correspondence between DTI and structural images.</p>
+									<p class="h2">Hypothesis 1c: A DTI-based Synth correction method will produce reduced variance in parameters of interest in DTI data with comparable outcomes to traditional field map methods.</p>
 								</div>
 							</div>
 						</div>
 					</section>
 					<section data-auto-animate="">
-						<p class="h4">Hypothesis 1b: By employing a synthetic DTI image as a non-linear registration target, there will be an improvement in global/local geometric correspondence between DTI and structural images.</p>
+						<p class="h2">Hypothesis 1b: By employing a synthetic DTI image as a non-linear registration target, there will be an improvement in global/local geometric correspondence between DTI and structural images.</p>
 						<div class="r-stack">
 							<img class="r-stretch fragment fade-in-then-out" src="./images/metrics/metrica.png">
 							<img class="r-stretch fragment fade-in-then-out" src="./images/metrics/metricb.png">
 							<img class="r-stretch fragment fade-in-then-out" src="./images/metrics/metricc.png">
 							<img class="r-stretch fragment fade-in-then-out" src="./images/metrics/regional_metrics.png">
 						</div>
-						<p class="h4">Local/Global metrics of image similarity</p>
+						<p class="h2 fragment" data-fragment-index=0 style="margin-top: unset; margin-bottom: unset;">Local/Global metrics of image similarity</p>
 					</section>
 					<section data-auto-animate>
 						<div class="container-fluid">
 							<p class="display-5">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
 							<div class="row">
 								<div class="col-12">
-									<p class="h4 lightgray">Hypothesis 1a: A Synth model parameter tuned to DTI image contrast will generate a synthetic image of high contrast similarity to a DTI image.</p> 
-									<p class="h4 lightgray">Hypothesis 1b: By employing a synthetic DTI image as a non-linear registration target, there will be an improvement in global/local geometric correspondence between DTI and structural images.</p>
-									<p class="h4">Hypothesis 1c: A DTI-based Synth correction method will produce reduced variance in parameters of interest in DTI data with comparable outcomes to traditional field map methods.</p>
+									<p class="h2 lightgray">Hypothesis 1a: A Synth model parameter tuned to DTI image contrast will generate a synthetic image of high contrast similarity to a DTI image.</p> 
+									<p class="h2 lightgray">Hypothesis 1b: By employing a synthetic DTI image as a non-linear registration target, there will be an improvement in global/local geometric correspondence between DTI and structural images.</p>
+									<p class="h2">Hypothesis 1c: A DTI-based Synth correction method will produce reduced variance in parameters of interest in DTI data with comparable outcomes to traditional field map methods.</p>
 								</div>
 							</div>
 						</div>
 					</section>
 					<section data-auto-animate="">
-						<p class="h4">Hypothesis 1c: A DTI-based Synth correction method will produce reduced variance in parameters of interest in DTI data with comparable outcomes to traditional field map methods.</p>
-						<img src="./images/metrics/reliability_metrics.png">
-						<p class="h4">Metrics measuring reliability of data</p>
+						<p class="h2">Hypothesis 1c: A DTI-based Synth correction method will produce reduced variance in parameters of interest in DTI data with comparable outcomes to traditional field map methods.</p>
+						<div class="r-stack">
+							<img class="r-stretch fragment" src="./images/metrics/reliability_metrics.png">
+						</div>
+						<p class="h2 fragment">Metrics measuring reliability of data</p>
+						<p class="h2 fragment">For DTI, an equivalent measure would be the reliability of Fractional Anisotrophy maps.</p>
 					</section>
 				</section>
 				<section data-background-color="#000000">
@@ -376,28 +543,28 @@
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/abita/T2.png" class="r-stretch" alt="T2">
-						<p class="h4">Abita (T2)</p>
+						<p class="h2">Abita (T2)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/abita/Distorted_B0.png" class="r-stretch" alt="T2">
-						<p class="h4">Abita (Distorted B0)</p>
+						<p class="h2">Abita (Distorted B0)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/abita/Undistorted_B0.png" class="r-stretch" alt="T2">
-						<p class="h4">Abita (Undistorted B0)</p>
+						<p class="h2">Abita (Undistorted B0)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/abita/T2.png" class="r-stretch" alt="T2">
-						<p class="h4">Abita (T2)</p>
+						<p class="h2">Abita (T2)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
@@ -407,28 +574,28 @@
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/bassador/T2.png" class="r-stretch" alt="T2">
-						<p class="h4">Bassador (T2)</p>
+						<p class="h2">Bassador (T2)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/bassador/Distorted_B0.png" class="r-stretch" alt="T2">
-						<p class="h4">Bassador (Distorted B0)</p>
+						<p class="h2">Bassador (Distorted B0)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/bassador/Undistorted_B0.png" class="r-stretch" alt="T2">
-						<p class="h4">Bassador (Undistorted B0)</p>
+						<p class="h2">Bassador (Undistorted B0)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/bassador/T2.png" class="r-stretch" alt="T2">
-						<p class="h4">Bassador (T2)</p>
+						<p class="h2">Bassador (T2)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
@@ -438,28 +605,28 @@
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/cidre/T2.png" class="r-stretch" alt="T2">
-						<p class="h4">Cidre (T2)</p>
+						<p class="h2">Cidre (T2)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/cidre/Distorted_B0.png" class="r-stretch" alt="T2">
-						<p class="h4">Cidre (Distorted B0)</p>
+						<p class="h2">Cidre (Distorted B0)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/cidre/Undistorted_B0.png" class="r-stretch" alt="T2">
-						<p class="h4">Cidre (Undistorted B0)</p>
+						<p class="h2">Cidre (Undistorted B0)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
 					</section>
 					<section data-transition="none">
 						<img src="./images/primates/cidre/T2.png" class="r-stretch" alt="T2">
-						<p class="h4">Cidre (T2)</p>
+						<p class="h2">Cidre (T2)</p>
 						<div class="footer">
 							<p>Data collected by Shashank Anand</p>
 						</div>
@@ -618,7 +785,6 @@
 						<p class="display-6">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
 						<p class="display-6">Aim 2: Extend Synth field map-less EPI distortion correction to in limited data settings.</p>
 						<p class="display-6">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
-						<p class="display-1 fragment">Reliable alternative for distortion correction.</p>
 					</div>
 				</section>
 				<section data-auto-animate>
@@ -627,7 +793,10 @@
 						<p class="h4">Aim 1: Apply Synth field map-less EPI distortion correction to diffusion tensor imaging.</p>
 						<p class="h4">Aim 2: Extend Synth field map-less EPI distortion correction to in limited data settings.</p>
 						<p class="h4">Aim 3: Extend Synth to leverage multi-echo fMRI data to improve synthetic EPI image generation.</p>
-						<p class="display-1">Reduced reliance on field maps!</p>
+						<div class="r-stack">
+							<p class="display-1 fragment fade-in-then-out">Reliable alternative for distortion correction.</p>
+							<p class="display-1 fragment">Reduced reliance on field maps.</p>
+						</div>
 					</div>
 				</section>
 			</div>
@@ -638,6 +807,7 @@
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/math/math.js"></script>
 		<script>
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
@@ -646,6 +816,7 @@
 				hash: true,
 				transition: 'fade',
 				progress: false,
+				slideNumber: true,
 				// The "normal" size of the presentation, aspect ratio will
 				// be preserved when the presentation is scaled to fit different
 				// resolutions. Can be specified using percentage units.
@@ -660,7 +831,7 @@
 				minScale: 0.2,
 				maxScale: 2.0,
 				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath ]
 			});
 		</script>
 	</body>
