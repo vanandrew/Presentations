@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Andrew Van">
+  <meta name="dcterms.date" content="2023-03-22">
+  <title>Framewise distortion correction using multi-echo phase data</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    <style>
+    :root {
+        --r-main-font-size: 24px;
+    }
+    </style>  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/black.css" id="theme">
+  <style>
+  :root {
+      --r-main-font-size: 24px;
+  }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Framewise distortion correction using multi-echo
+phase data</h1>
+  <p class="author">Andrew Van</p>
+  <p class="date">March 22, 2023</p>
+</section>
+
+<section id="overview" class="slide level2">
+<h2>Overview</h2>
+<ul>
+<li>Some MR physics background</li>
+<li>A walkthrough of the framewise
+<strong>M</strong>ulti-<strong>E</strong>cho <strong>DI</strong>stortion
+<strong>C</strong>orrection (MEDIC) algorithm</li>
+<li>Results</li>
+</ul>
+</section>
+<section id="some-background-mri-physics" class="slide level2">
+<h2>Some Background MRI Physics…</h2>
+</section>
+<section id="echo-planar-imaging-epi" class="slide level2">
+<h2>Echo Planar Imaging (EPI)</h2>
+<p>A single readout train through k-space:</p>
+<p><img data-src="imgs/epi_diagram.png" /></p>
+<p>Gradients control readout train.</p>
+<p>$$s[k_x, k_y] = \int \int \rho(x,y) e^{-j2\pi(k_x(t)x + k_y(t)y)} dx
+dy$$</p>
+<p>$$k_r(t) = \bar{\gamma} \int^t G_r(t^{\prime}) dt^{\prime}$$</p>
+</section>
+<section id="in-the-presence-of-b0-inhomogeneities"
+class="slide level2">
+<h2>In the presence of B0 inhomogeneities…</h2>
+<p>Inhomogeneities add an extra term to the phase:</p>
+<p>$$s[k_x, k_y] = \int \int \rho(x,y) e^{-j2\pi(\bar{\gamma} \Delta
+B_0(x,y) t + k_x(t)x + k_y(t)y)} dx dy$$</p>
+<p>The inhomogeneity term is a spatially varying phase roll, which has
+the following effect on the signal (assuming readout direction x and
+phase-encoding direction y):</p>
+<p>$$\rho(x - \gamma \Delta B_0(x,y) \tau_{dwell}, y - {\gamma} \Delta
+B_0(x,y) \tau_{readout})$$</p>
+<p>where $\tau_{dwell}$ is the time between k-space samples and
+$\tau_{readout}$ is the time between the first and last echoes of the
+readout train. Since $\tau_{dwell}$ is very small, distortion in readout
+is negligible, but $\tau_{readout}$ is long enough to see significant
+distortion in phase encoding direction.</p>
+</section>
+<section id="correcting-for-distortion-caused-by-b0-inhomogeneities"
+class="slide level2">
+<h2>Correcting for distortion caused by B0 inhomogeneities</h2>
+<p>Correcting distortion requires measuring $\gamma \Delta B_0(x,y)$
+(i.e. field map).</p>
+<p>Two approaches:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Phase Difference</th>
+<th style="text-align: center;">Reverse Phase Encoding</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img
+data-src="imgs/phase_difference.png" /></td>
+<td style="text-align: center;"><img data-src="imgs/rpe.png" /></td>
+</tr>
+</tbody>
+</table>
+<p>The Multi-Echo Distortion Correction (MEDIC) algorithm uses the phase
+difference approach.</p>
+</section>
+<section id="medic" class="slide level2">
+<h2>MEDIC</h2>
+</section>
+<section id="relationship-between-echo-time-phase-and-the-field-map"
+class="slide level2">
+<h2>Relationship between echo time, phase and the field map</h2>
+<p>The difference in phase between two echoes is proportional to the
+field map:</p>
+<p>$$\Delta \phi(x,y) = \gamma \Delta B_0(x,y) (t_{echo2} -
+t_{echo1})$$</p>
+<p>This effectively says that the field map is the slope of the line
+relating the echo time to the phase. Then with multiple echoes, $\gamma
+\Delta B_0(x,y)$ that satisfies the equation:</p>
+<p>$$\begin{bmatrix} \phi_1(x,y) \\ \phi_2(x,y) \\ \vdots \\ \phi_n(x,y)
+\end{bmatrix} = \gamma \Delta B_0(x,y) \begin{bmatrix} t_{1} \\ t_{2} \\
+\vdots \\ t_{n} \end{bmatrix}$$</p>
+</section>
+<section id="in-practice" class="slide level2">
+<h2>In Practice…</h2>
+</section>
+<section id="practical-issue-1-phase-wraps" class="slide level2">
+<h2>Practical Issue 1: Phase wraps</h2>
+<p>Raw phase measurements collected off the scanner are wrapped between
+$-\pi$ and $\pi$:</p>
+<p><img data-src="imgs/wrapped_phase.png" /></p>
+</section>
+<section id="practical-issue-2-phase-offsets" class="slide level2">
+<h2>Practical Issue 2: Phase offsets</h2>
+<p>The linear model assumes phase $\phi(x,y) = 0$ if $t = 0$. This is
+not true in practice due to imperfections in the receiver coils and coil
+combination algorithms. A more realistic model would be:</p>
+<p>$$\begin{bmatrix} \phi_1(x,y) \\ \phi_2(x,y) \\ \vdots \\ \phi_n(x,y)
+\end{bmatrix} = \gamma \Delta B_0(x,y) \begin{bmatrix} t_{1} \\ t_{2} \\
+\vdots \\ t_{n} \end{bmatrix} + \phi_{offset}(x,y)$$</p>
+<p>where $\phi_{offset}(x,y)$ is a spatially dependent phase offset.</p>
+</section>
+<section id="practical-issue-3-non-uniqueness" class="slide level2">
+<h2>Practical Issue 3: Non-uniqueness</h2>
+<p>$$\begin{bmatrix} \phi_1(x,y) + 2\pi N_1 \\ \phi_2(x,y) + 2\pi N_2 \\
+\vdots \\ \phi_n(x,y) + 2\pi N_n \end{bmatrix} = \gamma \Delta B_0(x,y)
+\begin{bmatrix} t_{1} \\ t_{2} \\ \vdots \\ t_{n} \end{bmatrix}$$</p>
+<p>From the perspective of phase, there is no difference between a phase
+value of $\phi$ and some $2\pi$ multiple offset of it (i.e. $\phi + 2\pi
+N$). This means that there are an infinite number of solutions to the
+above equation.</p>
+</section>
+<section id="assumptions" class="slide level2">
+<h2>Assumptions</h2>
+<p>To solve these issues, we make the following assumptions:</p>
+<ol type="1">
+<li>The phase is spatially smooth.</li>
+<li>Phase evolves linearly with time.</li>
+<li>The global accumulation of phase at echo time 1 is low (more
+specifically between $[-\pi, \pi]$).</li>
+<li>Frames with similar head positions have similar unwrapped phase
+values.</li>
+</ol>
+</section>
+<section id="the-medic-algorithm" class="slide level2">
+<h2>The MEDIC Algorithm</h2>
+</section>
+<section id="step-1-correcting-phase-offsets-and-unwrapping"
+class="slide level2">
+<h2>Step 1: Correcting phase offsets and unwrapping</h2>
+<p>Two algorithms:</p>
+<p>Multi-Channel Phase Combination using measured 3D phase offsets,
+Simplified (MCPC-3D-S): For phase offset correction</p>
+<p>Rapid Opensource Minimum spanning treE algOrithm (ROMEO): For phase
+unwrapping</p>
+</section>
+<section id="phase-offset-correction-using-mcpc-3d-s-and-romeo"
+class="slide level2">
+<h2>Phase offset correction using MCPC-3D-S and ROMEO</h2>
+<p>MCPC-3D-S removes phase offsets through estimating an unwrapped phase
+difference between echoes and predicting the phase offset (assuming
+linear phase evolution).</p>
+<figure>
+<img data-src="imgs/phase_offset.png"
+alt="Computed phase offset which are removed from all echos" />
+<figcaption aria-hidden="true">Computed phase offset which are removed
+from all echos</figcaption>
+</figure>
+<blockquote>
+<p><strong><em>NOTE:</em></strong> After this step, the only operations
+applied to the phase data is adding or subtracting multiples of
+$2\pi$.</p>
+</blockquote>
+</section>
+<section id="phase-unwrapping-using-romeo" class="slide level2">
+<h2>Phase unwrapping using ROMEO</h2>
+<p>ROMEO unwraps phase through a path based unwrapping algorithm. The
+path is detemined through several quality metrics, all based around
+varying smoothness criterion on the values/gradients of the
+phase/magnitude images. ROMEO imposes a linear constraint on the
+unwrapping solutions of phase across echoes.</p>
+<figure>
+<img data-src="imgs/unwrapped_phase.png"
+alt="Unwrapped phase using ROMEO" />
+<figcaption aria-hidden="true">Unwrapped phase using ROMEO</figcaption>
+</figure>
+</section>
+<section id="step-2-global-mode-offset-correction" class="slide level2">
+<h2>Step 2: Global mode offset correction</h2>
+<p>As previously mentioned, unwrapping solutions are non-unique. We can
+force uniqueness by assuming that the modal global accumulation of phase
+at echo time 1, is within the range $-\pi$ and $\pi$. This forces a
+unique solution.</p>
+</section>
+<section id="step-3-temporal-correction" class="slide level2">
+<h2>Step 3: Temporal Correction</h2>
+<p>For each TR, compare the phase unwrapping solutions for TRs where the
+head is positioned similarly. Then for each voxel, compute any $2\pi$
+multiple offsets that would make the phase unwrapping solutions close to
+the mean.</p>
+<p>This seems to have the greatest effect for voxels where SNR is low,
+and stabilizes the solutions temporally.</p>
+</section>
+<section id="results" class="slide level2">
+<h2>Results</h2>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js/plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://unpkg.com/reveal.js/plugin/math/math.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: true,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        math: {
+          mathjax: '',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['$','$']],
+            displayMath: [['$$','$$']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
