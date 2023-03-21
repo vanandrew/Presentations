@@ -1,0 +1,80 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vis-network@latest/styles/vis-network.css" type="text/css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vis-network@latest/dist/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1280px;
+            height: 720px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": {"background": "rgba(255,0,0,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(255,0,0,255)"}}, "id": 0, "label": "0", "network": 1, "shape": "dot", "size": 10, "title": "0"}, {"color": {"background": "rgba(0,0,153,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(0,0,153,255)"}}, "id": 1, "label": "1", "network": 2, "shape": "dot", "size": 10, "title": "1"}, {"color": {"background": "rgba(255,153,255,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(255,153,255,255)"}}, "id": 8, "label": "8", "network": 6, "shape": "dot", "size": 10, "title": "8"}, {"color": {"background": "rgba(255,178,102,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(255,178,102,255)"}}, "id": 4, "label": "4", "network": 4, "shape": "dot", "size": 10, "title": "4"}, {"color": {"background": "rgba(255,178,102,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(255,178,102,255)"}}, "id": 3, "label": "3", "network": 4, "shape": "dot", "size": 10, "title": "3"}, {"color": {"background": "rgba(0,153,153,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(0,153,153,255)"}}, "id": 9, "label": "9", "network": 7, "shape": "dot", "size": 10, "title": "9"}, {"color": {"background": "rgba(255,153,255,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(255,153,255,255)"}}, "id": 7, "label": "7", "network": 6, "shape": "dot", "size": 10, "title": "7"}, {"color": {"background": "rgba(255,255,0,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(255,255,0,255)"}}, "id": 2, "label": "2", "network": 3, "shape": "dot", "size": 10, "title": "2"}, {"color": {"background": "rgba(51,255,255,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(51,255,255,255)"}}, "id": 13, "label": "13", "network": 10, "shape": "dot", "size": 10, "title": "13"}, {"color": {"background": "rgba(0,204,0,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(0,204,0,255)"}}, "id": 6, "label": "6", "network": 5, "shape": "dot", "size": 10, "title": "6"}, {"color": {"background": "rgba(0,204,0,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(0,204,0,255)"}}, "id": 5, "label": "5", "network": 5, "shape": "dot", "size": 10, "title": "5"}, {"color": {"background": "rgba(51,255,255,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(51,255,255,255)"}}, "id": 12, "label": "12", "network": 10, "shape": "dot", "size": 10, "title": "12"}, {"color": {"background": "rgba(255,127,0,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(255,127,0,255)"}}, "id": 15, "label": "15", "network": 11, "shape": "dot", "size": 10, "title": "15"}, {"color": {"background": "rgba(255,127,0,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(255,127,0,255)"}}, "id": 14, "label": "14", "network": 11, "shape": "dot", "size": 10, "title": "14"}, {"color": {"background": "rgba(76,0,153,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(76,0,153,255)"}}, "id": 11, "label": "11", "network": 9, "shape": "dot", "size": 10, "title": "11"}, {"color": {"background": "rgba(76,0,153,255)", "border": "rgba(0,0,0,255)", "highlight": {"background": "rgba(76,0,153,255)"}}, "id": 10, "label": "10", "network": 9, "shape": "dot", "size": 10, "title": "10"}]);
+        edges = new vis.DataSet([{"from": 0, "label": 1, "to": 1, "weight": 1}, {"from": 0, "label": 1, "to": 8, "weight": 1}, {"from": 0, "label": 1, "to": 4, "weight": 1}, {"from": 0, "label": 1, "to": 3, "weight": 1}, {"from": 0, "label": 1, "to": 9, "weight": 1}, {"from": 0, "label": 1, "to": 7, "weight": 1}, {"from": 1, "label": 1, "to": 4, "weight": 1}, {"from": 1, "label": 1, "to": 2, "weight": 1}, {"from": 1, "label": 1, "to": 3, "weight": 1}, {"from": 8, "label": 1, "to": 9, "weight": 1}, {"from": 8, "label": 1, "to": 13, "weight": 1}, {"from": 8, "label": 1, "to": 4, "weight": 1}, {"from": 4, "label": 1, "to": 13, "weight": 1}, {"from": 4, "label": 1, "to": 2, "weight": 1}, {"from": 4, "label": 1, "to": 6, "weight": 1}, {"from": 3, "label": 1, "to": 2, "weight": 1}, {"from": 3, "label": 1, "to": 5, "weight": 1}, {"from": 3, "label": 1, "to": 7, "weight": 1}, {"from": 3, "label": 1, "to": 12, "weight": 1}, {"from": 9, "label": 1, "to": 15, "weight": 1}, {"from": 9, "label": 1, "to": 14, "weight": 1}, {"from": 9, "label": 1, "to": 7, "weight": 1}, {"from": 7, "label": 1, "to": 12, "weight": 1}, {"from": 2, "label": 1, "to": 6, "weight": 1}, {"from": 2, "label": 1, "to": 5, "weight": 1}, {"from": 6, "label": 1, "to": 11, "weight": 1}, {"from": 5, "label": 1, "to": 10, "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {"edges": {"color": {"inherit": false}, "font": {"size": 10}, "smooth": false}, "physics": {"minVelocity": 0.75}};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
