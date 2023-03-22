@@ -42,9 +42,9 @@ phase data</h1>
 <h2>Overview</h2>
 <ul>
 <li>Some MR physics background</li>
-<li>A walkthrough of the framewise
-<strong>M</strong>ulti-<strong>E</strong>cho <strong>DI</strong>stortion
-<strong>C</strong>orrection (MEDIC) algorithm</li>
+<li>Overview of <strong>M</strong>ulti-<strong>E</strong>cho
+<strong>DI</strong>stortion <strong>C</strong>orrection (MEDIC)
+algorithm</li>
 <li>Results</li>
 </ul>
 </section>
@@ -56,25 +56,25 @@ phase data</h1>
 <p>A single readout train through k-space:</p>
 <p><img data-src="imgs/epi_diagram.png" /></p>
 <p>Gradients control readout train.</p>
-<p>$$s[k_x, k_y] = \int \int \rho(x,y) e^{-j2\pi(k_x(t)x + k_y(t)y)} dx
+<p>$$s[k_x, k_y] = \int \int \rho(x,y) e^{-j(k_x(t)x + k_y(t)y)} dx
 dy$$</p>
-<p>$$k_r(t) = \bar{\gamma} \int^t G_r(t^{\prime}) dt^{\prime}$$</p>
+<p>$$k_r(t) = \gamma \int^t G_r(t^{\prime}) dt^{\prime}$$</p>
 </section>
 <section id="in-the-presence-of-b0-inhomogeneities"
 class="slide level2">
 <h2>In the presence of B0 inhomogeneities…</h2>
 <p>Inhomogeneities add an extra term to the phase:</p>
-<p>$$s[k_x, k_y] = \int \int \rho(x,y) e^{-j2\pi(\bar{\gamma} \Delta
-B_0(x,y) t + k_x(t)x + k_y(t)y)} dx dy$$</p>
+<p>$$s[k_x, k_y] = \int \int \rho(x,y) e^{-j(\gamma \Delta B_0(x,y) t +
+k_x(t)x + k_y(t)y)} dx dy$$</p>
 <p>The inhomogeneity term is a spatially varying phase roll, which has
 the following effect on the signal (assuming readout direction x and
 phase-encoding direction y):</p>
-<p>$$\rho(x - \gamma \Delta B_0(x,y) \tau_{dwell}, y - {\gamma} \Delta
-B_0(x,y) \tau_{readout})$$</p>
+<p>$$\rho(x - (\gamma \Delta B_0(x,y) \tau_{dwell}), y - ({\gamma}
+\Delta B_0(x,y) \tau_{readout}))$$</p>
 <p>where $\tau_{dwell}$ is the time between k-space samples and
 $\tau_{readout}$ is the time between the first and last echoes of the
 readout train. Since $\tau_{dwell}$ is very small, distortion in readout
-is negligible, but $\tau_{readout}$ is long enough to see significant
+is negligible, but $\tau_{readout}$ is large enough to see significant
 distortion in phase encoding direction.</p>
 </section>
 <section id="correcting-for-distortion-caused-by-b0-inhomogeneities"
@@ -98,22 +98,45 @@ data-src="imgs/phase_difference.png" /></td>
 </tr>
 </tbody>
 </table>
-<p>The Multi-Echo Distortion Correction (MEDIC) algorithm uses the phase
+<p>The Multi-Echo DIstortion Correction (MEDIC) algorithm uses the phase
 difference approach.</p>
 </section>
 <section id="medic" class="slide level2">
 <h2>MEDIC</h2>
 </section>
+<section id="what-is-medic" class="slide level2">
+<h2>What is MEDIC?</h2>
+<p>MEDIC is an algorithm that extracts field maps from the phase
+information of multi-echo EPI data. This removes the need for a separate
+field map acquisition:</p>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/traditional_fmap.png"
+alt="Example of Reverse Phase Encode Acquisition. Field mapping is done before/after a BOLD run." />
+<figcaption aria-hidden="true">Example of Reverse Phase Encode
+Acquisition. Field mapping is done before/after a BOLD run.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/medic_fmap.png"
+alt="In MEDIC, field maps are computed from the phase information of ME-EPI, which allows for measurement of field frame-to-frame." />
+<figcaption aria-hidden="true">In MEDIC, field maps are computed from
+the phase information of ME-EPI, which allows for measurement of field
+frame-to-frame.</figcaption>
+</figure>
+</div>
+</div>
+</section>
 <section id="relationship-between-echo-time-phase-and-the-field-map"
 class="slide level2">
 <h2>Relationship between echo time, phase and the field map</h2>
-<p>The difference in phase between two echoes is proportional to the
+<p>The slope of the relationship between phase and echo time is the
 field map:</p>
-<p>$$\Delta \phi(x,y) = \gamma \Delta B_0(x,y) (t_{echo2} -
-t_{echo1})$$</p>
-<p>This effectively says that the field map is the slope of the line
-relating the echo time to the phase. Then with multiple echoes, $\gamma
-\Delta B_0(x,y)$ that satisfies the equation:</p>
+<p>$$\phi(x,y) = \gamma \Delta B_0(x,y) t_{echo}$$</p>
+<p>For $n$ echoes, we want to find $\gamma \Delta B_0(x,y)$ that
+satisfies the equation:</p>
 <p>$$\begin{bmatrix} \phi_1(x,y) \\ \phi_2(x,y) \\ \vdots \\ \phi_n(x,y)
 \end{bmatrix} = \gamma \Delta B_0(x,y) \begin{bmatrix} t_{1} \\ t_{2} \\
 \vdots \\ t_{n} \end{bmatrix}$$</p>
@@ -130,8 +153,8 @@ $-\pi$ and $\pi$:</p>
 <section id="practical-issue-2-phase-offsets" class="slide level2">
 <h2>Practical Issue 2: Phase offsets</h2>
 <p>The linear model assumes phase $\phi(x,y) = 0$ if $t = 0$. This is
-not true in practice due to imperfections in the receiver coils and coil
-combination algorithms. A more realistic model would be:</p>
+not true in practice due to off-resonance effects in the receiver coils.
+A more realistic model would be:</p>
 <p>$$\begin{bmatrix} \phi_1(x,y) \\ \phi_2(x,y) \\ \vdots \\ \phi_n(x,y)
 \end{bmatrix} = \gamma \Delta B_0(x,y) \begin{bmatrix} t_{1} \\ t_{2} \\
 \vdots \\ t_{n} \end{bmatrix} + \phi_{offset}(x,y)$$</p>
@@ -144,8 +167,8 @@ combination algorithms. A more realistic model would be:</p>
 \begin{bmatrix} t_{1} \\ t_{2} \\ \vdots \\ t_{n} \end{bmatrix}$$</p>
 <p>From the perspective of phase, there is no difference between a phase
 value of $\phi$ and some $2\pi$ multiple offset of it (i.e. $\phi + 2\pi
-N$). This means that there are an infinite number of solutions to the
-above equation.</p>
+N$). This means that there is no unique solution to the above
+equation.</p>
 </section>
 <section id="assumptions" class="slide level2">
 <h2>Assumptions</h2>
@@ -153,14 +176,14 @@ above equation.</p>
 <ol type="1">
 <li>The phase is spatially smooth.</li>
 <li>Phase evolves linearly with time.</li>
-<li>The global accumulation of phase at echo time 1 is low (more
+<li>The global accumulation of phase at the 1st echo is low (more
 specifically between $[-\pi, \pi]$).</li>
 <li>Frames with similar head positions have similar unwrapped phase
 values.</li>
 </ol>
 </section>
-<section id="the-medic-algorithm" class="slide level2">
-<h2>The MEDIC Algorithm</h2>
+<section id="how-does-medic-work" class="slide level2">
+<h2>How does MEDIC work?</h2>
 </section>
 <section id="step-1-correcting-phase-offsets-and-unwrapping"
 class="slide level2">
@@ -171,43 +194,147 @@ Simplified (MCPC-3D-S): For phase offset correction</p>
 <p>Rapid Opensource Minimum spanning treE algOrithm (ROMEO): For phase
 unwrapping</p>
 </section>
-<section id="phase-offset-correction-using-mcpc-3d-s-and-romeo"
+<section id="step-1a-phase-offset-correction-using-mcpc-3d-s"
 class="slide level2">
-<h2>Phase offset correction using MCPC-3D-S and ROMEO</h2>
+<h2>Step 1a: Phase offset correction using MCPC-3D-S</h2>
 <p>MCPC-3D-S removes phase offsets through estimating an unwrapped phase
 difference between echoes and predicting the phase offset (assuming
 linear phase evolution).</p>
+<div class="r-stack">
+<div class="fragment fade-out" data-fragment-index="0">
+<figure>
+<img data-src="imgs/pre_phase_offset_correction.png"
+alt="Without phase offset correction, phase unwrapping cannot find consistent solutions" />
+<figcaption aria-hidden="true">Without phase offset correction, phase
+unwrapping cannot find consistent solutions</figcaption>
+</figure>
+</div>
+<div class="fragment current-visible" data-fragment-index="0">
 <figure>
 <img data-src="imgs/phase_offset.png"
 alt="Computed phase offset which are removed from all echos" />
 <figcaption aria-hidden="true">Computed phase offset which are removed
 from all echos</figcaption>
 </figure>
+</div>
+<div class="fragment">
+<figure>
+<img data-src="imgs/post_phase_offset_correction.png"
+alt="Phase Unwrapping after phase offset correction" />
+<figcaption aria-hidden="true">Phase Unwrapping after phase offset
+correction</figcaption>
+</figure>
+</div>
+</div>
 <blockquote>
 <p><strong><em>NOTE:</em></strong> After this step, the only operations
 applied to the phase data is adding or subtracting multiples of
 $2\pi$.</p>
 </blockquote>
 </section>
-<section id="phase-unwrapping-using-romeo" class="slide level2">
-<h2>Phase unwrapping using ROMEO</h2>
+<section id="step-1b-phase-unwrapping-using-romeo" class="slide level2">
+<h2>Step 1b: Phase unwrapping using ROMEO</h2>
 <p>ROMEO unwraps phase through a path based unwrapping algorithm. The
 path is detemined through several quality metrics, all based around
 varying smoothness criterion on the values/gradients of the
 phase/magnitude images. ROMEO imposes a linear constraint on the
 unwrapping solutions of phase across echoes.</p>
+<div class="r-stack">
+<div class="element: fragment current-visible">
 <figure>
-<img data-src="imgs/unwrapped_phase.png"
-alt="Unwrapped phase using ROMEO" />
-<figcaption aria-hidden="true">Unwrapped phase using ROMEO</figcaption>
+<img data-src="imgs/phase1.png" alt="Echo 1 Wrapped (14.2 ms)" />
+<figcaption aria-hidden="true">Echo 1 Wrapped (14.2 ms)</figcaption>
 </figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/echo1.png" alt="Echo 1 Unwrapped (14.2 ms)" />
+<figcaption aria-hidden="true">Echo 1 Unwrapped (14.2 ms)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/phase2.png" alt="Echo 2 Wrapped (38.93 ms)" />
+<figcaption aria-hidden="true">Echo 2 Wrapped (38.93 ms)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/echo2.png" alt="Echo 2 Unwrapped (38.93 ms)" />
+<figcaption aria-hidden="true">Echo 2 Unwrapped (38.93 ms)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/phase3.png" alt="Echo 3 Wrapped (63.66 ms)" />
+<figcaption aria-hidden="true">Echo 3 Wrapped (63.66 ms)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/echo3.png" alt="Echo 3 Unwrapped (63.66 ms)" />
+<figcaption aria-hidden="true">Echo 3 Unwrapped (63.66 ms)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/phase4.png" alt="Echo 4 Wrapped (88.39 ms)" />
+<figcaption aria-hidden="true">Echo 4 Wrapped (88.39 ms)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/echo4.png" alt="Echo 4 Unwrapped (88.39 ms)" />
+<figcaption aria-hidden="true">Echo 4 Unwrapped (88.39 ms)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/phase5.png" alt="Echo 5 Wrapped (113.12 ms)" />
+<figcaption aria-hidden="true">Echo 5 Wrapped (113.12 ms)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/echo5.png" alt="Echo 5 Unwrapped (113.12 ms)" />
+<figcaption aria-hidden="true">Echo 5 Unwrapped (113.12 ms)</figcaption>
+</figure>
+</div>
+</div>
+<p>Phase unwrapping solutions for each echo.</p>
 </section>
 <section id="step-2-global-mode-offset-correction" class="slide level2">
 <h2>Step 2: Global mode offset correction</h2>
 <p>As previously mentioned, unwrapping solutions are non-unique. We can
 force uniqueness by assuming that the modal global accumulation of phase
-at echo time 1, is within the range $-\pi$ and $\pi$. This forces a
-unique solution.</p>
+at the first echo is within the range $-\pi$ and $\pi$, then imposing a
+linear constraint for all subsequent echoes to find the unique
+solution.</p>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/pre_gmoc_timeseries.png"
+alt="Example of unwrapping solutions settling on $2\pi$ offset away from other solutions." />
+<figcaption aria-hidden="true">Example of unwrapping solutions settling
+on $2\pi$ offset away from other solutions.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/pre_gmoc_correction.png"
+alt="Bad solution in question." />
+<figcaption aria-hidden="true">Bad solution in question.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/post_gmoc_correction.png"
+alt="After Global mode offset correction." />
+<figcaption aria-hidden="true">After Global mode offset
+correction.</figcaption>
+</figure>
+</div>
+</div>
 </section>
 <section id="step-3-temporal-correction" class="slide level2">
 <h2>Step 3: Temporal Correction</h2>
@@ -216,10 +343,226 @@ head is positioned similarly. Then for each voxel, compute any $2\pi$
 multiple offsets that would make the phase unwrapping solutions close to
 the mean.</p>
 <p>This seems to have the greatest effect for voxels where SNR is low,
-and stabilizes the solutions temporally.</p>
+and stabilizes the phase unwrapping solutions temporally.</p>
+<blockquote>
+<p><strong><em>NOTE:</em></strong> Might be revising this step to use
+correlation as a similarity metric instead.</p>
+</blockquote>
+</section>
+<section id="step-4-inverting-the-field-map" class="slide level2">
+<h2>Step 4: Inverting the field map</h2>
+<p>Field maps computed on ME-EPI data are in the distorted space, so we
+must invert the field map to get it into the undistorted space:</p>
+<p>$$y_{undistorted} = y_{distorted} - \Delta r(x, y_{distorted})$$</p>
+<p>The field map is converted into a displacement field, then the ITK
+library<code>InvertDisplacementFieldImageFilter</code> is used to invert
+the field. The inverted displacement field is then converted back into a
+field map.</p>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/fmap_native.png"
+alt="Field map in distorted space." />
+<figcaption aria-hidden="true">Field map in distorted
+space.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/fmap.png" alt="Field map in undistorted space." />
+<figcaption aria-hidden="true">Field map in undistorted
+space.</figcaption>
+</figure>
+</div>
+</div>
 </section>
 <section id="results" class="slide level2">
 <h2>Results</h2>
+</section>
+<section id="field-map-comparison" class="slide level2">
+<h2>Field Map Comparison</h2>
+<figure>
+<img data-src="imgs/fieldmap_compare.png"
+alt="Comparison of Field Map from FLASH (ROMEO), Bipolar EPI (TOPUP), and ME-EPI (MEDIC) data." />
+<figcaption aria-hidden="true">Comparison of Field Map from FLASH
+(ROMEO), Bipolar EPI (TOPUP), and ME-EPI (MEDIC) data.</figcaption>
+</figure>
+</section>
+<section id="correction-comparison" class="slide level2">
+<h2>Correction Comparison</h2>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/distorted.png" alt="Distorted functional." />
+<figcaption aria-hidden="true">Distorted functional.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/topup.png" alt="TOPUP corrected" />
+<figcaption aria-hidden="true">TOPUP corrected</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/medic.png" alt="MEDIC corrected" />
+<figcaption aria-hidden="true">MEDIC corrected</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/T2w.png" alt="T2w Anatomical" />
+<figcaption aria-hidden="true">T2w Anatomical</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="tsnr-comparison" class="slide level2">
+<h2>tSNR Comparison</h2>
+<figure>
+<img data-src="imgs/tSNR.png"
+alt="tSNR comparison between TOPUP and MEDIC." />
+<figcaption aria-hidden="true">tSNR comparison between TOPUP and
+MEDIC.</figcaption>
+</figure>
+</section>
+<section
+id="medic-can-measure-field-changes-over-time-due-to-head-position."
+class="slide level2">
+<h2>MEDIC can measure field changes over time due to head position.</h2>
+<div class="r-stack">
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot-X.mp4" type="video/mp4">
+</video>
+<p>
+-X Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot+X.mp4" type="video/mp4">
+</video>
+<p>
++X Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot-Y.mp4" type="video/mp4">
+</video>
+<p>
+-Y Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot+Y.mp4" type="video/mp4">
+</video>
+<p>
++Y Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot-Z.mp4" type="video/mp4">
+</video>
+<p>
+-Z Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot+Z.mp4" type="video/mp4">
+</video>
+<p>
++Z Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/trans-Z.mp4" type="video/mp4">
+</video>
+<p>
+-Z Translation
+</p>
+</div>
+</div>
+</section>
+<section id="slice-effects" class="slide level2">
+<h2>Slice Effects</h2>
+<p>High correlations between slices that are temporally close.</p>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/interleave_72_and_ascending.png"
+alt="72 Slice Interleave and Ascending" />
+<figcaption aria-hidden="true">72 Slice Interleave and
+Ascending</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/interleave_78.png"
+alt="Effect attenuated when using 78 slices instead of 72." />
+<figcaption aria-hidden="true">Effect attenuated when using 78 slices
+instead of 72.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="is-it-respiration" class="slide level2">
+<h2>Is it respiration?</h2>
+<p>Compute linear model of motion and/or respiration parameters. Compute
+$R^2$ of fits:</p>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/r2_map.png" alt="Motion and respiration." />
+<figcaption aria-hidden="true">Motion and respiration.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/r2_map_respiration.png" alt="Respiration only." />
+<figcaption aria-hidden="true">Respiration only.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/r2_map_motion.png" alt="Motion only." />
+<figcaption aria-hidden="true">Motion only.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="is-it-respiration-cont." class="slide level2">
+<h2>Is it respiration? (cont.)</h2>
+<p>After correcting with MEDIC, do a second pass of framewise alignment
+on the data.</p>
+<figure>
+<img data-src="imgs/motion_spectrum.png"
+alt="Motion Spectra before/after MEDIC correction" />
+<figcaption aria-hidden="true">Motion Spectra before/after MEDIC
+correction</figcaption>
+</figure>
+</section>
+<section id="conclusions" class="slide level2">
+<h2>Conclusions</h2>
+<ul>
+<li>MEDIC provides comparable quality distortion correction to TOPUP
+<ul>
+<li>Might suffer in areas of low SNR, in those cases TOPUP might be
+better (e.g. Orbitofrontal Cortex)</li>
+<li>However, we add another dimension (time) we can correct over.</li>
+</ul></li>
+<li>MEDIC probably corrects for respiration effects in the data.
+<ul>
+<li>Need to investigate further.</li>
+</ul></li>
+<li>Once pipeline integration is complete, will get a better idea of how
+MEDIC performs in the context of a full pipeline.</li>
+</ul>
 </section>
     </div>
   </div>
