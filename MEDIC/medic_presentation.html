@@ -107,11 +107,12 @@ data-src="imgs/phase_difference.png" /></td>
 </tr>
 </tbody>
 </table>
-<p>The Multi-Echo DIstortion Correction (MEDIC) algorithm uses the phase
-difference approach.</p>
+<p>The <strong>M</strong>ulti-<strong>E</strong>cho
+<strong>DI</strong>stortion <strong>C</strong>orrection (MEDIC)
+algorithm uses the phase difference approach.</p>
 </section>
-<section id="medic" class="slide level2">
-<h2>MEDIC</h2>
+<section id="some-background-on-medic" class="slide level2">
+<h2>Some Background on MEDIC</h2>
 </section>
 <section id="what-is-medic" class="slide level2">
 <h2>What is MEDIC?</h2>
@@ -141,14 +142,15 @@ frame-to-frame.</figcaption>
 <section id="relationship-between-echo-time-phase-and-the-field-map"
 class="slide level2">
 <h2>Relationship between echo time, phase and the field map</h2>
-<p>The slope of the relationship between phase and echo time is the
-field map:</p>
+<p>Ideally, the slope of the relationship between phase and echo time is
+the field map:</p>
 <p>$$\phi(x,y) = \gamma \Delta B_0(x,y) t_{echo}$$</p>
 <p>For $n$ echoes, we want to find $\gamma \Delta B_0(x,y)$ that
 satisfies the equation:</p>
 <p>$$\begin{bmatrix} \phi_1(x,y) \\ \phi_2(x,y) \\ \vdots \\ \phi_n(x,y)
 \end{bmatrix} = \gamma \Delta B_0(x,y) \begin{bmatrix} t_{1} \\ t_{2} \\
 \vdots \\ t_{n} \end{bmatrix}$$</p>
+<p>Simple, right?</p>
 </section>
 <section id="in-practice" class="slide level2">
 <h2>In Practice…</h2>
@@ -157,7 +159,12 @@ satisfies the equation:</p>
 <h2>Practical Issue 1: Phase wraps</h2>
 <p>Raw phase measurements collected off the scanner are wrapped between
 $-\pi$ and $\pi$:</p>
-<p><img data-src="imgs/wrapped_phase.png" /></p>
+<figure>
+<img data-src="imgs/wrapped_phase.png"
+alt="Wrapped phase from 1st echo of ME-EPI data." />
+<figcaption aria-hidden="true">Wrapped phase from 1st echo of ME-EPI
+data.</figcaption>
+</figure>
 </section>
 <section id="practical-issue-2-phase-offsets" class="slide level2">
 <h2>Practical Issue 2: Phase offsets</h2>
@@ -198,10 +205,13 @@ values.</li>
 class="slide level2">
 <h2>Step 1: Correcting phase offsets and unwrapping</h2>
 <p>Two algorithms:</p>
-<p>Multi-Channel Phase Combination using measured 3D phase offsets,
-Simplified (MCPC-3D-S): For phase offset correction</p>
-<p>Rapid Opensource Minimum spanning treE algOrithm (ROMEO): For phase
-unwrapping</p>
+<p><strong>M</strong>ulti-<strong>C</strong>hannel
+<strong>P</strong>hase <strong>C</strong>8ombination using measured
+<strong>3D</strong> phase offsets, <strong>S</strong>implified
+(MCPC-3D-S): For phase offset correction</p>
+<p><strong>R</strong>apid <strong>O</strong>pensource
+<strong>M</strong>inimum spanning tre<strong>E</strong>
+alg<strong>O</strong>rithm (ROMEO): For phase unwrapping</p>
 </section>
 <section id="step-1a-phase-offset-correction-using-mcpc-3d-s"
 class="slide level2">
@@ -243,11 +253,11 @@ $2\pi$.</p>
 </section>
 <section id="step-1b-phase-unwrapping-using-romeo" class="slide level2">
 <h2>Step 1b: Phase unwrapping using ROMEO</h2>
-<p>ROMEO unwraps phase through a path based unwrapping algorithm. The
-path is detemined through several quality metrics, all based around
-varying smoothness criterion on the values/gradients of the
-phase/magnitude images. ROMEO imposes a linear constraint on the
-unwrapping solutions of phase across echoes.</p>
+<p>ROMEO unwraps phase through a path based unwrapping algorithm
+(Prim-Jarník algorithm). The path is detemined through several quality
+metrics, all based around varying smoothness criterion on the
+values/gradients of the phase/magnitude images. ROMEO imposes a linear
+constraint on the unwrapping solutions of phase across echoes.</p>
 <div class="r-stack">
 <div class="element: fragment current-visible">
 <figure>
@@ -312,8 +322,9 @@ unwrapping solutions of phase across echoes.</p>
 </div>
 <p>Phase unwrapping solutions for each echo.</p>
 </section>
-<section id="step-2-global-mode-offset-correction" class="slide level2">
-<h2>Step 2: Global mode offset correction</h2>
+<section id="step-2-global-mode-offset-correction-gmoc"
+class="slide level2">
+<h2>Step 2: Global mode offset correction (GMOC)</h2>
 <p>As previously mentioned, unwrapping solutions are non-unique. We can
 force uniqueness by assuming that the modal global accumulation of phase
 at the first echo is within the range $-\pi$ and $\pi$, then imposing a
@@ -347,19 +358,33 @@ correction.</figcaption>
 </section>
 <section id="step-3-temporal-correction" class="slide level2">
 <h2>Step 3: Temporal Correction</h2>
+<p>GMOC fixes most unwrap errors, but operates globally (all voxels).
+Local errors are fixed by Temporal Correction.</p>
 <p>For each TR, compare the phase unwrapping solutions for TRs where the
 head is positioned similarly. Then for each voxel, compute any $2\pi$
 multiple offsets that would make the phase unwrapping solutions close to
 the mean.</p>
-<p>This seems to have the greatest effect for voxels where SNR is low,
-and stabilizes the phase unwrapping solutions temporally.</p>
+<figure>
+<img data-src="imgs/pre_gmoc_timeseries.png"
+alt="Example of unwrapping solutions settling on $2\pi$ offset away from other solutions." />
+<figcaption aria-hidden="true">Example of unwrapping solutions settling
+on $2\pi$ offset away from other solutions.</figcaption>
+</figure>
+<p>This step has the greatest effect for voxels where SNR is low.</p>
 <blockquote>
 <p><strong><em>NOTE:</em></strong> Might be revising this step to use
 correlation as a similarity metric instead.</p>
 </blockquote>
 </section>
-<section id="step-4-inverting-the-field-map" class="slide level2">
-<h2>Step 4: Inverting the field map</h2>
+<section id="step-4-computing-the-field-map" class="slide level2">
+<h2>Step 4: Computing the field map</h2>
+<p>The field map is computed by using weighted least squares:</p>
+<p>$$ W_{mag} \boldsymbol{\phi} = W_{mag} \gamma \Delta B_0 \mathbf{t}
+$$</p>
+<p>where $W_{mag}$ is the magnitude at each echo.</p>
+</section>
+<section id="step-5-inverting-the-field-map" class="slide level2">
+<h2>Step 5: Inverting the field map</h2>
 <p>Field maps computed on ME-EPI data are in the distorted space, so we
 must invert the field map to get it into the undistorted space:</p>
 <p>$$y_{undistorted} = y_{distorted} - \Delta r(x, y_{distorted})$$</p>

@@ -54,9 +54,10 @@ Two approaches:
 | :----------------------------: | :--------------------: |
 | ![](imgs/phase_difference.png) |    ![](imgs/rpe.png)   |
 
-The Multi-Echo DIstortion Correction (MEDIC) algorithm uses the phase difference approach.
+The **M**ulti-**E**cho **DI**stortion **C**orrection (MEDIC) algorithm uses the phase
+difference approach.
 
-## MEDIC
+## Some Background on MEDIC
 
 ## What is MEDIC?
 
@@ -77,7 +78,7 @@ separate field map acquisition:
 
 ## Relationship between echo time, phase and the field map
 
-The slope of the relationship between phase and echo time is the field map:
+Ideally, the slope of the relationship between phase and echo time is the field map:
 
 $$\phi(x,y) = \gamma \Delta B_0(x,y) t_{echo}$$
 
@@ -85,13 +86,15 @@ For $n$ echoes, we want to find $\gamma \Delta B_0(x,y)$ that satisfies the equa
 
 $$\begin{bmatrix} \phi_1(x,y) \\\\ \phi_2(x,y) \\\\ \vdots \\\\ \phi_n(x,y) \end{bmatrix} = \gamma \Delta B_0(x,y)  \begin{bmatrix} t_{1} \\\\ t_{2} \\\\ \vdots \\\\ t_{n} \end{bmatrix}$$
 
+Simple, right?
+
 ## In Practice...
 
 ## Practical Issue 1: Phase wraps
 
 Raw phase measurements collected off the scanner are wrapped between $-\pi$ and $\pi$:
 
-![](imgs/wrapped_phase.png)
+![Wrapped phase from 1st echo of ME-EPI data.](imgs/wrapped_phase.png)
 
 ## Practical Issue 2: Phase offsets
 
@@ -125,10 +128,10 @@ To solve these issues, we make the following assumptions:
 
 Two algorithms:
 
-Multi-Channel Phase Combination using measured 3D phase offsets, Simplified (MCPC-3D-S): 
+**M**ulti-**C**hannel **P**hase **C**8ombination using measured **3D** phase offsets, **S**implified (MCPC-3D-S): 
 For phase offset correction
 
-Rapid Opensource Minimum spanning treE algOrithm (ROMEO): For phase unwrapping
+**R**apid **O**pensource **M**inimum spanning tre**E** alg**O**rithm (ROMEO): For phase unwrapping
 
 ## Step 1a: Phase offset correction using MCPC-3D-S
 
@@ -156,8 +159,8 @@ linear phase evolution).
 
 ## Step 1b: Phase unwrapping using ROMEO
 
-ROMEO unwraps phase through a path based unwrapping algorithm. The path
-is detemined through several quality metrics, all based around varying
+ROMEO unwraps phase through a path based unwrapping algorithm (Prim-Jarník algorithm).
+The path is detemined through several quality metrics, all based around varying
 smoothness criterion on the values/gradients of the phase/magnitude images.
 ROMEO imposes a linear constraint on the unwrapping solutions of phase
 across echoes.
@@ -208,7 +211,7 @@ across echoes.
 Phase unwrapping solutions for each echo.
 
 
-## Step 2: Global mode offset correction
+## Step 2: Global mode offset correction (GMOC)
 
 As previously mentioned, unwrapping solutions are non-unique. We can force
 uniqueness by assuming that the modal global accumulation of phase at the first echo is 
@@ -232,17 +235,29 @@ echoes to find the unique solution.
 
 ## Step 3: Temporal Correction
 
+GMOC fixes most unwrap errors, but operates globally (all voxels). Local errors are fixed
+by Temporal Correction.
+
 For each TR, compare the phase unwrapping solutions for TRs where the head
 is positioned similarly. Then for each voxel, compute any $2\pi$ multiple offsets that 
 would make the phase unwrapping solutions close to the mean.
 
-This seems to have the greatest effect for voxels where SNR is low, and
-stabilizes the phase unwrapping solutions temporally.
+![Example of unwrapping solutions settling on $2\pi$ offset away from other solutions.](imgs/pre_gmoc_timeseries.png)
+
+This step has the greatest effect for voxels where SNR is low.
 
 > **_NOTE:_** Might be revising this step to use correlation as
 > a similarity metric instead.
 
-## Step 4: Inverting the field map
+## Step 4: Computing the field map
+
+The field map is computed by using weighted least squares:
+
+$$ W_{mag} \boldsymbol{\phi} = W_{mag} \gamma \Delta B_0 \mathbf{t} $$
+
+where $W_{mag}$ is the magnitude at each echo.
+
+## Step 5: Inverting the field map
 
 Field maps computed on ME-EPI data are in the distorted space, so we must invert the field 
 map to get it into the undistorted space:
