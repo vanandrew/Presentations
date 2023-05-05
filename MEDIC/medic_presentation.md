@@ -1,10 +1,32 @@
 ---
-author: Andrew Van
-title: Framewise distortion correction using multi-echo phase data
-date: March 22, 2023
+author: Andrew Van, Dosenbach Lab, Biomedical Engineering
+title: Thesis Committee Meeting Update
+date: May 8, 2023
 ---
 
-## Overview
+## Today’s Agenda
+
+- Some Updates
+- Talk about last aim of Thesis
+  - Correction of susceptibility-induced distortion with Multi-Echo Phase Data
+
+## Thesis Aims
+
+1. ✅ Apply Synth field map-less EPI distortion correction to diffusion weighted imaging.
+2. ✅ Apply Synth field map-less EPI distortion correction in limited data settings.
+3. 🚧 Leverage multi-echo fMRI data to correct susceptibility distortion.
+
+## Synth Paper published!
+
+![](imgs/synth_paper.png)
+
+## With 2nd paper in progress...
+
+![](imgs/medic_paper.png)
+
+Also presenting at ISMRM in June.
+
+## Overview of Multi-Echo DIstortion Correction (MEDIC)
 
 - Some MR physics background
 - Overview of **M**ulti-**E**cho **DI**stortion **C**orrection (MEDIC) algorithm
@@ -50,12 +72,11 @@ Correcting distortion requires measuring $\gamma \Delta B_0(x,y)$ (i.e. field ma
 
 Two approaches:
 
-|         Phase Difference       | Reverse Phase Encoding |
+|         Phase Difference       |        PEpolar         |
 | :----------------------------: | :--------------------: |
 | ![](imgs/phase_difference.png) |    ![](imgs/rpe.png)   |
 
-The **M**ulti-**E**cho **DI**stortion **C**orrection (MEDIC) algorithm uses the phase
-difference approach.
+The **M**ulti-**E**cho **DI**stortion **C**orrection (MEDIC) algorithm uses the phase difference approach.
 
 ## Some Background on MEDIC
 
