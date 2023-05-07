@@ -6,15 +6,11 @@ date: May 8, 2023
 
 ## Today’s Agenda
 
-- Some Updates
+- An update on PhD requirements progress
+  - Papers (Published and In Progress)
+  - Refresher on Thesis Aims
 - Talk about last aim of Thesis
   - Correction of susceptibility-induced distortion with Multi-Echo Phase Data
-
-## Thesis Aims
-
-1. ✅ Apply Synth field map-less EPI distortion correction to diffusion weighted imaging.
-2. ✅ Apply Synth field map-less EPI distortion correction in limited data settings.
-3. 🚧 Leverage multi-echo fMRI data to correct susceptibility distortion.
 
 ## Synth Paper published!
 
@@ -26,13 +22,19 @@ date: May 8, 2023
 
 Also presenting at ISMRM in June.
 
+## Thesis Aims
+
+1. ✅ Apply Synth field map-less EPI distortion correction to diffusion weighted imaging.
+2. ✅ Apply Synth field map-less EPI distortion correction in limited data settings.
+3. **✅ Leverage multi-echo fMRI data to correct susceptibility distortion.**
+
 ## Overview of Multi-Echo DIstortion Correction (MEDIC)
 
-- Some MR physics background
+- Background on the physics of Echo Planar Imaging (EPI)
 - Overview of **M**ulti-**E**cho **DI**stortion **C**orrection (MEDIC) algorithm
-- Results
+- Discussion of MEDIC vs. PEpolar field map results
 
-## Some Background MRI Physics...
+## Echo Planar Imaging (EPI) Background
 
 ## Echo Planar Imaging (EPI)
 
@@ -93,13 +95,13 @@ separate field map acquisition:
 :::
 :::{.element: class="fragment current-visible"}
 
-![In MEDIC, field maps are computed from the phase information of ME-EPI, which allows for measurement of field frame-to-frame.](imgs/medic_fmap.png)
+![In MEDIC, field maps are computed from the phase information of ME-EPI, which allows for measurement of the field frame-to-frame.](imgs/medic_fmap.png)
 :::
 </div>
 
 ## Relationship between echo time, phase and the field map
 
-Ideally, the slope of the relationship between phase and echo time is the field map:
+The slope of the relationship between phase and echo time is the field map:
 
 $$\phi(x,y) = \gamma \Delta B_0(x,y) t_{echo}$$
 
@@ -157,7 +159,7 @@ For phase offset correction
 ## Step 1a: Phase offset correction using MCPC-3D-S
 
 MCPC-3D-S removes phase offsets through estimating an unwrapped phase
-difference between echoes and predicting the phase offset (assuming
+difference between 1st and 2nd echoes and predicting the phase offset (assuming
 linear phase evolution).
 
 <div class="r-stack">
@@ -174,9 +176,6 @@ linear phase evolution).
 ![Phase Unwrapping after phase offset correction](imgs/post_phase_offset_correction.png)
 </div>
 </div>
-
-> **_NOTE:_** After this step, the only operations applied to the phase data
-> is adding or subtracting multiples of $2\pi$.
 
 ## Step 1b: Phase unwrapping using ROMEO
 
@@ -260,15 +259,12 @@ GMOC fixes most unwrap errors, but operates globally (all voxels). Local errors 
 by Temporal Correction.
 
 For each TR, compare the phase unwrapping solutions for TRs where the head
-is positioned similarly. Then for each voxel, compute any $2\pi$ multiple offsets that 
-would make the phase unwrapping solutions close to the mean.
+is positioned similarly (Correleational Similarity of >0.98). Then for each voxel, 
+compute any $2\pi$ multiple offsets that would make the phase unwrapping solutions close to the mean.
 
 ![Example of unwrapping solutions settling on $2\pi$ offset away from other solutions.](imgs/pre_gmoc_timeseries.png)
 
 This step has the greatest effect for voxels where SNR is low.
-
-> **_NOTE:_** Might be revising this step to use correlation as
-> a similarity metric instead.
 
 ## Step 4: Computing the field map
 
@@ -278,7 +274,15 @@ $$ W_{mag} \boldsymbol{\phi} = W_{mag} \gamma \Delta B_0 \mathbf{t} $$
 
 where $W_{mag}$ is the magnitude at each echo.
 
-## Step 5: Inverting the field map
+## Step 5: SVD Filtering
+
+To remove temporal noise components, an SVD filtering step is applied to the field map (voxels x time) and small singular values from the data are removed.
+
+<video width="720" height="480" controls loop>
+<source src="videos/svd.mp4" type="video/mp4">
+</video>
+
+## Step 6: Inverting the field map
 
 Field maps computed on ME-EPI data are in the distorted space, so we must invert the field 
 map to get it into the undistorted space:
@@ -286,7 +290,7 @@ map to get it into the undistorted space:
 $$y_{undistorted} = y_{distorted} - \Delta r(x, y_{distorted})$$
 
 The field map is converted into a displacement field, then the ITK 
-library`InvertDisplacementFieldImageFilter` is used to invert the field. The inverted 
+library `InvertDisplacementFieldImageFilter` is used to invert the field. The inverted 
 displacement field is then converted back into a field map.
 
 <div class="r-stack">
@@ -299,7 +303,6 @@ displacement field is then converted back into a field map.
 ![Field map in undistorted space.](imgs/fmap.png)
 :::
 </div>
-
 
 ## Results
 
@@ -332,7 +335,7 @@ displacement field is then converted back into a field map.
 
 ![tSNR comparison between TOPUP and MEDIC.](imgs/tSNR.png)
 
-## MEDIC can measure field changes over time due to head position.
+## MEDIC can measure field changes due to head position.
 
 <div class="r-stack">
 <div class="fragment current-visible">
@@ -379,7 +382,7 @@ displacement field is then converted back into a field map.
 </div>
 </div>
 
-## Slice Effects
+<!-- ## Slice Effects
 
 High correlations between slices that are temporally close.
 
@@ -419,7 +422,7 @@ Compute linear model of motion and/or respiration parameters. Compute $R^2$ of f
 After correcting with MEDIC, do a second pass of framewise alignment 
 on the data.
 
-![Motion Spectra before/after MEDIC correction](imgs/motion_spectrum.png)
+![Motion Spectra before/after MEDIC correction](imgs/motion_spectrum.png) -->
 
 ## Conclusions
 

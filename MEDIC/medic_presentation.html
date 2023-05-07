@@ -41,24 +41,17 @@ Engineering</p>
 <section id="todays-agenda" class="slide level2">
 <h2>Today’s Agenda</h2>
 <ul>
-<li>Some Updates</li>
+<li>An update on PhD requirements progress
+<ul>
+<li>Papers (Published and In Progress)</li>
+<li>Refresher on Thesis Aims</li>
+</ul></li>
 <li>Talk about last aim of Thesis
 <ul>
 <li>Correction of susceptibility-induced distortion with Multi-Echo
 Phase Data</li>
 </ul></li>
 </ul>
-</section>
-<section id="thesis-aims" class="slide level2">
-<h2>Thesis Aims</h2>
-<ol type="1">
-<li>✅ Apply Synth field map-less EPI distortion correction to diffusion
-weighted imaging.</li>
-<li>✅ Apply Synth field map-less EPI distortion correction in limited
-data settings.</li>
-<li>Leverage multi-echo fMRI data to field map-lessly correct
-susceptibility distortion.</li>
-</ol>
 </section>
 <section id="synth-paper-published" class="slide level2">
 <h2>Synth Paper published!</h2>
@@ -69,19 +62,30 @@ susceptibility distortion.</li>
 <p><img data-src="imgs/medic_paper.png" /></p>
 <p>Also presenting at ISMRM in June.</p>
 </section>
+<section id="thesis-aims" class="slide level2">
+<h2>Thesis Aims</h2>
+<ol type="1">
+<li>✅ Apply Synth field map-less EPI distortion correction to diffusion
+weighted imaging.</li>
+<li>✅ Apply Synth field map-less EPI distortion correction in limited
+data settings.</li>
+<li><strong>✅ Leverage multi-echo fMRI data to correct susceptibility
+distortion.</strong></li>
+</ol>
+</section>
 <section id="overview-of-multi-echo-distortion-correction-medic"
 class="slide level2">
 <h2>Overview of Multi-Echo DIstortion Correction (MEDIC)</h2>
 <ul>
-<li>Some MR physics background</li>
+<li>Background on the physics of Echo Planar Imaging (EPI)</li>
 <li>Overview of <strong>M</strong>ulti-<strong>E</strong>cho
 <strong>DI</strong>stortion <strong>C</strong>orrection (MEDIC)
 algorithm</li>
-<li>Results</li>
+<li>Discussion of MEDIC vs. PEpolar field map results</li>
 </ul>
 </section>
-<section id="some-background-mri-physics" class="slide level2">
-<h2>Some Background MRI Physics…</h2>
+<section id="echo-planar-imaging-epi-background" class="slide level2">
+<h2>Echo Planar Imaging (EPI) Background</h2>
 </section>
 <section id="echo-planar-imaging-epi" class="slide level2">
 <h2>Echo Planar Imaging (EPI)</h2>
@@ -163,10 +167,10 @@ Acquisition. Field mapping is done before/after a BOLD run.</figcaption>
 <div class="element: fragment current-visible">
 <figure>
 <img data-src="imgs/medic_fmap.png"
-alt="In MEDIC, field maps are computed from the phase information of ME-EPI, which allows for measurement of field frame-to-frame." />
+alt="In MEDIC, field maps are computed from the phase information of ME-EPI, which allows for measurement of the field frame-to-frame." />
 <figcaption aria-hidden="true">In MEDIC, field maps are computed from
-the phase information of ME-EPI, which allows for measurement of field
-frame-to-frame.</figcaption>
+the phase information of ME-EPI, which allows for measurement of the
+field frame-to-frame.</figcaption>
 </figure>
 </div>
 </div>
@@ -174,8 +178,8 @@ frame-to-frame.</figcaption>
 <section id="relationship-between-echo-time-phase-and-the-field-map"
 class="slide level2">
 <h2>Relationship between echo time, phase and the field map</h2>
-<p>Ideally, the slope of the relationship between phase and echo time is
-the field map:</p>
+<p>The slope of the relationship between phase and echo time is the
+field map:</p>
 <p>$$\phi(x,y) = \gamma \Delta B_0(x,y) t_{echo}$$</p>
 <p>For $n$ echoes, we want to find $\gamma \Delta B_0(x,y)$ that
 satisfies the equation:</p>
@@ -249,8 +253,8 @@ alg<strong>O</strong>rithm (ROMEO): For phase unwrapping</p>
 class="slide level2">
 <h2>Step 1a: Phase offset correction using MCPC-3D-S</h2>
 <p>MCPC-3D-S removes phase offsets through estimating an unwrapped phase
-difference between echoes and predicting the phase offset (assuming
-linear phase evolution).</p>
+difference between 1st and 2nd echoes and predicting the phase offset
+(assuming linear phase evolution).</p>
 <div class="r-stack">
 <div class="fragment fade-out" data-fragment-index="0">
 <figure>
@@ -277,11 +281,6 @@ correction</figcaption>
 </figure>
 </div>
 </div>
-<blockquote>
-<p><strong><em>NOTE:</em></strong> After this step, the only operations
-applied to the phase data is adding or subtracting multiples of
-$2\pi$.</p>
-</blockquote>
 </section>
 <section id="step-1b-phase-unwrapping-using-romeo" class="slide level2">
 <h2>Step 1b: Phase unwrapping using ROMEO</h2>
@@ -393,9 +392,9 @@ correction.</figcaption>
 <p>GMOC fixes most unwrap errors, but operates globally (all voxels).
 Local errors are fixed by Temporal Correction.</p>
 <p>For each TR, compare the phase unwrapping solutions for TRs where the
-head is positioned similarly. Then for each voxel, compute any $2\pi$
-multiple offsets that would make the phase unwrapping solutions close to
-the mean.</p>
+head is positioned similarly (Correleational Similarity of &gt;0.98).
+Then for each voxel, compute any $2\pi$ multiple offsets that would make
+the phase unwrapping solutions close to the mean.</p>
 <figure>
 <img data-src="imgs/pre_gmoc_timeseries.png"
 alt="Example of unwrapping solutions settling on $2\pi$ offset away from other solutions." />
@@ -403,10 +402,6 @@ alt="Example of unwrapping solutions settling on $2\pi$ offset away from other s
 on $2\pi$ offset away from other solutions.</figcaption>
 </figure>
 <p>This step has the greatest effect for voxels where SNR is low.</p>
-<blockquote>
-<p><strong><em>NOTE:</em></strong> Might be revising this step to use
-correlation as a similarity metric instead.</p>
-</blockquote>
 </section>
 <section id="step-4-computing-the-field-map" class="slide level2">
 <h2>Step 4: Computing the field map</h2>
@@ -415,15 +410,24 @@ correlation as a similarity metric instead.</p>
 $$</p>
 <p>where $W_{mag}$ is the magnitude at each echo.</p>
 </section>
-<section id="step-5-inverting-the-field-map" class="slide level2">
-<h2>Step 5: Inverting the field map</h2>
+<section id="step-5-svd-filtering" class="slide level2">
+<h2>Step 5: SVD Filtering</h2>
+<p>To remove temporal noise components, an SVD filtering step is applied
+to the field map (voxels x time) and small singular values from the data
+are removed.</p>
+<video width="720" height="480" controls loop>
+<source src="videos/svd.mp4" type="video/mp4">
+</video>
+</section>
+<section id="step-6-inverting-the-field-map" class="slide level2">
+<h2>Step 6: Inverting the field map</h2>
 <p>Field maps computed on ME-EPI data are in the distorted space, so we
 must invert the field map to get it into the undistorted space:</p>
 <p>$$y_{undistorted} = y_{distorted} - \Delta r(x, y_{distorted})$$</p>
 <p>The field map is converted into a displacement field, then the ITK
-library<code>InvertDisplacementFieldImageFilter</code> is used to invert
-the field. The inverted displacement field is then converted back into a
-field map.</p>
+library <code>InvertDisplacementFieldImageFilter</code> is used to
+invert the field. The inverted displacement field is then converted back
+into a field map.</p>
 <div class="r-stack">
 <div class="element: fragment current-visible">
 <figure>
@@ -492,10 +496,9 @@ alt="tSNR comparison between TOPUP and MEDIC." />
 MEDIC.</figcaption>
 </figure>
 </section>
-<section
-id="medic-can-measure-field-changes-over-time-due-to-head-position."
+<section id="medic-can-measure-field-changes-due-to-head-position."
 class="slide level2">
-<h2>MEDIC can measure field changes over time due to head position.</h2>
+<h2>MEDIC can measure field changes due to head position.</h2>
 <div class="r-stack">
 <div class="fragment current-visible">
 <video width="720" height="480" controls loop>
@@ -554,64 +557,47 @@ class="slide level2">
 </p>
 </div>
 </div>
-</section>
-<section id="slice-effects" class="slide level2">
-<h2>Slice Effects</h2>
-<p>High correlations between slices that are temporally close.</p>
+<!-- ## Slice Effects
+
+High correlations between slices that are temporally close.
+
 <div class="r-stack">
-<div class="element: fragment current-visible">
-<figure>
-<img data-src="imgs/interleave_72_and_ascending.png"
-alt="72 Slice Interleave and Ascending" />
-<figcaption aria-hidden="true">72 Slice Interleave and
-Ascending</figcaption>
-</figure>
+:::{.element: class="fragment current-visible"}
+
+![72 Slice Interleave and Ascending](imgs/interleave_72_and_ascending.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![Effect attenuated when using 78 slices instead of 72.](imgs/interleave_78.png)
+:::
 </div>
-<div class="element: fragment current-visible">
-<figure>
-<img data-src="imgs/interleave_78.png"
-alt="Effect attenuated when using 78 slices instead of 72." />
-<figcaption aria-hidden="true">Effect attenuated when using 78 slices
-instead of 72.</figcaption>
-</figure>
-</div>
-</div>
-</section>
-<section id="is-it-respiration" class="slide level2">
-<h2>Is it respiration?</h2>
-<p>Compute linear model of motion and/or respiration parameters. Compute
-$R^2$ of fits:</p>
+
+## Is it respiration?
+
+Compute linear model of motion and/or respiration parameters. Compute $R^2$ of fits:
+
 <div class="r-stack">
-<div class="element: fragment current-visible">
-<figure>
-<img data-src="imgs/r2_map.png" alt="Motion and respiration." />
-<figcaption aria-hidden="true">Motion and respiration.</figcaption>
-</figure>
+
+:::{.element: class="fragment current-visible"}
+
+![Motion and respiration.](imgs/r2_map.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![Respiration only.](imgs/r2_map_respiration.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![Motion only.](imgs/r2_map_motion.png)
+:::
 </div>
-<div class="element: fragment current-visible">
-<figure>
-<img data-src="imgs/r2_map_respiration.png" alt="Respiration only." />
-<figcaption aria-hidden="true">Respiration only.</figcaption>
-</figure>
-</div>
-<div class="element: fragment current-visible">
-<figure>
-<img data-src="imgs/r2_map_motion.png" alt="Motion only." />
-<figcaption aria-hidden="true">Motion only.</figcaption>
-</figure>
-</div>
-</div>
-</section>
-<section id="is-it-respiration-cont." class="slide level2">
-<h2>Is it respiration? (cont.)</h2>
-<p>After correcting with MEDIC, do a second pass of framewise alignment
-on the data.</p>
-<figure>
-<img data-src="imgs/motion_spectrum.png"
-alt="Motion Spectra before/after MEDIC correction" />
-<figcaption aria-hidden="true">Motion Spectra before/after MEDIC
-correction</figcaption>
-</figure>
+
+## Is it respiration? (cont.)
+
+After correcting with MEDIC, do a second pass of framewise alignment 
+on the data.
+
+![Motion Spectra before/after MEDIC correction](imgs/motion_spectrum.png) -->
 </section>
 <section id="conclusions" class="slide level2">
 <h2>Conclusions</h2>
