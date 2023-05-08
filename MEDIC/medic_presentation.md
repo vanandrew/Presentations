@@ -55,7 +55,7 @@ Inhomogeneities add an extra term to the phase:
 $$s[k_x, k_y] = \int \int \rho(x,y) e^{-j(\gamma \Delta B_0(x,y) t + k_x(t)x + k_y(t)y)} dx dy$$
 
 The inhomogeneity term is a spatially varying phase roll, which has the following effect on 
-the signal (assuming readout direction x and phase-encoding direction y):
+the signal<sup>[1]</sup> (assuming readout direction x and phase-encoding direction y):
 
 $$\rho(x - (\gamma \Delta B_0(x,y) \tau_{dwell}), y - ({\gamma} \Delta B_0(x,y) \tau_{readout}))$$
 
@@ -63,6 +63,8 @@ where $\tau_{dwell}$ is the time between k-space samples and $\tau_{readout}$ is
 between the first and last echoes of the readout train.
 Since $\tau_{dwell}$ is very small, distortion in readout is negligible, but
 $\tau_{readout}$ is large enough to see significant distortion in phase encoding direction.
+
+<p style="font-size: 10px;">[1] Jezzard P, Barnett AS, Pierpaoli C. Characterization of and correction for eddy current artifacts in echo planar diffusion imaging. Magnetic Resonance in Medicine. 1998;39(5):801–812.</p>
 
 ## An example
 
@@ -72,13 +74,15 @@ $\tau_{readout}$ is large enough to see significant distortion in phase encoding
 
 Correcting distortion requires measuring $\gamma \Delta B_0(x,y)$ (i.e. field map).
 
-Two approaches:
+Two approaches<sup>[2]</sup>:
 
 |         Phase Difference       |        PEpolar         |
 | :----------------------------: | :--------------------: |
 | ![](imgs/phase_difference.png) |    ![](imgs/rpe.png)   |
 
 The **M**ulti-**E**cho **DI**stortion **C**orrection (MEDIC) algorithm uses the phase difference approach.
+
+<p style="font-size: 10px;">[2] Wang F, Dong Z, Reese TG, Bilgic B, Katherine Manhard M, Chen J, Polimeni JR, Wald LL, Setsompop K. Echo planar time-resolved imaging (EPTI). Magnetic Resonance in Medicine. 2019;81(6):3599–3615.</p>
 
 ## Some Background on MEDIC
 
@@ -150,9 +154,12 @@ To solve these issues, we make the following assumptions:
 Two algorithms:
 
 **M**ulti-**C**hannel **P**hase **C**8ombination using measured **3D** phase offsets, **S**implified (MCPC-3D-S): 
-For phase offset correction
+For phase offset correction<sup>[3]</sup>
 
-**R**apid **O**pensource **M**inimum spanning tre**E** alg**O**rithm (ROMEO): For phase unwrapping
+**R**apid **O**pensource **M**inimum spanning tre**E** alg**O**rithm (ROMEO): For phase unwrapping<sup>[4]</sup>
+
+<p style="font-size: 10px;">[3] Eckstein K, Dymerska B, Bachrata B, Bogner W, Poljanc K, Trattnig S, Robinson SD. Computationally Efficient Combination of Multi-channel Phase Data From Multi-echo Acquisitions (ASPIRE). Magnetic Resonance in Medicine. 2018;79(6):2996–3006.</p>
+<p style="font-size: 10px;">[4] Dymerska B, Eckstein K, Bachrata B, Siow B, Trattnig S, Shmueli K, Robinson SD. Phase unwrapping with a rapid opensource minimum spanning tree algorithm (ROMEO). Magnetic Resonance in Medicine. 2021;85(4):2294–2308.</p>
 
 ## Step 1a: Phase offset correction using MCPC-3D-S
 

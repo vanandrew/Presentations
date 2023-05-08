@@ -103,8 +103,8 @@ class="slide level2">
 <p>$$s[k_x, k_y] = \int \int \rho(x,y) e^{-j(\gamma \Delta B_0(x,y) t +
 k_x(t)x + k_y(t)y)} dx dy$$</p>
 <p>The inhomogeneity term is a spatially varying phase roll, which has
-the following effect on the signal (assuming readout direction x and
-phase-encoding direction y):</p>
+the following effect on the signal<sup>[1]</sup> (assuming readout
+direction x and phase-encoding direction y):</p>
 <p>$$\rho(x - (\gamma \Delta B_0(x,y) \tau_{dwell}), y - ({\gamma}
 \Delta B_0(x,y) \tau_{readout}))$$</p>
 <p>where $\tau_{dwell}$ is the time between k-space samples and
@@ -112,6 +112,11 @@ $\tau_{readout}$ is the time between the first and last echoes of the
 readout train. Since $\tau_{dwell}$ is very small, distortion in readout
 is negligible, but $\tau_{readout}$ is large enough to see significant
 distortion in phase encoding direction.</p>
+<p style="font-size: 10px;">
+[1] Jezzard P, Barnett AS, Pierpaoli C. Characterization of and
+correction for eddy current artifacts in echo planar diffusion imaging.
+Magnetic Resonance in Medicine. 1998;39(5):801–812.
+</p>
 </section>
 <section id="an-example" class="slide level2">
 <h2>An example</h2>
@@ -127,7 +132,7 @@ class="slide level2">
 <h2>Correcting for distortion caused by B0 inhomogeneities</h2>
 <p>Correcting distortion requires measuring $\gamma \Delta B_0(x,y)$
 (i.e. field map).</p>
-<p>Two approaches:</p>
+<p>Two approaches<sup>[2]</sup>:</p>
 <table>
 <thead>
 <tr class="header">
@@ -146,6 +151,11 @@ data-src="imgs/phase_difference.png" /></td>
 <p>The <strong>M</strong>ulti-<strong>E</strong>cho
 <strong>DI</strong>stortion <strong>C</strong>orrection (MEDIC)
 algorithm uses the phase difference approach.</p>
+<p style="font-size: 10px;">
+[2] Wang F, Dong Z, Reese TG, Bilgic B, Katherine Manhard M, Chen J,
+Polimeni JR, Wald LL, Setsompop K. Echo planar time-resolved imaging
+(EPTI). Magnetic Resonance in Medicine. 2019;81(6):3599–3615.
+</p>
 </section>
 <section id="some-background-on-medic" class="slide level2">
 <h2>Some Background on MEDIC</h2>
@@ -243,10 +253,23 @@ class="slide level2">
 <p><strong>M</strong>ulti-<strong>C</strong>hannel
 <strong>P</strong>hase <strong>C</strong>8ombination using measured
 <strong>3D</strong> phase offsets, <strong>S</strong>implified
-(MCPC-3D-S): For phase offset correction</p>
+(MCPC-3D-S): For phase offset correction<sup>[3]</sup></p>
 <p><strong>R</strong>apid <strong>O</strong>pensource
 <strong>M</strong>inimum spanning tre<strong>E</strong>
-alg<strong>O</strong>rithm (ROMEO): For phase unwrapping</p>
+alg<strong>O</strong>rithm (ROMEO): For phase
+unwrapping<sup>[4]</sup></p>
+<p style="font-size: 10px;">
+[3] Eckstein K, Dymerska B, Bachrata B, Bogner W, Poljanc K, Trattnig S,
+Robinson SD. Computationally Efficient Combination of Multi-channel
+Phase Data From Multi-echo Acquisitions (ASPIRE). Magnetic Resonance in
+Medicine. 2018;79(6):2996–3006.
+</p>
+<p style="font-size: 10px;">
+[4] Dymerska B, Eckstein K, Bachrata B, Siow B, Trattnig S, Shmueli K,
+Robinson SD. Phase unwrapping with a rapid opensource minimum spanning
+tree algorithm (ROMEO). Magnetic Resonance in Medicine.
+2021;85(4):2294–2308.
+</p>
 </section>
 <section id="step-1a-phase-offset-correction-using-mcpc-3d-s"
 class="slide level2">
