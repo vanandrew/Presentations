@@ -507,6 +507,18 @@ In ASD/ADHD dataset, tSNR was not significantly different between MEDIC and TOPU
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
 
+![MEDIC - PEpolar (TOPUP) in various head positions.](imgs/fmap_diff_topup.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![Rotation -Y: MEDIC Corrected](imgs/motion_distortion_correction/medic_rotation_-y.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![Rotation -Y: PEpolar (TOPUP) Corrected](imgs/motion_distortion_correction/topup_rotation_-y.png)
+:::
+:::{.element: class="fragment current-visible"}
+
 ![Rotation +Y: MEDIC Corrected](imgs/motion_distortion_correction/medic_rotation_+y.png)
 :::
 :::{.element: class="fragment current-visible"}
