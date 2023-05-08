@@ -109,8 +109,6 @@ For $n$ echoes, we want to find $\gamma \Delta B_0(x,y)$ that satisfies the equa
 
 $$\begin{bmatrix} \phi_1(x,y) \\\\ \phi_2(x,y) \\\\ \vdots \\\\ \phi_n(x,y) \end{bmatrix} = \gamma \Delta B_0(x,y)  \begin{bmatrix} t_{1} \\\\ t_{2} \\\\ \vdots \\\\ t_{n} \end{bmatrix}$$
 
-Simple, right?
-
 ## In Practice...
 
 ## Practical Issue 1: Phase wraps
@@ -259,7 +257,7 @@ GMOC fixes most unwrap errors, but operates globally (all voxels). Local errors 
 by Temporal Correction.
 
 For each TR, compare the phase unwrapping solutions for TRs where the head
-is positioned similarly (Correleational Similarity of >0.98). Then for each voxel, 
+is positioned similarly (Correlational Similarity of >0.98). Then for each voxel, 
 compute any $2\pi$ multiple offsets that would make the phase unwrapping solutions close to the mean.
 
 ![Example of unwrapping solutions settling on $2\pi$ offset away from other solutions.](imgs/pre_gmoc_timeseries.png)
@@ -306,34 +304,156 @@ displacement field is then converted back into a field map.
 
 ## Results
 
-## Field Map Comparison
+## Datasets
 
-![Comparison of Field Map from FLASH (ROMEO), Bipolar EPI (TOPUP), and ME-EPI (MEDIC) data.](imgs/fieldmap_compare.png)
+- CMRR Multi-Echo EPI Sequence
+  - TR: 1.761 s, TEs: 14.2, 38.93, 63.66, 88.39, 113.12 ms, 72 Slices, FOV: 110x110, Voxel Size: 2.0 mm, Multi-Band: 6
+- Spin Echo PEpolar Field maps
+  - TR: 8 s, TE: 66 ms, 72 Slices, FOV: 110x110, Voxel Size: 2.0mm
+  - Field map solutions computed with FSL TOPUP
+- T1w/T2w Anatomical Scans
+  - T1w: Multiecho MPRAGE, TR: 2.5 s, TEs: 1.81, 3.6, 5.39, 7.18 ms, 208 Slices, FOV: 300x300, Voxel Size: 0.8 mm, Bandwidth: 745 Hz/px
+  - T2w: T2 SPACE, TR: 3.2, TE: 565 ms, 176 Slices, Turbo Factor: 190, FOV: 256x256, Voxel Size: 1 mm, Bandwidth: 240 Hz/px
 
-## Correction Comparison
+- Datasets (Resting State Only)
+  - Midnight Scan Club (N=1)
+  - ASD/ADHD Dataset (N=21)
+  - UPenn preliminary data (N=1)
+
+## MEDIC correction has greater correspondence to cortical anatomy than PEpolar correction
 
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
 
-![Distorted functional.](imgs/distorted.png)
+![UPenn: MEDIC corrected](imgs/anatomical_align/UPenn_medic.png)
 :::
 :::{.element: class="fragment current-visible"}
 
-![TOPUP corrected](imgs/topup.png)
+![UPenn: PEpolar (TOPUP) corrected](imgs/anatomical_align/UPenn_topup.png)
 :::
 :::{.element: class="fragment current-visible"}
 
-![MEDIC corrected](imgs/medic.png)
+![MSC: MEDIC corrected](imgs/anatomical_align/MSCHD02_medic.png)
 :::
 :::{.element: class="fragment current-visible"}
 
-![T2w Anatomical](imgs/T2w.png)
+![MSC: PEpolar (TOPUP) corrected](imgs/anatomical_align/MSCHD02_topup.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![ASD/ADHD: MEDIC corrected](imgs/anatomical_align/NP1173_medic.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![ASD/ADHD: PEpolar (TOPUP) corrected](imgs/anatomical_align/NP1173_topup.png)
+:::
+</div>
+
+## MEDIC correction has greater correspondence to anatomy than PEpolar correction
+
+<div class="r-stack">
+:::{.element: class="fragment current-visible"}
+
+Global alignment metrics (whole brain) for ASD/ADHD Dataset. ✅ indicates best metric that was
+statistically significant (p < 0.05). Correlation metric is the Pearson correlation between the functional and anatomical data. Grad. Corr. is the Pearson correlation between the gradient
+of the functional and anatomical data. Norm. MI is the normalized mutual information between the
+functional and anatomical data.
+
+|     Metric      |        MEDIC        |     TOPUP     | t-stat | p-value |  df  |
+|:---------------:|:-------------------:|:-------------:|:------:|:-------:|:----:|
+| T1w Correlation | ✅**0.412 (0.052)** | 0.403 (0.052) | 15.430 | < 0.001 |  182 |
+| T2w Correlation |    0.710 (0.025)    | 0.711 (0.030) | -0.991 |  0.323  |  182 |
+| T1w Grad. Corr. | ✅**0.432 (0.040)** | 0.417 (0.039) |  8.526 | < 0.001 |  182 |
+| T2w Grad. Corr. |    0.667 (0.034)    | 0.664 (0.055) |  1.184 |  0.238  |  182 |
+| T1w Norm. MI    | ✅**0.081 (0.006)** | 0.079 (0.006) | 11.146 | < 0.001 |  182 |
+| T2w Norm. MI    | ✅**0.099 (0.007)** | 0.098 (0.008) |  4.018 | < 0.001 |  182 |
+
+:::
+:::{.element: class="fragment current-visible"}
+
+Local alignment metrics (whole brain) for ASD/ADHD Dataset. ✅ indicates best metric that was
+statistically significant (p < 0.05). Spotlight analysis was performed by computing the average
+local correlation between the functional and anatomical images across all voxels within a 3 voxel sphere.
+
+|     Metric      |        MEDIC        |     TOPUP     | t-stat | p-value |  df  |
+|:---------------:|:-------------------:|:-------------:|:------:|:-------:|:----:|
+|  T1w Spotlight  | ✅**0.347 (0.019)** | 0.340 (0.019) |  9.031 | < 0.001 |  182 |
+|  T2w Spotlight  | ✅**0.521 (0.035)** | 0.514 (0.044) |  4.329 | < 0.001 |  182 |
+
+:::
+:::{.element: class="fragment current-visible"}
+
+Task based metrics for ASD/ADHD Dataset. ✅ indicates best metric that was
+statistically significant (p < 0.05). Each metric examined the separability of tissue
+types using anatomical segmentation labels applied to functional data. Separability was
+measured by thresholding the functional data along the tissue boundary, comparing the
+classification against the anatomical segmenation, and computing the AUC of the resulting
+ROC curve.
+
+|     Metric      |        MEDIC        |     TOPUP     | t-stat | p-value |  df  |
+|:---------------:|:-------------------:|:-------------:|:------:|:-------:|:----:|
+| Brain/Exterior  | ✅**0.754 (0.034)** | 0.748 (0.032) | 12.265 | < 0.001 |  182 |
+|   Gray/White    | ✅**0.689 (0.034)** | 0.686 (0.037) |  3.461 | < 0.001 |  182 |
+| Ventricle/White |    0.837 (0.056)    | 0.835 (0.059) |  1.473 |   0.142 |  182 |
+
+:::
+</div>
+
+## Field Map Comparison
+
+<div class="r-stack">
+:::{.element: class="fragment current-visible"}
+
+If the MEDIC field map is able to more accurately measure field inhomogeneities
+(due to greater correspondence to anatomy), where does the error in the PEpolar method come from? Two possibilities:
+
+1. PEpolar method fails to accurately capture the true field map.
+2. Functional data contains other off-resonance effects that are not captured by the PEpolar field map
+
+How to distinguish the two? Compare against a 3rd field map method.
+:::
+:::{.element: class="fragment current-visible"}
+
+![Comparison of Field Map from FLASH (ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data.](imgs/fieldmap_compare.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+Comparison of ME-EPI data to GRE PEpolar field map shows additional off-resonance effects in ME-EPI data.
+
+![Spin Echo PEpolar Image (UPenn)](imgs/se_upenn_fmap.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+Comparison of ME-EPI data to GRE PEpolar field map shows additional off-resonance effects in ME-EPI data.
+
+![Gradient Echo PEpolar Image (UPenn)](imgs/gre_upenn_fmap.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+Comparison of ME-EPI data to GRE PEpolar field map shows additional off-resonance effects in ME-EPI data.
+
+![ME-EPI Image, 1st Echo (UPenn)](imgs/me_epi_upenn_fmap.png)
 :::
 </div>
 
 ## tSNR Comparison
 
-![tSNR comparison between TOPUP and MEDIC.](imgs/tSNR.png)
+<div class="r-stack">
+:::{.element: class="fragment current-visible"}
+
+![tSNR comparison between TOPUP and MEDIC (MSC).](imgs/tSNR.png){ width=70% }
+:::
+:::{.element: class="fragment current-visible"}
+
+In ASD/ADHD dataset, tSNR was not significantly different between MEDIC and TOPUP corrected data.
+
+|     Metric      |        MEDIC        |     TOPUP       | t-stat | p-value |  df  |
+|:---------------:|:-------------------:|:---------------:|:------:|:-------:|:----:|
+|       tSNR      |   38.993 (16.130)   | 39.345 (16.166) | -1.747 |  0.082  |  182 |
+
+:::
+
+</div>
 
 ## MEDIC can measure field changes due to head position.
 
@@ -382,53 +502,56 @@ displacement field is then converted back into a field map.
 </div>
 </div>
 
-<!-- ## Slice Effects
-
-High correlations between slices that are temporally close.
+## MEDIC corrections account for head motion effects.
 
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
 
-![72 Slice Interleave and Ascending](imgs/interleave_72_and_ascending.png)
+![Rotation +Y: MEDIC Corrected](imgs/motion_distortion_correction/medic_rotation_+y.png)
 :::
 :::{.element: class="fragment current-visible"}
 
-![Effect attenuated when using 78 slices instead of 72.](imgs/interleave_78.png)
+![Rotation +Y: PEpolar (TOPUP) Corrected](imgs/motion_distortion_correction/topup_rotation_+y.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![Rotation -Z: MEDIC Corrected](imgs/motion_distortion_correction/medic_rotation_-z.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![Rotation -Z: PEpolar (TOPUP) Corrected](imgs/motion_distortion_correction/topup_rotation_-z.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![Rotation +Z: MEDIC Corrected](imgs/motion_distortion_correction/medic_rotation_+z.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![Rotation +Z: PEpolar (TOPUP) Corrected](imgs/motion_distortion_correction/topup_rotation_+z.png)
 :::
 </div>
-
-## Is it respiration?
-
-Compute linear model of motion and/or respiration parameters. Compute $R^2$ of fits:
-
-<div class="r-stack">
-
-:::{.element: class="fragment current-visible"}
-
-![Motion and respiration.](imgs/r2_map.png)
-:::
-:::{.element: class="fragment current-visible"}
-
-![Respiration only.](imgs/r2_map_respiration.png)
-:::
-:::{.element: class="fragment current-visible"}
-
-![Motion only.](imgs/r2_map_motion.png)
-:::
-</div>
-
-## Is it respiration? (cont.)
-
-After correcting with MEDIC, do a second pass of framewise alignment 
-on the data.
-
-![Motion Spectra before/after MEDIC correction](imgs/motion_spectrum.png) -->
 
 ## Conclusions
 
-- MEDIC provides comparable quality distortion correction to TOPUP
-    - Might suffer in areas of low SNR, in those cases TOPUP might be better (e.g. vmPFC, OFC)
-    - However, we add another dimension (time) we can correct over.
-- MEDIC probably corrects for respiration effects in the data.
-- Once pipeline integration is complete, will get a better idea of how
-  MEDIC performs in the context of a full pipeline.
+<div class="r-stack">
+:::{.element: class="fragment current-visible"}
+- MEDIC provides superior distortion correction performance over PEpolar (i.e. TOPUP) method.
+  - Mainly driven by more accurate accounting of field inhomogeneities.
+
+- MEDIC field maps are coupled in space and time to functional data.
+  - No need for co-registeration of field map to functional data.
+  - Removes separate sequence for field map acquisition.
+  - Can account for field changes due to head motion.
+:::
+:::{.element: class="fragment current-visible"}
+- Algorithmic Limitations
+  - Suffers from same limitation as phase difference field map methods
+    - Requires accurate measurement of phase at two echoes, but areas of very high susceptibility
+      have significant signal loss at later echo times.
+- Study limitations
+  - Only tested on a single ME-EPI protocol
+- Future work
+  - Test on other ME-EPI protocols as more ME-EPI datasets become available.
+  - Modified MEDIC for Bipolar ME acquisitions can allow reduction in time between echoes.
+:::
+</div>

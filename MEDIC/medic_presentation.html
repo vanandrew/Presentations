@@ -186,7 +186,6 @@ satisfies the equation:</p>
 <p>$$\begin{bmatrix} \phi_1(x,y) \\ \phi_2(x,y) \\ \vdots \\ \phi_n(x,y)
 \end{bmatrix} = \gamma \Delta B_0(x,y) \begin{bmatrix} t_{1} \\ t_{2} \\
 \vdots \\ t_{n} \end{bmatrix}$$</p>
-<p>Simple, right?</p>
 </section>
 <section id="in-practice" class="slide level2">
 <h2>In Practice…</h2>
@@ -392,7 +391,7 @@ correction.</figcaption>
 <p>GMOC fixes most unwrap errors, but operates globally (all voxels).
 Local errors are fixed by Temporal Correction.</p>
 <p>For each TR, compare the phase unwrapping solutions for TRs where the
-head is positioned similarly (Correleational Similarity of &gt;0.98).
+head is positioned similarly (Correlational Similarity of &gt;0.98).
 Then for each voxel, compute any $2\pi$ multiple offsets that would make
 the phase unwrapping solutions close to the mean.</p>
 <figure>
@@ -449,52 +448,375 @@ space.</figcaption>
 <section id="results" class="slide level2">
 <h2>Results</h2>
 </section>
-<section id="field-map-comparison" class="slide level2">
-<h2>Field Map Comparison</h2>
-<figure>
-<img data-src="imgs/fieldmap_compare.png"
-alt="Comparison of Field Map from FLASH (ROMEO), Bipolar EPI (TOPUP), and ME-EPI (MEDIC) data." />
-<figcaption aria-hidden="true">Comparison of Field Map from FLASH
-(ROMEO), Bipolar EPI (TOPUP), and ME-EPI (MEDIC) data.</figcaption>
-</figure>
+<section id="datasets" class="slide level2">
+<h2>Datasets</h2>
+<ul>
+<li>CMRR Multi-Echo EPI Sequence
+<ul>
+<li>TR: 1.761 s, TEs: 14.2, 38.93, 63.66, 88.39, 113.12 ms, 72 Slices,
+FOV: 110x110, Voxel Size: 2.0 mm, Multi-Band: 6</li>
+</ul></li>
+<li>Spin Echo PEpolar Field maps
+<ul>
+<li>TR: 8 s, TE: 66 ms, 72 Slices, FOV: 110x110, Voxel Size: 2.0mm</li>
+<li>Field map solutions computed with FSL TOPUP</li>
+</ul></li>
+<li>T1w/T2w Anatomical Scans
+<ul>
+<li>T1w: Multiecho MPRAGE, TR: 2.5 s, TEs: 1.81, 3.6, 5.39, 7.18 ms, 208
+Slices, FOV: 300x300, Voxel Size: 0.8 mm, Bandwidth: 745 Hz/px</li>
+<li>T2w: T2 SPACE, TR: 3.2, TE: 565 ms, 176 Slices, Turbo Factor: 190,
+FOV: 256x256, Voxel Size: 1 mm, Bandwidth: 240 Hz/px</li>
+</ul></li>
+<li>Datasets (Resting State Only)
+<ul>
+<li>Midnight Scan Club (N=1)</li>
+<li>ASD/ADHD Dataset (N=21)</li>
+<li>UPenn preliminary data (N=1)</li>
+</ul></li>
+</ul>
 </section>
-<section id="correction-comparison" class="slide level2">
-<h2>Correction Comparison</h2>
+<section
+id="medic-correction-has-greater-correspondence-to-cortical-anatomy-than-pepolar-correction"
+class="slide level2">
+<h2>MEDIC correction has greater correspondence to cortical anatomy than
+PEpolar correction</h2>
 <div class="r-stack">
 <div class="element: fragment current-visible">
 <figure>
-<img data-src="imgs/distorted.png" alt="Distorted functional." />
-<figcaption aria-hidden="true">Distorted functional.</figcaption>
+<img data-src="imgs/anatomical_align/UPenn_medic.png"
+alt="UPenn: MEDIC corrected" />
+<figcaption aria-hidden="true">UPenn: MEDIC corrected</figcaption>
 </figure>
 </div>
 <div class="element: fragment current-visible">
 <figure>
-<img data-src="imgs/topup.png" alt="TOPUP corrected" />
-<figcaption aria-hidden="true">TOPUP corrected</figcaption>
+<img data-src="imgs/anatomical_align/UPenn_topup.png"
+alt="UPenn: PEpolar (TOPUP) corrected" />
+<figcaption aria-hidden="true">UPenn: PEpolar (TOPUP)
+corrected</figcaption>
 </figure>
 </div>
 <div class="element: fragment current-visible">
 <figure>
-<img data-src="imgs/medic.png" alt="MEDIC corrected" />
-<figcaption aria-hidden="true">MEDIC corrected</figcaption>
+<img data-src="imgs/anatomical_align/MSCHD02_medic.png"
+alt="MSC: MEDIC corrected" />
+<figcaption aria-hidden="true">MSC: MEDIC corrected</figcaption>
 </figure>
 </div>
 <div class="element: fragment current-visible">
 <figure>
-<img data-src="imgs/T2w.png" alt="T2w Anatomical" />
-<figcaption aria-hidden="true">T2w Anatomical</figcaption>
+<img data-src="imgs/anatomical_align/MSCHD02_topup.png"
+alt="MSC: PEpolar (TOPUP) corrected" />
+<figcaption aria-hidden="true">MSC: PEpolar (TOPUP)
+corrected</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/anatomical_align/NP1173_medic.png"
+alt="ASD/ADHD: MEDIC corrected" />
+<figcaption aria-hidden="true">ASD/ADHD: MEDIC corrected</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/anatomical_align/NP1173_topup.png"
+alt="ASD/ADHD: PEpolar (TOPUP) corrected" />
+<figcaption aria-hidden="true">ASD/ADHD: PEpolar (TOPUP)
+corrected</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section
+id="medic-correction-has-greater-correspondence-to-anatomy-than-pepolar-correction"
+class="slide level2">
+<h2>MEDIC correction has greater correspondence to anatomy than PEpolar
+correction</h2>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<p>Global alignment metrics (whole brain) for ASD/ADHD Dataset. ✅
+indicates best metric that was statistically significant (p &lt; 0.05).
+Correlation metric is the Pearson correlation between the functional and
+anatomical data. Grad. Corr. is the Pearson correlation between the
+gradient of the functional and anatomical data. Norm. MI is the
+normalized mutual information between the functional and anatomical
+data.</p>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 27%" />
+<col style="width: 19%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Metric</th>
+<th style="text-align: center;">MEDIC</th>
+<th style="text-align: center;">TOPUP</th>
+<th style="text-align: center;">t-stat</th>
+<th style="text-align: center;">p-value</th>
+<th style="text-align: center;">df</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">T1w Correlation</td>
+<td style="text-align: center;">✅<strong>0.412 (0.052)</strong></td>
+<td style="text-align: center;">0.403 (0.052)</td>
+<td style="text-align: center;">15.430</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">182</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T2w Correlation</td>
+<td style="text-align: center;">0.710 (0.025)</td>
+<td style="text-align: center;">0.711 (0.030)</td>
+<td style="text-align: center;">-0.991</td>
+<td style="text-align: center;">0.323</td>
+<td style="text-align: center;">182</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">T1w Grad. Corr.</td>
+<td style="text-align: center;">✅<strong>0.432 (0.040)</strong></td>
+<td style="text-align: center;">0.417 (0.039)</td>
+<td style="text-align: center;">8.526</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">182</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T2w Grad. Corr.</td>
+<td style="text-align: center;">0.667 (0.034)</td>
+<td style="text-align: center;">0.664 (0.055)</td>
+<td style="text-align: center;">1.184</td>
+<td style="text-align: center;">0.238</td>
+<td style="text-align: center;">182</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">T1w Norm. MI</td>
+<td style="text-align: center;">✅<strong>0.081 (0.006)</strong></td>
+<td style="text-align: center;">0.079 (0.006)</td>
+<td style="text-align: center;">11.146</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">182</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T2w Norm. MI</td>
+<td style="text-align: center;">✅<strong>0.099 (0.007)</strong></td>
+<td style="text-align: center;">0.098 (0.008)</td>
+<td style="text-align: center;">4.018</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">182</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="element: fragment current-visible">
+<p>Local alignment metrics (whole brain) for ASD/ADHD Dataset. ✅
+indicates best metric that was statistically significant (p &lt; 0.05).
+Spotlight analysis was performed by computing the average local
+correlation between the functional and anatomical images across all
+voxels within a 3 voxel sphere.</p>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 27%" />
+<col style="width: 19%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Metric</th>
+<th style="text-align: center;">MEDIC</th>
+<th style="text-align: center;">TOPUP</th>
+<th style="text-align: center;">t-stat</th>
+<th style="text-align: center;">p-value</th>
+<th style="text-align: center;">df</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">T1w Spotlight</td>
+<td style="text-align: center;">✅<strong>0.347 (0.019)</strong></td>
+<td style="text-align: center;">0.340 (0.019)</td>
+<td style="text-align: center;">9.031</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">182</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T2w Spotlight</td>
+<td style="text-align: center;">✅<strong>0.521 (0.035)</strong></td>
+<td style="text-align: center;">0.514 (0.044)</td>
+<td style="text-align: center;">4.329</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">182</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="element: fragment current-visible">
+<p>Task based metrics for ASD/ADHD Dataset. ✅ indicates best metric
+that was statistically significant (p &lt; 0.05). Each metric examined
+the separability of tissue types using anatomical segmentation labels
+applied to functional data. Separability was measured by thresholding
+the functional data along the tissue boundary, comparing the
+classification against the anatomical segmenation, and computing the AUC
+of the resulting ROC curve.</p>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 27%" />
+<col style="width: 19%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Metric</th>
+<th style="text-align: center;">MEDIC</th>
+<th style="text-align: center;">TOPUP</th>
+<th style="text-align: center;">t-stat</th>
+<th style="text-align: center;">p-value</th>
+<th style="text-align: center;">df</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Brain/Exterior</td>
+<td style="text-align: center;">✅<strong>0.754 (0.034)</strong></td>
+<td style="text-align: center;">0.748 (0.032)</td>
+<td style="text-align: center;">12.265</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">182</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Gray/White</td>
+<td style="text-align: center;">✅<strong>0.689 (0.034)</strong></td>
+<td style="text-align: center;">0.686 (0.037)</td>
+<td style="text-align: center;">3.461</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">182</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Ventricle/White</td>
+<td style="text-align: center;">0.837 (0.056)</td>
+<td style="text-align: center;">0.835 (0.059)</td>
+<td style="text-align: center;">1.473</td>
+<td style="text-align: center;">0.142</td>
+<td style="text-align: center;">182</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="field-map-comparison" class="slide level2">
+<h2>Field Map Comparison</h2>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<p>If the MEDIC field map is able to more accurately measure field
+inhomogeneities (due to greater correspondence to anatomy), where does
+the error in the PEpolar method come from? Two possibilities:</p>
+<ol type="1">
+<li>PEpolar method fails to accurately capture the true field map.</li>
+<li>Functional data contains other off-resonance effects that are not
+captured by the PEpolar field map</li>
+</ol>
+<p>How to distinguish the two? Compare against a 3rd field map
+method.</p>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/fieldmap_compare.png"
+alt="Comparison of Field Map from FLASH (ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data." />
+<figcaption aria-hidden="true">Comparison of Field Map from FLASH
+(ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<p>Comparison of ME-EPI data to GRE PEpolar field map shows additional
+off-resonance effects in ME-EPI data.</p>
+<figure>
+<img data-src="imgs/se_upenn_fmap.png"
+alt="Spin Echo PEpolar Image (UPenn)" />
+<figcaption aria-hidden="true">Spin Echo PEpolar Image
+(UPenn)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<p>Comparison of ME-EPI data to GRE PEpolar field map shows additional
+off-resonance effects in ME-EPI data.</p>
+<figure>
+<img data-src="imgs/gre_upenn_fmap.png"
+alt="Gradient Echo PEpolar Image (UPenn)" />
+<figcaption aria-hidden="true">Gradient Echo PEpolar Image
+(UPenn)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<p>Comparison of ME-EPI data to GRE PEpolar field map shows additional
+off-resonance effects in ME-EPI data.</p>
+<figure>
+<img data-src="imgs/me_epi_upenn_fmap.png"
+alt="ME-EPI Image, 1st Echo (UPenn)" />
+<figcaption aria-hidden="true">ME-EPI Image, 1st Echo
+(UPenn)</figcaption>
 </figure>
 </div>
 </div>
 </section>
 <section id="tsnr-comparison" class="slide level2">
 <h2>tSNR Comparison</h2>
+<div class="r-stack">
+<div class="element: fragment current-visible">
 <figure>
-<img data-src="imgs/tSNR.png"
-alt="tSNR comparison between TOPUP and MEDIC." />
-<figcaption aria-hidden="true">tSNR comparison between TOPUP and
-MEDIC.</figcaption>
+<img data-src="imgs/tSNR.png" style="width:70.0%"
+alt="tSNR comparison between TOPUP and MEDIC (MSC)." />
+<figcaption aria-hidden="true">tSNR comparison between TOPUP and MEDIC
+(MSC).</figcaption>
 </figure>
+</div>
+<div class="element: fragment current-visible">
+<p>In ASD/ADHD dataset, tSNR was not significantly different between
+MEDIC and TOPUP corrected data.</p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 26%" />
+<col style="width: 21%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Metric</th>
+<th style="text-align: center;">MEDIC</th>
+<th style="text-align: center;">TOPUP</th>
+<th style="text-align: center;">t-stat</th>
+<th style="text-align: center;">p-value</th>
+<th style="text-align: center;">df</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">tSNR</td>
+<td style="text-align: center;">38.993 (16.130)</td>
+<td style="text-align: center;">39.345 (16.166)</td>
+<td style="text-align: center;">-1.747</td>
+<td style="text-align: center;">0.082</td>
+<td style="text-align: center;">182</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
 <section id="medic-can-measure-field-changes-due-to-head-position."
 class="slide level2">
@@ -557,61 +879,102 @@ class="slide level2">
 </p>
 </div>
 </div>
-<!-- ## Slice Effects
-
-High correlations between slices that are temporally close.
-
+</section>
+<section id="medic-corrections-account-for-head-motion-effects."
+class="slide level2">
+<h2>MEDIC corrections account for head motion effects.</h2>
 <div class="r-stack">
-:::{.element: class="fragment current-visible"}
-
-![72 Slice Interleave and Ascending](imgs/interleave_72_and_ascending.png)
-:::
-:::{.element: class="fragment current-visible"}
-
-![Effect attenuated when using 78 slices instead of 72.](imgs/interleave_78.png)
-:::
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/motion_distortion_correction/medic_rotation_+y.png"
+alt="Rotation +Y: MEDIC Corrected" />
+<figcaption aria-hidden="true">Rotation +Y: MEDIC Corrected</figcaption>
+</figure>
 </div>
-
-## Is it respiration?
-
-Compute linear model of motion and/or respiration parameters. Compute $R^2$ of fits:
-
-<div class="r-stack">
-
-:::{.element: class="fragment current-visible"}
-
-![Motion and respiration.](imgs/r2_map.png)
-:::
-:::{.element: class="fragment current-visible"}
-
-![Respiration only.](imgs/r2_map_respiration.png)
-:::
-:::{.element: class="fragment current-visible"}
-
-![Motion only.](imgs/r2_map_motion.png)
-:::
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/motion_distortion_correction/topup_rotation_+y.png"
+alt="Rotation +Y: PEpolar (TOPUP) Corrected" />
+<figcaption aria-hidden="true">Rotation +Y: PEpolar (TOPUP)
+Corrected</figcaption>
+</figure>
 </div>
-
-## Is it respiration? (cont.)
-
-After correcting with MEDIC, do a second pass of framewise alignment 
-on the data.
-
-![Motion Spectra before/after MEDIC correction](imgs/motion_spectrum.png) -->
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/motion_distortion_correction/medic_rotation_-z.png"
+alt="Rotation -Z: MEDIC Corrected" />
+<figcaption aria-hidden="true">Rotation -Z: MEDIC Corrected</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/motion_distortion_correction/topup_rotation_-z.png"
+alt="Rotation -Z: PEpolar (TOPUP) Corrected" />
+<figcaption aria-hidden="true">Rotation -Z: PEpolar (TOPUP)
+Corrected</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/motion_distortion_correction/medic_rotation_+z.png"
+alt="Rotation +Z: MEDIC Corrected" />
+<figcaption aria-hidden="true">Rotation +Z: MEDIC Corrected</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/motion_distortion_correction/topup_rotation_+z.png"
+alt="Rotation +Z: PEpolar (TOPUP) Corrected" />
+<figcaption aria-hidden="true">Rotation +Z: PEpolar (TOPUP)
+Corrected</figcaption>
+</figure>
+</div>
+</div>
 </section>
 <section id="conclusions" class="slide level2">
 <h2>Conclusions</h2>
+<div class="r-stack">
+<div class="element: fragment current-visible">
 <ul>
-<li>MEDIC provides comparable quality distortion correction to TOPUP
+<li>MEDIC provides superior distortion correction performance over
+PEpolar (i.e. TOPUP) method.
 <ul>
-<li>Might suffer in areas of low SNR, in those cases TOPUP might be
-better (e.g. vmPFC, OFC)</li>
-<li>However, we add another dimension (time) we can correct over.</li>
+<li>Mainly driven by more accurate accounting of field
+inhomogeneities.</li>
 </ul></li>
-<li>MEDIC probably corrects for respiration effects in the data.</li>
-<li>Once pipeline integration is complete, will get a better idea of how
-MEDIC performs in the context of a full pipeline.</li>
+<li>MEDIC field maps are coupled in space and time to functional data.
+<ul>
+<li>No need for co-registeration of field map to functional data.</li>
+<li>Removes separate sequence for field map acquisition.</li>
+<li>Can account for field changes due to head motion.</li>
+</ul></li>
 </ul>
+</div>
+<div class="element: fragment current-visible">
+<ul>
+<li>Algorithmic Limitations
+<ul>
+<li>Suffers from same limitation as phase difference field map methods
+<ul>
+<li>Requires accurate measurement of phase at two echoes, but areas of
+very high susceptibility have significant signal loss at later echo
+times.</li>
+</ul></li>
+</ul></li>
+<li>Study limitations
+<ul>
+<li>Only tested on a single ME-EPI protocol</li>
+</ul></li>
+<li>Future work
+<ul>
+<li>Test on other ME-EPI protocols as more ME-EPI datasets become
+available.</li>
+<li>Modified MEDIC for Bipolar ME acquisitions can allow reduction in
+time between echoes.</li>
+</ul></li>
+</ul>
+</div>
+</div>
 </section>
     </div>
   </div>
