@@ -323,7 +323,7 @@ displacement field is then converted back into a field map.
   - T2w: T2 SPACE, TR: 3.2, TE: 565 ms, 176 Slices, Turbo Factor: 190, FOV: 256x256, Voxel Size: 1 mm, Bandwidth: 240 Hz/px
 
 - Datasets (Resting State Only)
-  - Midnight Scan Club (N=1)
+  - Midnight Scan Club (MSC) (N=1)
   - ASD/ADHD Dataset (N=21)
   - UPenn preliminary data (N=1)
 
@@ -411,16 +411,6 @@ ROC curve.
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
 
-If the MEDIC field map is able to more accurately measure field inhomogeneities
-(due to greater correspondence to anatomy), where does the error in the PEpolar method come from? Two possibilities:
-
-1. PEpolar method fails to accurately measure susceptibility distortion.
-2. ME-EPI data contains other off-resonance effects that are not captured by the PEpolar field map.
-
-Compare to 3rd field map.
-:::
-:::{.element: class="fragment current-visible"}
-
 Comparison of ME-EPI data to GRE PEpolar field map shows additional off-resonance effects in ME-EPI data.
 
 ![Spin Echo PEpolar Image (UPenn)](imgs/se_upenn_fmap.png)
@@ -439,7 +429,7 @@ Comparison of ME-EPI data to GRE PEpolar field map shows additional off-resonanc
 :::
 :::{.element: class="fragment current-visible"}
 
-![Comparison of Field Map from FLASH (ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data.](imgs/fieldmap_compare.png)
+![Comparison of Field Map from PEpolar EPI (TOPUP), FLASH (ROMEO), and ME-EPI (MEDIC) data.](imgs/fieldmap_compare.png)
 :::
 </div>
 
@@ -500,12 +490,6 @@ In ASD/ADHD dataset, tSNR was not significantly different between MEDIC and TOPU
 <source src="videos/rot+Z.mp4" type="video/mp4">
 </video>
 <p>+Z Rotation</p>
-</div>
-<div class="fragment current-visible">
-<video width="720" height="480" controls loop>
-<source src="videos/trans-Z.mp4" type="video/mp4">
-</video>
-<p>-Z Translation</p>
 </div>
 </div>
 

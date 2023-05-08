@@ -493,7 +493,7 @@ FOV: 256x256, Voxel Size: 1 mm, Bandwidth: 240 Hz/px</li>
 </ul></li>
 <li>Datasets (Resting State Only)
 <ul>
-<li>Midnight Scan Club (N=1)</li>
+<li>Midnight Scan Club (MSC) (N=1)</li>
 <li>ASD/ADHD Dataset (N=21)</li>
 <li>UPenn preliminary data (N=1)</li>
 </ul></li>
@@ -746,18 +746,6 @@ class="slide level2">
 other field map methods.</h2>
 <div class="r-stack">
 <div class="element: fragment current-visible">
-<p>If the MEDIC field map is able to more accurately measure field
-inhomogeneities (due to greater correspondence to anatomy), where does
-the error in the PEpolar method come from? Two possibilities:</p>
-<ol type="1">
-<li>PEpolar method fails to accurately measure susceptibility
-distortion.</li>
-<li>ME-EPI data contains other off-resonance effects that are not
-captured by the PEpolar field map.</li>
-</ol>
-<p>Compare to 3rd field map.</p>
-</div>
-<div class="element: fragment current-visible">
 <p>Comparison of ME-EPI data to GRE PEpolar field map shows additional
 off-resonance effects in ME-EPI data.</p>
 <figure>
@@ -790,9 +778,9 @@ alt="ME-EPI Image, 1st Echo (UPenn)" />
 <div class="element: fragment current-visible">
 <figure>
 <img data-src="imgs/fieldmap_compare.png"
-alt="Comparison of Field Map from FLASH (ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data." />
-<figcaption aria-hidden="true">Comparison of Field Map from FLASH
-(ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data.</figcaption>
+alt="Comparison of Field Map from PEpolar EPI (TOPUP), FLASH (ROMEO), and ME-EPI (MEDIC) data." />
+<figcaption aria-hidden="true">Comparison of Field Map from PEpolar EPI
+(TOPUP), FLASH (ROMEO), and ME-EPI (MEDIC) data.</figcaption>
 </figure>
 </div>
 </div>
@@ -897,14 +885,6 @@ class="slide level2">
 </video>
 <p>
 +Z Rotation
-</p>
-</div>
-<div class="fragment current-visible">
-<video width="720" height="480" controls loop>
-<source src="videos/trans-Z.mp4" type="video/mp4">
-</video>
-<p>
--Z Translation
 </p>
 </div>
 </div>
