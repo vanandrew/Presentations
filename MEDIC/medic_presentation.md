@@ -84,7 +84,7 @@ The **M**ulti-**E**cho **DI**stortion **C**orrection (MEDIC) algorithm uses the 
 
 <p style="font-size: 10px;">[2] Wang F, Dong Z, Reese TG, Bilgic B, Katherine Manhard M, Chen J, Polimeni JR, Wald LL, Setsompop K. Echo planar time-resolved imaging (EPTI). Magnetic Resonance in Medicine. 2019;81(6):3599–3615.</p>
 
-## Some Background on MEDIC
+## MEDIC Overview
 
 ## What is MEDIC?
 
@@ -95,7 +95,7 @@ separate field map acquisition:
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
 
-![Example of Reverse Phase Encode Acquisition. Field mapping is done before/after a BOLD run.](imgs/traditional_fmap.png)
+![Example of PEpolar field map acquisition. Field mapping is done before/after a BOLD run.](imgs/traditional_fmap.png)
 :::
 :::{.element: class="fragment current-visible"}
 
@@ -123,9 +123,8 @@ Raw phase measurements collected off the scanner are wrapped between $-\pi$ and 
 
 ## Practical Issue 2: Phase offsets
 
-The linear model assumes phase $\phi(x,y) = 0$ if $t = 0$. This is
-not true in practice due to off-resonance effects in the receiver coils. A more realistic 
-model would be:
+The linear model assumes phase $\phi(x,y) = 0$ if $t = 0$. This may not true in practice depending on the coil combination algorithm used (e.g. SENSE).
+A more realistic model would be:
 
 $$\begin{bmatrix} \phi_1(x,y) \\\\ \phi_2(x,y) \\\\ \vdots \\\\ \phi_n(x,y) \end{bmatrix} = \gamma \Delta B_0(x,y)  \begin{bmatrix} t_{1} \\\\ t_{2} \\\\ \vdots \\\\ t_{n} \end{bmatrix} + \phi_{offset}(x,y)$$
 
@@ -433,12 +432,12 @@ Comparison of ME-EPI data to GRE PEpolar field map shows additional off-resonanc
 :::
 </div>
 
-## MEDIC frame-to-frame correction does not add significant temporal variation compared to static correction.
+## <span style="font-size: 1.5rem;">MEDIC frame-to-frame correction does not add significant temporal variation compared to static correction.</span>
 
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
 
-![tSNR comparison between TOPUP and MEDIC (MSC).](imgs/tSNR.png){ width=70% }
+![tSNR comparison between TOPUP and MEDIC (MSC).](imgs/tSNR.png){ width=60% }
 :::
 :::{.element: class="fragment current-visible"}
 

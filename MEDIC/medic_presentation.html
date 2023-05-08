@@ -157,8 +157,8 @@ Polimeni JR, Wald LL, Setsompop K. Echo planar time-resolved imaging
 (EPTI). Magnetic Resonance in Medicine. 2019;81(6):3599–3615.
 </p>
 </section>
-<section id="some-background-on-medic" class="slide level2">
-<h2>Some Background on MEDIC</h2>
+<section id="medic-overview" class="slide level2">
+<h2>MEDIC Overview</h2>
 </section>
 <section id="what-is-medic" class="slide level2">
 <h2>What is MEDIC?</h2>
@@ -169,9 +169,9 @@ field map acquisition:</p>
 <div class="element: fragment current-visible">
 <figure>
 <img data-src="imgs/traditional_fmap.png"
-alt="Example of Reverse Phase Encode Acquisition. Field mapping is done before/after a BOLD run." />
-<figcaption aria-hidden="true">Example of Reverse Phase Encode
-Acquisition. Field mapping is done before/after a BOLD run.</figcaption>
+alt="Example of PEpolar field map acquisition. Field mapping is done before/after a BOLD run." />
+<figcaption aria-hidden="true">Example of PEpolar field map acquisition.
+Field mapping is done before/after a BOLD run.</figcaption>
 </figure>
 </div>
 <div class="element: fragment current-visible">
@@ -213,9 +213,9 @@ data.</figcaption>
 </section>
 <section id="practical-issue-2-phase-offsets" class="slide level2">
 <h2>Practical Issue 2: Phase offsets</h2>
-<p>The linear model assumes phase $\phi(x,y) = 0$ if $t = 0$. This is
-not true in practice due to off-resonance effects in the receiver coils.
-A more realistic model would be:</p>
+<p>The linear model assumes phase $\phi(x,y) = 0$ if $t = 0$. This may
+not true in practice depending on the coil combination algorithm used
+(e.g. SENSE). A more realistic model would be:</p>
 <p>$$\begin{bmatrix} \phi_1(x,y) \\ \phi_2(x,y) \\ \vdots \\ \phi_n(x,y)
 \end{bmatrix} = \gamma \Delta B_0(x,y) \begin{bmatrix} t_{1} \\ t_{2} \\
 \vdots \\ t_{n} \end{bmatrix} + \phi_{offset}(x,y)$$</p>
@@ -788,12 +788,13 @@ alt="Comparison of Field Map from PEpolar EPI (TOPUP), FLASH (ROMEO), and ME-EPI
 <section
 id="medic-frame-to-frame-correction-does-not-add-significant-temporal-variation-compared-to-static-correction."
 class="slide level2">
-<h2>MEDIC frame-to-frame correction does not add significant temporal
-variation compared to static correction.</h2>
+<h2><span style="font-size: 1.5rem;">MEDIC frame-to-frame correction
+does not add significant temporal variation compared to static
+correction.</span></h2>
 <div class="r-stack">
 <div class="element: fragment current-visible">
 <figure>
-<img data-src="imgs/tSNR.png" style="width:70.0%"
+<img data-src="imgs/tSNR.png" style="width:60.0%"
 alt="tSNR comparison between TOPUP and MEDIC (MSC)." />
 <figcaption aria-hidden="true">tSNR comparison between TOPUP and MEDIC
 (MSC).</figcaption>
