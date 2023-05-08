@@ -471,8 +471,8 @@ space.</figcaption>
 <section id="results" class="slide level2">
 <h2>Results</h2>
 </section>
-<section id="datasets" class="slide level2">
-<h2>Datasets</h2>
+<section id="acquisition-parameters-and-datasets" class="slide level2">
+<h2>Acquisition Parameters and Datasets</h2>
 <ul>
 <li>CMRR Multi-Echo EPI Sequence
 <ul>
@@ -553,10 +553,10 @@ corrected</figcaption>
 </div>
 </section>
 <section
-id="medic-correction-has-greater-correspondence-to-anatomy-than-pepolar-correction"
+id="medic-correction-produces-greater-correspondence-to-anatomy-in-both-global-and-local-alignment-metrics."
 class="slide level2">
-<h2>MEDIC correction has greater correspondence to anatomy than PEpolar
-correction</h2>
+<h2>MEDIC correction produces greater correspondence to anatomy in both
+global and local alignment metrics.</h2>
 <div class="r-stack">
 <div class="element: fragment current-visible">
 <p>Global alignment metrics (whole brain) for ASD/ADHD Dataset. ✅
@@ -739,28 +739,23 @@ of the resulting ROC curve.</p>
 </div>
 </div>
 </section>
-<section id="field-map-comparison" class="slide level2">
-<h2>Field Map Comparison</h2>
+<section
+id="medic-captures-additional-off-resonance-effects-not-captured-by-other-field-map-methods."
+class="slide level2">
+<h2>MEDIC captures additional off-resonance effects not captured by
+other field map methods.</h2>
 <div class="r-stack">
 <div class="element: fragment current-visible">
 <p>If the MEDIC field map is able to more accurately measure field
 inhomogeneities (due to greater correspondence to anatomy), where does
 the error in the PEpolar method come from? Two possibilities:</p>
 <ol type="1">
-<li>PEpolar method fails to accurately capture the true field map.</li>
-<li>Functional data contains other off-resonance effects that are not
-captured by the PEpolar field map</li>
+<li>PEpolar method fails to accurately measure susceptibility
+distortion.</li>
+<li>ME-EPI data contains other off-resonance effects that are not
+captured by the PEpolar field map.</li>
 </ol>
-<p>How to distinguish the two? Compare against a 3rd field map
-method.</p>
-</div>
-<div class="element: fragment current-visible">
-<figure>
-<img data-src="imgs/fieldmap_compare.png"
-alt="Comparison of Field Map from FLASH (ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data." />
-<figcaption aria-hidden="true">Comparison of Field Map from FLASH
-(ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data.</figcaption>
-</figure>
+<p>Compare to 3rd field map.</p>
 </div>
 <div class="element: fragment current-visible">
 <p>Comparison of ME-EPI data to GRE PEpolar field map shows additional
@@ -792,10 +787,21 @@ alt="ME-EPI Image, 1st Echo (UPenn)" />
 (UPenn)</figcaption>
 </figure>
 </div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/fieldmap_compare.png"
+alt="Comparison of Field Map from FLASH (ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data." />
+<figcaption aria-hidden="true">Comparison of Field Map from FLASH
+(ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data.</figcaption>
+</figure>
+</div>
 </div>
 </section>
-<section id="tsnr-comparison" class="slide level2">
-<h2>tSNR Comparison</h2>
+<section
+id="medic-frame-to-frame-correction-does-not-add-significant-temporal-variation-compared-to-static-correction."
+class="slide level2">
+<h2>MEDIC frame-to-frame correction does not add significant temporal
+variation compared to static correction.</h2>
 <div class="r-stack">
 <div class="element: fragment current-visible">
 <figure>
@@ -985,12 +991,12 @@ Corrected</figcaption>
 <li>MEDIC provides superior distortion correction performance over
 PEpolar (i.e. TOPUP) method.
 <ul>
-<li>Mainly driven by more accurate accounting of field
-inhomogeneities.</li>
+<li>Mainly driven by more accurate accounting of all off-resonance
+effects distorting the data.</li>
 </ul></li>
 <li>MEDIC field maps are coupled in space and time to functional data.
 <ul>
-<li>No need for co-registeration of field map to functional data.</li>
+<li>No need for co-registration of field map to functional data.</li>
 <li>Removes separate sequence for field map acquisition.</li>
 <li>Can account for field changes due to head motion.</li>
 </ul></li>
@@ -1017,6 +1023,8 @@ times.</li>
 available.</li>
 <li>Modified MEDIC for Bipolar ME acquisitions can allow reduction in
 time between echoes.</li>
+<li>Using denoising methods (e.g. NORDIC) on phase images may improve
+SNR and distortion correction in high susceptibility regions.</li>
 </ul></li>
 </ul>
 </div>

@@ -311,7 +311,7 @@ displacement field is then converted back into a field map.
 
 ## Results
 
-## Datasets
+## Acquisition Parameters and Datasets
 
 - CMRR Multi-Echo EPI Sequence
   - TR: 1.761 s, TEs: 14.2, 38.93, 63.66, 88.39, 113.12 ms, 72 Slices, FOV: 110x110, Voxel Size: 2.0 mm, Multi-Band: 6
@@ -356,7 +356,7 @@ displacement field is then converted back into a field map.
 :::
 </div>
 
-## MEDIC correction has greater correspondence to anatomy than PEpolar correction
+## MEDIC correction produces greater correspondence to anatomy in both global and local alignment metrics.
 
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
@@ -406,7 +406,7 @@ ROC curve.
 :::
 </div>
 
-## Field Map Comparison
+## MEDIC captures additional off-resonance effects not captured by other field map methods.
 
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
@@ -414,14 +414,10 @@ ROC curve.
 If the MEDIC field map is able to more accurately measure field inhomogeneities
 (due to greater correspondence to anatomy), where does the error in the PEpolar method come from? Two possibilities:
 
-1. PEpolar method fails to accurately capture the true field map.
-2. Functional data contains other off-resonance effects that are not captured by the PEpolar field map
+1. PEpolar method fails to accurately measure susceptibility distortion.
+2. ME-EPI data contains other off-resonance effects that are not captured by the PEpolar field map.
 
-How to distinguish the two? Compare against a 3rd field map method.
-:::
-:::{.element: class="fragment current-visible"}
-
-![Comparison of Field Map from FLASH (ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data.](imgs/fieldmap_compare.png)
+Compare to 3rd field map.
 :::
 :::{.element: class="fragment current-visible"}
 
@@ -441,9 +437,13 @@ Comparison of ME-EPI data to GRE PEpolar field map shows additional off-resonanc
 
 ![ME-EPI Image, 1st Echo (UPenn)](imgs/me_epi_upenn_fmap.png)
 :::
+:::{.element: class="fragment current-visible"}
+
+![Comparison of Field Map from FLASH (ROMEO), PEpolar EPI (TOPUP), and ME-EPI (MEDIC) data.](imgs/fieldmap_compare.png)
+:::
 </div>
 
-## tSNR Comparison
+## MEDIC frame-to-frame correction does not add significant temporal variation compared to static correction.
 
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
@@ -456,7 +456,7 @@ In ASD/ADHD dataset, tSNR was not significantly different between MEDIC and TOPU
 
 |     Metric      |        MEDIC        |     TOPUP       | t-stat | p-value |  df  |
 |:---------------:|:-------------------:|:---------------:|:------:|:-------:|:----:|
-|       tSNR      |   38.993 (16.130)   | 39.345 (16.166) | -1.747 |  0.082  |  182 |
+|      tSNR       |   38.993 (16.130)   | 39.345 (16.166) | -1.747 |  0.082  |  182 |
 
 :::
 
@@ -555,10 +555,10 @@ In ASD/ADHD dataset, tSNR was not significantly different between MEDIC and TOPU
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
 - MEDIC provides superior distortion correction performance over PEpolar (i.e. TOPUP) method.
-  - Mainly driven by more accurate accounting of field inhomogeneities.
+  - Mainly driven by more accurate accounting of all off-resonance effects distorting the data.
 
 - MEDIC field maps are coupled in space and time to functional data.
-  - No need for co-registeration of field map to functional data.
+  - No need for co-registration of field map to functional data.
   - Removes separate sequence for field map acquisition.
   - Can account for field changes due to head motion.
 :::
@@ -572,5 +572,6 @@ In ASD/ADHD dataset, tSNR was not significantly different between MEDIC and TOPU
 - Future work
   - Test on other ME-EPI protocols as more ME-EPI datasets become available.
   - Modified MEDIC for Bipolar ME acquisitions can allow reduction in time between echoes.
+  - Using denoising methods (e.g. NORDIC) on phase images may improve SNR and distortion correction in high susceptibility regions.
 :::
 </div>
