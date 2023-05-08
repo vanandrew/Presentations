@@ -538,24 +538,24 @@ In ASD/ADHD dataset, tSNR was not significantly different between MEDIC and TOPU
 
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
-- MEDIC provides superior distortion correction performance over PEpolar (i.e. TOPUP) method.
-  - Mainly driven by more accurate accounting of all off-resonance effects distorting the data.
+- MEDIC provides superior distortion correction performance over PEpolar (i.e. TOPUP) method
+  - Mainly driven by more accurate accounting of all off-resonance effects distorting the data
 
 - MEDIC field maps are coupled in space and time to functional data.
-  - No need for co-registration of field map to functional data.
-  - Removes separate sequence for field map acquisition.
-  - Can account for field changes due to head motion.
+  - No need for co-registration of field map to functional data
+  - Removes separate sequence for field map acquisition
+  - Can account for field changes due to head motion
 :::
 :::{.element: class="fragment current-visible"}
 - Algorithmic Limitations
   - Suffers from same limitation as phase difference field map methods
     - Requires accurate measurement of phase at two echoes, but areas of very high susceptibility
-      have significant signal loss at later echo times.
+      have significant signal loss at later echo times
 - Study limitations
   - Only tested on a single ME-EPI protocol
 - Future work
-  - Test on other ME-EPI protocols as more ME-EPI datasets become available.
-  - Modified MEDIC for Bipolar ME acquisitions can allow reduction in time between echoes.
-  - Using denoising methods (e.g. NORDIC) on phase images may improve SNR and distortion correction in high susceptibility regions.
+  - Test on other ME-EPI protocols as more ME-EPI datasets become available
+  - Modified MEDIC for Bipolar ME acquisitions can allow reduction in time between echoes
+  - Using denoising methods (e.g. NORDIC) on phase images may improve SNR and distortion correction in high susceptibility regions
 :::
 </div>
