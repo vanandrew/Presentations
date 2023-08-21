@@ -227,6 +227,11 @@ $$y_{undistorted} = y_{distorted} - \Delta r(x, y_{distorted})$$
 
 ![MSC: PEpolar (TOPUP) corrected](imgs/anatomical_align/MSCHD02_topup.png)
 :::
+
+</div>
+
+## MEDIC correction has greater correspondence to cerebellar anatomy than PEpolar correction
+<div class="r-stack">
 :::{.element: class="fragment current-visible"}
 
 ![ASD/ADHD: MEDIC corrected](imgs/anatomical_align/washu2_medic.png)
@@ -268,13 +273,13 @@ Comparison of ME-EPI data to GRE PEpolar field map shows additional off-resonanc
 :::
 </div>
 
-## MEDIC correction produces greater correspondence to anatomy in both global and local alignment metrics.
-
-![Global and local anatomical alignment metrics](imgs/alignment_metrics.png)
-
-## MEDIC correction produces greater correspondence to anatomy in both global and local alignment metrics.
+## MEDIC correction has greater correspondence to anatomy in global/local alignment.
 
 <div class="r-stack">
+::: {.element: class="fragment current-visible"}
+![Global and local anatomical alignment metrics](imgs/alignment_metrics.png)
+
+:::
 :::{.element: class="fragment current-visible"}
 
 Global alignment metrics (whole brain) for ASD/ADHD Dataset. ✅ indicates best metric that was
@@ -295,6 +300,13 @@ functional and anatomical data.
 :::
 :::{.element: class="fragment current-visible"}
 
+![Local spotlight t-statistic map. Spotlight analysis was performed by computing the average squared
+local correlation between the functional and anatomical images across all voxels within a 3
+voxel radius sphere.](imgs/spotlight_comparison.png)
+
+:::
+:::{.element: class="fragment current-visible"}
+
 Local alignment metrics (whole brain) for ASD/ADHD Dataset. ✅ indicates best metric that was
 statistically significant (p < 0.05). Spotlight analysis was performed by computing the average squared
 local correlation between the functional and anatomical images across all voxels within a 3 voxel radius sphere.
@@ -310,9 +322,9 @@ local correlation between the functional and anatomical images across all voxels
 Segmentation based metrics for ASD/ADHD Dataset. ✅ indicates best metric that was
 statistically significant (p < 0.05). Each metric examined the separability of tissue
 types using anatomical segmentation labels applied to functional data. Separability was
-measured by thresholding the functional data along the tissue boundary, comparing the
-classification against the anatomical segmenation, and computing the AUC of the resulting
-ROC curve.
+measured by treating anatomical segmentation labels as ground truth and assessing the
+performance of binary classification for each tissue boundary. Results are reported as the
+AUC of the resulting ROC curve.
 
 |     Metric      |        MEDIC        |     TOPUP     | t-stat | p-value |  df  |
 |:---------------:|:-------------------:|:-------------:|:------:|:-------:|:----:|
@@ -353,7 +365,7 @@ In ASD/ADHD dataset, tSNR was not significantly different between MEDIC and TOPU
 
 ## Extras
 
-## MEDIC corrects repiration effects in motion parameters.
+## MEDIC corrects respiration effects in motion parameters.
 
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}

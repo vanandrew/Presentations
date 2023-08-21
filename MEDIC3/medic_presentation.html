@@ -417,6 +417,15 @@ alt="MSC: PEpolar (TOPUP) corrected" />
 corrected</figcaption>
 </figure>
 </div>
+</div>
+</section>
+
+<section
+id="medic-correction-has-greater-correspondence-to-cerebellar-anatomy-than-pepolar-correction"
+class="title-slide slide level2">
+<h2>MEDIC correction has greater correspondence to cerebellar anatomy
+than PEpolar correction</h2>
+<div class="r-stack">
 <div class="element: fragment current-visible">
 <figure>
 <img data-src="imgs/anatomical_align/washu2_medic.png"
@@ -491,24 +500,19 @@ alt="Comparison of Field Map from PEpolar EPI (TOPUP), FLASH (ROMEO), and ME-EPI
 </div>
 </section></section>
 <section
-id="medic-correction-produces-greater-correspondence-to-anatomy-in-both-global-and-local-alignment-metrics."
+id="medic-correction-has-greater-correspondence-to-anatomy-in-globallocal-alignment."
 class="title-slide slide level2">
-<h2>MEDIC correction produces greater correspondence to anatomy in both
-global and local alignment metrics.</h2>
+<h2>MEDIC correction has greater correspondence to anatomy in
+global/local alignment.</h2>
+<div class="r-stack">
+<div class="element: fragment current-visible">
 <figure>
 <img data-src="imgs/alignment_metrics.png"
 alt="Global and local anatomical alignment metrics" />
 <figcaption aria-hidden="true">Global and local anatomical alignment
 metrics</figcaption>
 </figure>
-</section>
-
-<section
-id="medic-correction-produces-greater-correspondence-to-anatomy-in-both-global-and-local-alignment-metrics.-1"
-class="title-slide slide level2">
-<h2>MEDIC correction produces greater correspondence to anatomy in both
-global and local alignment metrics.</h2>
-<div class="r-stack">
+</div>
 <div class="element: fragment current-visible">
 <p>Global alignment metrics (whole brain) for ASD/ADHD Dataset. ✅
 indicates best metric that was statistically significant (p &lt; 0.05).
@@ -589,6 +593,16 @@ data.</p>
 </table>
 </div>
 <div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/spotlight_comparison.png"
+alt="Local spotlight t-statistic map. Spotlight analysis was performed by computing the average squared local correlation between the functional and anatomical images across all voxels within a 3 voxel radius sphere." />
+<figcaption aria-hidden="true">Local spotlight t-statistic map.
+Spotlight analysis was performed by computing the average squared local
+correlation between the functional and anatomical images across all
+voxels within a 3 voxel radius sphere.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
 <p>Local alignment metrics (whole brain) for ASD/ADHD Dataset. ✅
 indicates best metric that was statistically significant (p &lt; 0.05).
 Spotlight analysis was performed by computing the average squared local
@@ -637,10 +651,10 @@ voxels within a 3 voxel radius sphere.</p>
 <p>Segmentation based metrics for ASD/ADHD Dataset. ✅ indicates best
 metric that was statistically significant (p &lt; 0.05). Each metric
 examined the separability of tissue types using anatomical segmentation
-labels applied to functional data. Separability was measured by
-thresholding the functional data along the tissue boundary, comparing
-the classification against the anatomical segmenation, and computing the
-AUC of the resulting ROC curve.</p>
+labels applied to functional data. Separability was measured by treating
+anatomical segmentation labels as ground truth and assessing the
+performance of binary classification for each tissue boundary. Results
+are reported as the AUC of the resulting ROC curve.</p>
 <table>
 <colgroup>
 <col style="width: 22%" />
@@ -731,9 +745,9 @@ it is correcting.
 
 </section>
 
-<section id="medic-corrects-repiration-effects-in-motion-parameters."
+<section id="medic-corrects-respiration-effects-in-motion-parameters."
 class="title-slide slide level2">
-<h2>MEDIC corrects repiration effects in motion parameters.</h2>
+<h2>MEDIC corrects respiration effects in motion parameters.</h2>
 <div class="r-stack">
 <div class="element: fragment current-visible">
 <figure>
