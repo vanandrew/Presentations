@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Andrew Van, PhD Candidate in Biomedical Engineering">
+  <meta name="dcterms.date" content="2023-08-21">
+  <title>Framewise distortion correction in Multi-echo Echo Planar Imaging</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    <style>
+    :root {
+        --r-main-font-size: 24px;
+    }
+    </style>  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/black.css" id="theme">
+  <style>
+  :root {
+      --r-main-font-size: 24px;
+  }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Framewise distortion correction in Multi-echo Echo
+Planar Imaging</h1>
+  <p class="author">Andrew Van, PhD Candidate in Biomedical
+Engineering</p>
+  <p class="institute">Dosenbach Lab, Washington University in
+St. Louis</p>
+  <p class="date">August 21, 2023</p>
+</section>
+
+<section
+id="echo-planar-imaging-suffers-from-distortion-due-to-b0-inhomogeneities"
+class="title-slide slide level2">
+<h2>Echo Planar Imaging suffers from distortion due to B0
+inhomogeneities</h2>
+<figure>
+<img data-src="imgs/distortion_simulation.png" style="width:80.0%"
+alt="Simulation of distortion effects caused by B0 inhomogeneities." />
+<figcaption aria-hidden="true">Simulation of distortion effects caused
+by B0 inhomogeneities.</figcaption>
+</figure>
+<p>Correcting distortion requires measuring B0 field change.</p>
+</section>
+
+<section id="current-b0-field-mapping-approaches"
+class="title-slide slide level2">
+<h2>Current B0 field mapping approaches</h2>
+<p>Current approaches<sup>[2]</sup>:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Phase Difference</th>
+<th style="text-align: center;">PEpolar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img
+data-src="imgs/phase_difference.png" /></td>
+<td style="text-align: center;"><img data-src="imgs/rpe.png" /></td>
+</tr>
+</tbody>
+</table>
+<p>Both require separate field map acquisitions before/after a EPI
+scan!</p>
+<p style="font-size: 10px;">
+[2] Wang F, Dong Z, Reese TG, Bilgic B, Katherine Manhard M, Chen J,
+Polimeni JR, Wald LL, Setsompop K. Echo planar time-resolved imaging
+(EPTI). Magnetic Resonance in Medicine. 2019;81(6):3599–3615.
+</p>
+</section>
+
+<section id="the-multi-echo-distortion-correction-medic-algorithm"
+class="title-slide slide level2">
+<h2>The Multi-Echo DIstortion Correction (MEDIC) algorithm</h2>
+<p>MEDIC is an algorithm that extracts field maps from the phase
+information of multi-echo EPI data. This removes the need for a separate
+field map acquisition:</p>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/traditional_fmap.png"
+alt="Example of PEpolar field map acquisition. Field mapping is done before/after an EPI run." />
+<figcaption aria-hidden="true">Example of PEpolar field map acquisition.
+Field mapping is done before/after an EPI run.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/medic_fmap.png"
+alt="In MEDIC, field maps are computed from the phase information of ME-EPI, which allows for measurement of the field frame-to-frame." />
+<figcaption aria-hidden="true">In MEDIC, field maps are computed from
+the phase information of ME-EPI, which allows for measurement of the
+field frame-to-frame.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+
+<section id="how-does-medic-work" class="title-slide slide level2">
+<h2>How does MEDIC work?</h2>
+<ol type="1">
+<li>Correct phase offsets and phase wraps</li>
+<li>Temporal Correction</li>
+<li>Field Map Estimation and SVD Filtering</li>
+<li>Invert Field Map to Undistorted Space</li>
+</ol>
+</section>
+
+<section id="how-does-medic-work-1" class="title-slide slide level2">
+<h2>How does MEDIC work?</h2>
+<ol type="1">
+<li>Correct phase offsets and phase wraps<sup>[3,4]</sup></li>
+</ol>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/phase3.png" alt="Wrapped Phase" />
+<figcaption aria-hidden="true">Wrapped Phase</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/echo3.png" alt="Unwrapped Phase" />
+<figcaption aria-hidden="true">Unwrapped Phase</figcaption>
+</figure>
+</div>
+</div>
+<p style="font-size: 10px;">
+[3] Eckstein K, Dymerska B, Bachrata B, Bogner W, Poljanc K, Trattnig S,
+Robinson SD. Computationally Efficient Combination of Multi-channel
+Phase Data From Multi-echo Acquisitions (ASPIRE). Magnetic Resonance in
+Medicine. 2018;79(6):2996–3006.
+</p>
+<p style="font-size: 10px;">
+[4] Dymerska B, Eckstein K, Bachrata B, Siow B, Trattnig S, Shmueli K,
+Robinson SD. Phase unwrapping with a rapid opensource minimum spanning
+tree algorithm (ROMEO). Magnetic Resonance in Medicine.
+2021;85(4):2294–2308.
+</p>
+</section>
+
+<section id="how-does-medic-work-2" class="title-slide slide level2">
+<h2>How does MEDIC work?</h2>
+<ol start="2" type="1">
+<li>Temporal Correction</li>
+</ol>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<p>
+Find frames similar in head position (R = 0.98) and correct phase to
+nearest $2\pi$ multiple of average phase.
+</p>
+<figure>
+<img data-src="imgs/pre_gmoc_timeseries.png"
+alt="Example of unwrapped phase solutions settling on $2\pi$ offset away from other solutions." />
+<figcaption aria-hidden="true">Example of unwrapped phase solutions
+settling on $2\pi$ offset away from other solutions.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<p>
+Find frames similar in head position (R = 0.98) and correct phase to
+nearest $2\pi$ multiple of average phase.
+</p>
+<figure>
+<img data-src="imgs/pre_gmoc_correction.png"
+alt="Bad solution in question." />
+<figcaption aria-hidden="true">Bad solution in question.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<p>
+Find frames similar in head position (R = 0.98) and correct phase to
+nearest $2\pi$ multiple of average phase.
+</p>
+<figure>
+<img data-src="imgs/post_gmoc_correction.png"
+alt="After temporal correction." />
+<figcaption aria-hidden="true">After temporal correction.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+
+<section id="how-does-medic-work-3" class="title-slide slide level2">
+<h2>How does MEDIC work?</h2>
+<ol start="3" type="1">
+<li>Field Map Estimation and SVD Filtering</li>
+</ol>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<p>The field map is computed by using weighted least squares:</p>
+<p>$$ W_{mag} \boldsymbol{\phi} = W_{mag} \gamma \Delta B_0 \mathbf{t}
+$$</p>
+<p>where $W_{mag}$ is the magnitude at each echo.</p>
+</div>
+<div class="fragment current-visible">
+
+<p>Noisy temporal components are removed using SVD filtering:</p>
+<video width="720" height="480" controls loop>
+<source src="videos/svd.mp4" type="video/mp4">
+</video>
+</div>
+</div>
+</section>
+
+<section id="how-does-medic-work-4" class="title-slide slide level2">
+<h2>How does MEDIC work?</h2>
+<ol start="4" type="1">
+<li>Invert Field Map to Undistorted Space</li>
+</ol>
+<p>Field maps computed on ME-EPI data are in the distorted space, so we
+must invert the field map to get it into the undistorted space:</p>
+<p>$$y_{undistorted} = y_{distorted} - \Delta r(x, y_{distorted})$$</p>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/fmap_native.png"
+alt="Field map in distorted space." />
+<figcaption aria-hidden="true">Field map in distorted
+space.</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/fmap.png" alt="Field map in undistorted space." />
+<figcaption aria-hidden="true">Field map in undistorted
+space.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+
+<section id="acquisition-parameters-and-datasets"
+class="title-slide slide level2">
+<h2>Acquisition Parameters and Datasets</h2>
+<ul>
+<li>CMRR Multi-Echo EPI Sequence
+<ul>
+<li>TR: 1.761 s, TEs: 14.2, 38.93, 63.66, 88.39, 113.12 ms, 72 Slices,
+FOV: 110x110, Voxel Size: 2.0 mm, Multi-Band: 6</li>
+</ul></li>
+<li>Spin Echo PEpolar Field maps
+<ul>
+<li>TR: 8 s, TE: 66 ms, 72 Slices, FOV: 110x110, Voxel Size: 2.0mm</li>
+<li>Field map solutions computed with FSL TOPUP</li>
+</ul></li>
+<li>T1w/T2w Anatomical Scans
+<ul>
+<li>T1w: Multiecho MPRAGE, TR: 2.5 s, TEs: 1.81, 3.6, 5.39, 7.18 ms, 208
+Slices, FOV: 300x300, Voxel Size: 0.8 mm, Bandwidth: 745 Hz/px</li>
+<li>T2w: T2 SPACE, TR: 3.2, TE: 565 ms, 176 Slices, Turbo Factor: 190,
+FOV: 256x256, Voxel Size: 1 mm, Bandwidth: 240 Hz/px</li>
+</ul></li>
+<li>Datasets (Resting State Only)
+<ul>
+<li>WashU Midnight Scan Club (MSC) (N=1)</li>
+<li>UPenn preliminary data (N=1)</li>
+<li>UMinn data (N=1)</li>
+<li>ASD/ADHD Dataset (N=21)</li>
+</ul></li>
+<li>Comparisons between MEDIC and static PEpolar (TOPUP)
+correction.</li>
+</ul>
+</section>
+
+<section id="medic-can-measure-field-changes-due-to-head-position."
+class="title-slide slide level2">
+<h2>MEDIC can measure field changes due to head position.</h2>
+<div class="r-stack">
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot-X.mp4" type="video/mp4">
+</video>
+<p>
+-X Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot+X.mp4" type="video/mp4">
+</video>
+<p>
++X Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot-Y.mp4" type="video/mp4">
+</video>
+<p>
+-Y Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot+Y.mp4" type="video/mp4">
+</video>
+<p>
++Y Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot-Z.mp4" type="video/mp4">
+</video>
+<p>
+-Z Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<video width="720" height="480" controls loop>
+<source src="videos/rot+Z.mp4" type="video/mp4">
+</video>
+<p>
++Z Rotation
+</p>
+</div>
+<div class="fragment current-visible">
+<figure>
+<img data-src="imgs/fieldmap_differences.png"
+alt="Field Map Differences (Rotated Head Position - Neutral Position)" />
+<figcaption aria-hidden="true">Field Map Differences (Rotated Head
+Position - Neutral Position)</figcaption>
+</figure>
+</div>
+</div>
+</section>
+
+<section
+id="medic-corrects-data-in-the-presence-of-head-position-changes."
+class="title-slide slide level2">
+<h2>MEDIC corrects data in the presence of head position changes.</h2>
+<figure>
+<img data-src="imgs/head_position_concat.png"
+alt="Functional Connectivity MEDIC vs. TOPUP vs. Grouth Truth" />
+<figcaption aria-hidden="true">Functional Connectivity MEDIC vs. TOPUP
+vs. Grouth Truth</figcaption>
+</figure>
+</section>
+
+<section
+id="medic-corrected-data-is-more-similar-to-group-data-than-topup-corrected-data."
+class="title-slide slide level2">
+<h2>MEDIC corrected data is more similar to group data than TOPUP
+corrected data.</h2>
+<figure>
+<img data-src="imgs/group_template_compare.png"
+alt="Similarity Comparison to ABCD Group Template" />
+<figcaption aria-hidden="true">Similarity Comparison to ABCD Group
+Template</figcaption>
+</figure>
+</section>
+
+<section
+id="medic-correction-has-greater-correspondence-to-cortical-anatomy-than-pepolar-correction"
+class="title-slide slide level2">
+<h2>MEDIC correction has greater correspondence to cortical anatomy than
+PEpolar correction</h2>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/anatomical_align/UPenn_medic.png"
+alt="MEDIC corrected" />
+<figcaption aria-hidden="true">MEDIC corrected</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/anatomical_align/UPenn_topup.png"
+alt="PEpolar (TOPUP) corrected" />
+<figcaption aria-hidden="true">PEpolar (TOPUP) corrected</figcaption>
+</figure>
+</div>
+<!-- :::{.element: class="fragment current-visible"}
+
+![MSC: MEDIC corrected](imgs/anatomical_align/MSCHD02_medic.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![MSC: PEpolar (TOPUP) corrected](imgs/anatomical_align/MSCHD02_topup.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![ASD/ADHD: MEDIC corrected](imgs/anatomical_align/NP1173_medic.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![ASD/ADHD: PEpolar (TOPUP) corrected](imgs/anatomical_align/NP1173_topup.png)
+::: -->
+</div>
+</section>
+
+<section>
+<section id="medic-captures-additional-off-resonance-effects."
+class="title-slide slide level2">
+<h2>MEDIC captures additional off-resonance effects.</h2>
+<figure>
+<img data-src="imgs/fieldmap_comparison.png"
+alt="Field map Difference (MEDIC - TOPUP)" />
+<figcaption aria-hidden="true">Field map Difference (MEDIC -
+TOPUP)</figcaption>
+</figure>
+</section>
+<section id="medic-captures-additional-off-resonance-effects.-1"
+class="slide level3">
+<h3>MEDIC captures additional off-resonance effects.</h3>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<p>Comparison of ME-EPI data to GRE PEpolar field map shows additional
+off-resonance effects in ME-EPI data.</p>
+<figure>
+<img data-src="imgs/se_upenn_fmap.png"
+alt="Spin Echo PEpolar Image (UPenn)" />
+<figcaption aria-hidden="true">Spin Echo PEpolar Image
+(UPenn)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<p>Comparison of ME-EPI data to GRE PEpolar field map shows additional
+off-resonance effects in ME-EPI data.</p>
+<figure>
+<img data-src="imgs/gre_upenn_fmap.png"
+alt="Gradient Echo PEpolar Image (UPenn)" />
+<figcaption aria-hidden="true">Gradient Echo PEpolar Image
+(UPenn)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<p>Comparison of ME-EPI data to GRE PEpolar field map shows additional
+off-resonance effects in ME-EPI data.</p>
+<figure>
+<img data-src="imgs/me_epi_upenn_fmap.png"
+alt="ME-EPI Image, 1st Echo (UPenn)" />
+<figcaption aria-hidden="true">ME-EPI Image, 1st Echo
+(UPenn)</figcaption>
+</figure>
+</div>
+<div class="element: fragment current-visible">
+<figure>
+<img data-src="imgs/fieldmap_compare.png"
+alt="Comparison of Field Map from PEpolar EPI (TOPUP), FLASH (ROMEO), and ME-EPI (MEDIC) data." />
+<figcaption aria-hidden="true">Comparison of Field Map from PEpolar EPI
+(TOPUP), FLASH (ROMEO), and ME-EPI (MEDIC) data.</figcaption>
+</figure>
+</div>
+</div>
+</section></section>
+<section
+id="medic-correction-produces-greater-correspondence-to-anatomy-in-both-global-and-local-alignment-metrics."
+class="title-slide slide level2">
+<h2>MEDIC correction produces greater correspondence to anatomy in both
+global and local alignment metrics.</h2>
+<figure>
+<img data-src="imgs/alignment_metrics.png"
+alt="Global and local anatomical alignment metrics" />
+<figcaption aria-hidden="true">Global and local anatomical alignment
+metrics</figcaption>
+</figure>
+</section>
+
+<section
+id="medic-correction-produces-greater-correspondence-to-anatomy-in-both-global-and-local-alignment-metrics.-1"
+class="title-slide slide level2">
+<h2>MEDIC correction produces greater correspondence to anatomy in both
+global and local alignment metrics.</h2>
+<div class="r-stack">
+<div class="element: fragment current-visible">
+<p>Global alignment metrics (whole brain) for ASD/ADHD Dataset. ✅
+indicates best metric that was statistically significant (p &lt; 0.05).
+Correlation metric is the squared Pearson correlation between the
+functional and anatomical data. Grad. Corr. is the Pearson correlation
+between the gradient of the functional and anatomical data. Norm. MI is
+the normalized mutual information between the functional and anatomical
+data.</p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 26%" />
+<col style="width: 21%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Metric</th>
+<th style="text-align: center;">MEDIC</th>
+<th style="text-align: center;">PEpolar</th>
+<th style="text-align: center;">t-stat</th>
+<th style="text-align: center;">p-value</th>
+<th style="text-align: center;">df</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">T1w Corr.^2</td>
+<td style="text-align: center;">✅<strong>0.062 (0.029)</strong></td>
+<td style="text-align: center;">0.060 (0.028)</td>
+<td style="text-align: center;">5.259</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">184</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T2w Corr.^2</td>
+<td style="text-align: center;">✅<strong>0.456 (0.053)</strong></td>
+<td style="text-align: center;">0.453 (0.057)</td>
+<td style="text-align: center;">2.374</td>
+<td style="text-align: center;">0.019</td>
+<td style="text-align: center;">184</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">T1w Grad. Corr.</td>
+<td style="text-align: center;">✅<strong>0.430 (0.028)</strong></td>
+<td style="text-align: center;">0.414 (0.036)</td>
+<td style="text-align: center;">11.473</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">184</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T2w Grad. Corr.</td>
+<td style="text-align: center;">0.637 (0.039)</td>
+<td style="text-align: center;">0.638 (0.054)</td>
+<td style="text-align: center;">-0.728</td>
+<td style="text-align: center;">0.467</td>
+<td style="text-align: center;">184</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">T1w Norm. MI</td>
+<td style="text-align: center;">0.873 (0.029)</td>
+<td style="text-align: center;">0.872 (0.029)</td>
+<td style="text-align: center;">0.796</td>
+<td style="text-align: center;">0.427</td>
+<td style="text-align: center;">184</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T2w Norm. MI</td>
+<td style="text-align: center;">0.837 (0.026)</td>
+<td style="text-align: center;">0.838 (0.026)</td>
+<td style="text-align: center;">-0.885</td>
+<td style="text-align: center;">0.377</td>
+<td style="text-align: center;">184</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="element: fragment current-visible">
+<p>Local alignment metrics (whole brain) for ASD/ADHD Dataset. ✅
+indicates best metric that was statistically significant (p &lt; 0.05).
+Spotlight analysis was performed by computing the average squared local
+correlation between the functional and anatomical images across all
+voxels within a 3 voxel radius sphere.</p>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 18%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Metric</th>
+<th style="text-align: center;">MEDIC</th>
+<th style="text-align: center;">TOPUP</th>
+<th style="text-align: center;">t-stat</th>
+<th style="text-align: center;">p-value</th>
+<th style="text-align: center;">df</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">T1w Spotlight R^2</td>
+<td style="text-align: center;">✅<strong>0.077 (0.007)</strong></td>
+<td style="text-align: center;">0.075 (0.009)</td>
+<td style="text-align: center;">6.528</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">184</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T2w Spotlight R^2</td>
+<td style="text-align: center;">✅<strong>0.098 (0.011)</strong></td>
+<td style="text-align: center;">0.097 (0.014)</td>
+<td style="text-align: center;">2.365</td>
+<td style="text-align: center;">0.019</td>
+<td style="text-align: center;">184</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="element: fragment current-visible">
+<p>Segmentation based metrics for ASD/ADHD Dataset. ✅ indicates best
+metric that was statistically significant (p &lt; 0.05). Each metric
+examined the separability of tissue types using anatomical segmentation
+labels applied to functional data. Separability was measured by
+thresholding the functional data along the tissue boundary, comparing
+the classification against the anatomical segmenation, and computing the
+AUC of the resulting ROC curve.</p>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 27%" />
+<col style="width: 19%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Metric</th>
+<th style="text-align: center;">MEDIC</th>
+<th style="text-align: center;">TOPUP</th>
+<th style="text-align: center;">t-stat</th>
+<th style="text-align: center;">p-value</th>
+<th style="text-align: center;">df</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Gray/White</td>
+<td style="text-align: center;">✅<strong>0.691 (0.031)</strong></td>
+<td style="text-align: center;">0.686 (0.036)</td>
+<td style="text-align: center;">6.307</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">184</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Brain/Exterior</td>
+<td style="text-align: center;">✅<strong>0.736 (0.035)</strong></td>
+<td style="text-align: center;">0.729 (0.034)</td>
+<td style="text-align: center;">11.982</td>
+<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: center;">184</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Ventricle/White</td>
+<td style="text-align: center;">0.828 (0.057)</td>
+<td style="text-align: center;">0.829 (0.062)</td>
+<td style="text-align: center;">-0.273</td>
+<td style="text-align: center;">0.785</td>
+<td style="text-align: center;">184</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- ## <span style="font-size: 1.5rem;">MEDIC frame-to-frame correction does not add significant temporal variation compared to static correction.</span>
+
+<div class="r-stack">
+:::{.element: class="fragment current-visible"}
+
+![tSNR comparison between TOPUP and MEDIC (MSC).](imgs/tSNR.png){ width=60% }
+:::
+:::{.element: class="fragment current-visible"}
+
+In ASD/ADHD dataset, tSNR was not significantly different between MEDIC and TOPUP corrected data.
+
+|     Metric      |        MEDIC        |     TOPUP       | t-stat | p-value |  df  |
+|:---------------:|:-------------------:|:---------------:|:------:|:-------:|:----:|
+|      tSNR       |   38.993 (16.130)   | 39.345 (16.166) | -1.747 |  0.082  |  184 |
+
+:::
+</div> -->
+</section>
+
+<section id="conclusions" class="title-slide slide level2">
+<h2>Conclusions</h2>
+<ul>
+<li>MEDIC provides superior distortion correction performance over
+PEpolar (i.e. TOPUP) method
+<ul>
+<li>Likely due to additional correction of eddy-currents</li>
+</ul></li>
+<li>MEDIC field maps are coupled in space and time to the same EPI data
+it is correcting.
+<ul>
+<li>No need for co-registration of field map to EPI data</li>
+<li>Removes separate sequence for field map acquisition</li>
+<li>Can account for field changes due to head motion</li>
+</ul></li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js/plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js/plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="https://unpkg.com/reveal.js/plugin/math/math.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: true,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        math: {
+          mathjax: '',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['$','$']],
+            displayMath: [['$$','$$']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
