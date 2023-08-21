@@ -205,13 +205,21 @@ $$y_{undistorted} = y_{distorted} - \Delta r(x, y_{distorted})$$
 <div class="r-stack">
 :::{.element: class="fragment current-visible"}
 
-![MEDIC corrected](imgs/anatomical_align/UPenn_medic.png)
+![UMinn: MEDIC corrected](imgs/anatomical_align/UMinn_medic.png)
 :::
 :::{.element: class="fragment current-visible"}
 
-![PEpolar (TOPUP) corrected](imgs/anatomical_align/UPenn_topup.png)
+![UMinn: PEpolar (TOPUP) corrected](imgs/anatomical_align/UMinn_topup.png)
 :::
-<!-- :::{.element: class="fragment current-visible"}
+:::{.element: class="fragment current-visible"}
+
+![Penn MEDIC corrected](imgs/anatomical_align/UPenn_medic.png)
+:::
+:::{.element: class="fragment current-visible"}
+
+![Penn PEpolar (TOPUP) corrected](imgs/anatomical_align/UPenn_topup.png)
+:::
+:::{.element: class="fragment current-visible"}
 
 ![MSC: MEDIC corrected](imgs/anatomical_align/MSCHD02_medic.png)
 :::
@@ -221,12 +229,12 @@ $$y_{undistorted} = y_{distorted} - \Delta r(x, y_{distorted})$$
 :::
 :::{.element: class="fragment current-visible"}
 
-![ASD/ADHD: MEDIC corrected](imgs/anatomical_align/NP1173_medic.png)
+![ASD/ADHD: MEDIC corrected](imgs/anatomical_align/washu2_medic.png)
 :::
 :::{.element: class="fragment current-visible"}
 
-![ASD/ADHD: PEpolar (TOPUP) corrected](imgs/anatomical_align/NP1173_topup.png)
-::: -->
+![ASD/ADHD: PEpolar (TOPUP) corrected](imgs/anatomical_align/washu2_topup.png)
+:::
 </div>
 
 ## MEDIC captures additional off-resonance effects.
@@ -342,3 +350,30 @@ In ASD/ADHD dataset, tSNR was not significantly different between MEDIC and TOPU
   - No need for co-registration of field map to EPI data
   - Removes separate sequence for field map acquisition
   - Can account for field changes due to head motion
+
+## Extras
+
+## MEDIC corrects repiration effects in motion parameters.
+
+<div class="r-stack">
+:::{.element: class="fragment current-visible"}
+![Motion Parameters Pre/Post MEDIC Correction](imgs/motion_traces.png)
+:::
+:::{.element: class="fragment current-visible"}
+![Power Spectral Density of Motion Parameters Pre/Post MEDIC Correction](imgs/power_spectra.png)
+:::
+:::{.element: class="fragment current-visible"}
+![Framewise Displacement Pre/Post MEDIC Correction](imgs/FD.png)
+:::
+</div>
+
+## Signal crosstalk in field map correlation?
+
+<div class="r-stack">
+:::{.element: class="fragment current-visible"}
+![Seed Correlation, 72 Slice Interleave (Top) and Ascending (Bottom)](imgs/interleave_72_and_ascending.png)
+:::
+:::{.element: class="fragment current-visible"}
+![Seed Correlation, 78 Slice Interleave](imgs/interleave_78.png)
+:::
+</div>
