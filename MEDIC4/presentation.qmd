@@ -1,0 +1,366 @@
+---
+title: Enhanced Framewise Distortion Correction in Multi-echo Functional MRI
+author: Andrew Van
+date: September 6, 2023
+format:
+  revealjs:
+    slide-number: true
+    show-slide-number: speaker
+    chalkboard: true
+    transition: slide
+    theme: [dark, custom.scss]
+    width: 1920
+    height: 1080
+    fig-responsive: true
+    reference-location: document
+    pdf-separate-fragments: true
+    mermaid:
+      theme: dark
+editor:
+  render-on-save: true
+---
+
+## Echo Planar Imaging suffers from distortion due to B0 inhomogeneities
+
+Arises from differences in magnetic susceptibility between tissues.
+
+![Simulation of distortion effects caused by B0 inhomogeneities.](imgs/distortion_simulation.png){width=90%}
+
+::: {.fragment .fade-up style="text-align: center; margin: 20px;"}
+Corrected with field maps which measure B0 field inhomogeneities.
+:::
+
+## Current B0 field mapping approaches
+
+Current approaches[^1]:
+
+![PEpolar vs. Phase Difference](imgs/current_methods.jpg){width=100%}
+
+::: {.fragment .fade-up style="text-align: center; margin: 20px;"}
+PEpolar (TOPUP) field map acquisitions typically used.
+:::
+
+[^1]: Wang F, Dong Z, Reese TG, Bilgic B, Katherine Manhard M, Chen J, Polimeni JR, Wald LL, Setsompop K. Echo planar time-resolved imaging (EPTI). Magnetic Resonance in Medicine. 2019;81(6):3599–3615.
+
+## The Multi-Echo DIstortion Correction (MEDIC) algorithm
+
+MEDIC is an algorithm that extracts field maps from the phase 
+information of multi-echo EPI data. This removes the need for a 
+separate field map acquisition:
+
+::: {#fig-TOPUP}
+```{mermaid}
+flowchart LR
+    start["Start"] --> pe1+
+    subgraph fmap1["Field Map"]
+        pe1+["Phase Encode +"] --> pe1-["Phase Encode -"]
+    end
+    subgraph bold["BOLD"]
+        pe1- --> frame1
+        frame1["Frame 1"] --> frame2
+        frame2["Frame 2"] --> frame3
+        frame3["Frame 3"] --> |.../...| frameN["Frame N"]
+    end
+    subgraph fmap2["Field Map"]
+        frameN --> pe2+
+        pe2+["Phase Encode +"] --> pe2-["Phase Encode -"]
+    end
+    pe2- --> stop["End"]
+```
+Typical PEpolar field map acquisition (e.g. TOPUP)
+:::
+
+::: {#fig-MEDIC}
+```{mermaid}
+flowchart LR
+    start["Start"] --> frame1
+    subgraph bold["ME-BOLD"]
+        subgraph frame1["Frame 1"]
+            phase1["ME Phases"] --> fmap1["Field Map 1"]
+        end
+        subgraph frame2["Frame 2"]
+            phase2["ME Phases"] --> fmap2["Field Map 2"]
+        end
+        subgraph frame3["Frame 3"]
+            phase3["ME Phases"] --> fmap3["Field Map 3"]
+        end
+        subgraph frameN["Frame N"]
+            phaseN["ME Phases"] --> fmapN["Field Map N"]
+        end
+        frame1 --> frame2
+        frame2 --> frame3
+        frame3 --> |.../...| frameN
+    end
+    frameN --> stop["End"]
+```
+Multi-Echo Distortion Correction (MEDIC)
+:::
+
+::: {.fragment .fade-up style="text-align: center; margin: 20px;"}
+In MEDIC, field maps are computed from the phase information of a ME-EPI sequence, which allows for measurement of the
+B0 field frame-to-frame.
+:::
+
+# {auto-animate=true}
+
+<h1>How does MEDIC work?</h1>
+
+::: {.fragment .fade-up .no-margin}
+1. Correct phase offsets and phase wraps
+:::
+
+## How does MEDIC work? {auto-animate=true}
+
+1. Correct phase offsets and phase wraps
+
+Phase Offset Correction: MCPC-3D-S[^2]
+
+Phase Unwrapping: ROMEO[^3]
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+![Wrapped Phase](imgs/phase3.png){height=600px}
+:::
+::: {.fragment .fade-in-then-out}
+![Unwrapped Phase](imgs/echo3.png){height=600px}
+:::
+:::
+
+[^2]: Eckstein K, Dymerska B, Bachrata B, Bogner W, Poljanc K, Trattnig S, Robinson SD. Computationally Efficient Combination of Multi-channel Phase Data From Multi-echo Acquisitions (ASPIRE). Magnetic Resonance in Medicine. 2018;79(6):2996–3006.
+
+[^3]: Dymerska B, Eckstein K, Bachrata B, Siow B, Trattnig S, Shmueli K, Robinson SD. Phase unwrapping with a rapid opensource minimum spanning tree algorithm (ROMEO). Magnetic Resonance in Medicine. 2021;85(4):2294–2308.
+
+# How does MEDIC work? {auto-animate=true}
+
+::: {.no-margin}
+1. Correct phase offsets and phase wraps
+:::
+::: {.fragment .fade-up .no-margin}
+2. Field Map Estimation and Low Rank Approximation
+:::
+
+## How does MEDIC work? {auto-animate=true}
+
+2. Field Map Estimation and Low Rank Approximation
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+The field map is computed by using weighted least squares:
+$$ W_{mag} \boldsymbol{\phi} = W_{mag} \gamma \Delta B_0 \mathbf{t} $$
+
+where $W_{mag}$ is the magnitude at each echo, $\boldsymbol{\phi}$ is the phase at each echo, $\gamma\Delta B_0$ is the
+field map, and $\mathbf{t}$ is the echo time vector.
+:::
+::: {.fragment .fade-in-then-out}
+A low rank approximation of the field map is computed using SVD:
+
+![Noisy temporal components are removed using SVD.](videos/svd.mp4){width=800px loop=true autoplay=true muted=true}
+:::
+:::
+
+# How does MEDIC work? {auto-animate=true}
+
+::: {.no-margin}
+1. Correct phase offsets and phase wraps
+:::
+::: {.no-margin}
+2. Field Map Estimation and Low Rank Approximation
+:::
+::: {.fragment .fade-up .no-margin}
+3. Invert Field Map to Undistorted Space
+:::
+
+## How does MEDIC work? {auto-animate=true}
+
+3. Invert Field Map to Undistorted Space
+
+Field maps computed on ME-EPI data are in the distorted space, so we must invert the field 
+map to get it into the undistorted space:
+
+$$y_{undistorted} = y_{distorted} - \Delta r(x, y_{distorted})$$
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+![Field map in distorted space.](imgs/fmap_native.png)
+:::
+::: {.fragment .fade-in-then-out}
+![Field map in undistorted space.](imgs/fmap.png)
+:::
+:::
+
+# Results {auto-animate=true}
+
+::: {.fragment .fade-up .no-margin}
+1. MEDIC field maps capture changes in B0 field due to head motion
+:::
+
+## {auto-animate=true}
+
+1. MEDIC field maps capture changes in B0 field due to head motion
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+![+X rotation](videos/Neutral_to_+X_Rotation.mp4){width=1500px loop=true autoplay=true muted=true}
+:::
+::: {.fragment .fade-in-then-out}
+![-X rotation](videos/Neutral_to_-X_Rotation.mp4){width=1500px loop=true autoplay=true muted=true}
+:::
+::: {.fragment .fade-in-then-out}
+![+Y rotation](videos/Neutral_to_+Y_Rotation.mp4){width=1500px loop=true autoplay=true muted=true}
+:::
+::: {.fragment .fade-in-then-out}
+![-Y rotation](videos/Neutral_to_-Y_Rotation.mp4){width=1500px loop=true autoplay=true muted=true}
+:::
+::: {.fragment .fade-in-then-out}
+![+Z rotation](videos/Neutral_to_+Z_Rotation.mp4){width=1500px loop=true autoplay=true muted=true}
+:::
+::: {.fragment .fade-in-then-out}
+![-Z rotation](videos/Neutral_to_-Z_Rotation.mp4){width=1500px loop=true autoplay=true muted=true}
+:::
+::: {.fragment .fade-in-then-out}
+![Differences in B0 inhomogeneity due to head rotation](figures/fieldmap_differences.png)
+:::
+::: {.fragment .fade-in-then-out}
+![Comparison of corrections between MEDIC and TOPUP in high motion data](figures/head_position_concat.png)
+:::
+:::
+
+# Results {auto-animate=true}
+
+::: {.no-margin}
+1. MEDIC field maps capture changes in B0 field due to head motion
+:::
+::: {.fragment .fade-up .no-margin}
+2. MEDIC field maps are more similar to group averaged data than TOPUP field maps
+:::
+
+## {auto-animate=true}
+
+2. MEDIC field maps are more similar to group averaged data than TOPUP field maps
+
+::: {.fragment .fade-up}
+![Comparison of distortion correction methods applied in ASD/ADHD dataset to ABCD group average](figures/group_template_compare.png){width=900px}
+:::
+
+# Results {auto-animate=true}
+
+::: {.no-margin}
+1. MEDIC field maps capture changes in B0 field due to head motion
+:::
+::: {.no-margin}
+2. MEDIC field maps are more similar to group averaged data than TOPUP field maps
+:::
+::: {.fragment .fade-up .no-margin}
+3. MEDIC distortion correction produces greater correspondance to cortical and cerebellar surfaces of anatomical data
+:::
+
+## {auto-animate=true}
+
+3. MEDIC distortion correction produces greater correspondance to cortical and cerebellar surfaces of anatomical data
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+![WashU MEDIC](imgs/WashU_medic.png){width=1000px}
+:::
+::: {.fragment .fade-in-then-out}
+![WashU TOPUP](imgs/WashU_topup.png){width=1000px}
+:::
+::: {.fragment .fade-in-then-out}
+![UMinn MEDIC](imgs/UMinn_medic.png){width=1000px}
+:::
+::: {.fragment .fade-in-then-out}
+![UMinn TOPUP](imgs/UMinn_topup.png){width=1000px}
+:::
+::: {.fragment .fade-in-then-out}
+![Penn MEDIC](imgs/Penn_medic.png){width=1000px}
+:::
+::: {.fragment .fade-in-then-out}
+![Penn TOPUP](imgs/Penn_topup.png){width=1000px}
+:::
+::: {.fragment .fade-in-then-out}
+![Assessment of cortical and cerebellar alignment of distortion corrected functional images corrected with both MEDIC and TOPUP](figures/fieldmap_comparison.png){width=1100px}
+:::
+:::
+
+# Results {auto-animate=true}
+
+::: {.no-margin}
+1. MEDIC field maps capture changes in B0 field due to head motion
+:::
+::: {.no-margin}
+2. MEDIC field maps are more similar to group averaged data than TOPUP field maps
+:::
+::: {.no-margin}
+3. MEDIC distortion correction produces greater correspondance to cortical and cerebellar surfaces of anatomical data
+:::
+::: {.fragment .fade-up .no-margin}
+4. MEDIC distortion correction outperforms PEpolar correction on both local and global anatomical alignment metrics.
+:::
+
+## {auto-animate=true}
+
+4. MEDIC distortion correction outperforms PEpolar correction on both local and global anatomical alignment metrics.
+
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+![Spotlight map assesing local similarity between distortion corrected functional data and T1w/T2w anatomical data in ASD/ADHD dataset](figures/spotlight_comparison.png){width=1600px}
+::: 
+::: {.fragment .fade-in-then-out}
+![Anatomical alignment metrics comparing MEDIC and TOPUP distortion correction methods](figures/alignment_metrics.png){width=1600px}
+:::
+::: {.fragment .fade-in-then-out style="font-size: 0.6em;"}
+|           Metric            |     MEDIC     |     TOPUP     | t-statistic | p-value | df  |
+|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+|     $^\dagger$T1w R$^2$ Spotlight     | 0.076 (0.007) | 0.074 (0.009) |    6.617    | \<0.001 | 184 |
+|     $^\dagger$T2w R$^2$ Spotlight     | 0.098 (0.011) | 0.096 (0.014) |    2.581    |  0.011  | 184 |
+|          $^\dagger$T1w R$^2$          | 0.063 (0.028) | 0.060 (0.028) |   11.284    | \<0.001 | 184 |
+|          $^\dagger$T2w R$^2$          | 0.457 (0.053) | 0.454 (0.056) |    2.729    |  0.007  | 184 |
+|    $^\dagger$T1w Grad. Correlation    | 0.43 (0.028)  | 0.414 (0.036) |   11.727    | \<0.001 | 184 |
+|    T2w Grad. Correlation    | 0.637 (0.04)  | 0.638 (0.054) |   -0.371    |  0.711  | 184 |
+|           T1w NMI           | 0.872 (0.029) | 0.872 (0.029) |   -0.106    |  0.915  | 184 |
+|           $^*$T2w NMI           | 0.836 (0.026) | 0.838 (0.026) |   -1.985    |  0.049  | 184 |
+|    $^\dagger$Gray/White Matter AUC    | 0.692 (0.031) | 0.686 (0.036) |    6.598    | \<0.001 | 184 |
+|     $^\dagger$Brain/Exterior AUC      | 0.735 (0.035) | 0.729 (0.034) |   11.488    | \<0.001 | 184 |
+| Ventricles/White Matter AUC | 0.829 (0.057) | 0.829 (0.062) |   -0.058    |  0.954  | 184 |
+|  $^\dagger$Cerebellum/ Exterior AUC   | 0.607 (0.041) | 0.596 (0.049) |    5.073    | \<0.001 | 184 |
+:::
+:::
+
+# Results {auto-animate=true}
+
+::: {.no-margin}
+1. MEDIC field maps capture changes in B0 field due to head motion
+:::
+::: {.no-margin}
+2. MEDIC field maps are more similar to group averaged data than TOPUP field maps
+:::
+::: {.no-margin}
+3. MEDIC distortion correction produces greater correspondance to cortical and cerebellar surfaces of anatomical data
+:::
+::: {.no-margin}
+4. MEDIC distortion correction outperforms PEpolar correction on both local and global anatomical alignment metrics.
+:::
+::: {.fragment .fade-up .no-margin}
+5. MEDIC field maps can measure respiration induced B0 field changes
+:::
+
+## {auto-animate=true}
+
+5. MEDIC field maps can measure respiration induced B0 field changes
+
+::: {.fragment .fade-up .fade-in-then-out}
+![Comparison of respiration signal from respiratory belt against respiration signal extracted from MEDIC field maps](figures/resp_analysis.png){width=1050px}
+:::
+
+# Extras
+
+## tSNR {auto-animate=true}
+
+::: {style="text-align: center;"}
+MEDIC=54.284 (26.73); TOPUP=53.213 (17.832); p=0.495; t=0.684
+:::
+
+::: {width=800px}
+![tSNR comparison between MEDIC and TOPUP in ASD/ADHD dataset](figures/tsnr.png)
+:::

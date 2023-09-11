@@ -1,0 +1,25 @@
+/*-- scss:defaults --*/
+
+$font-family-sans-serif: Satoshi, Helvetica, sans-serif;
+
+/*-- scss:rules --*/
+
+p.caption {
+  text-align: center;
+}
+
+figcaption {
+  text-align: center;
+}
+
+div.cell {
+  margin-top: 1.5em;
+}
+
+div.no-margin>ol {
+  margin-bottom: 0 !important;
+}
+
+.nodeLabel {
+  font-size: 12px !important;
+}
